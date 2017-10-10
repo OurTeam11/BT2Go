@@ -1,0 +1,42 @@
+/* pages/myinfo/my.wxss */
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rpx 0;
+  box-sizing: border-box;
+} 
+.userinfo_needlogin {
+  padding-left: 20rpx;
+}
+.userinfo {
+  width:100%;
+  height:100px;
+  background: red;
+  border: 4rpx solid gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.userinfo-country {
+  color: #aaa;
+  margin-left: 20rpx;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
