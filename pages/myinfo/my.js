@@ -7,6 +7,7 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
+    imagetest:[]
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
@@ -27,5 +28,26 @@ Page({
       })
     })
     
+  },
+
+  showImages:function() {
+    var that = this
+    wx.request({
+      url: 'http://118.190.208.121/tcsystem/API/item/getjson/3035009481018179', //仅为示例，并非真实的接口地址
+      method:'GET',
+      data: {
+        x: '',
+        y: ''
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({imagetest:res.data.data.imgs})
+        //that.setData({imagetest:res.data.imgs})
+        console.log(res.data.data)
+      }
+    })
   }
 })

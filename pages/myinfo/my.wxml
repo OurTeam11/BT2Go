@@ -8,7 +8,12 @@
       <text class="userinfo-country">{{userInfo.country}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+    <button class='button' bindtap='showImages'>showImages</button>
+     <block wx:for="{{imagetest}}">
+                <view class="image_class">
+                    <image src="{{item}}" class="image_class"/>
+                </view>
+            </block>
+    <!-- <image class="imagestest" src="{{imagetest}}">  </image> -->
+
 </view>
