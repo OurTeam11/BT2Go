@@ -1,19 +1,55 @@
 <!--index.wxml-->
 <view class="container">
   <view class="userinfo">
-    <view  wx:if="{{!hasUserInfo}}" class="userinfo_needlogin"  bindtap='getUserInfo'> 还未登陆，点击登陆 </view>
+    <view wx:if="{{!hasUserInfo}}" class="userinfo_needlogin" bindtap='getUserInfo'> 还未登陆，点击登陆 </view>
     <block wx:else>
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <text class="userinfo-country">{{userInfo.country}}</text>
+      <text class="userinfo-nickname">{{userInfo.nickName}}   {{userInfo.province}}</text>
     </block>
   </view>
-    <button class='button' bindtap='showImages'>showImages</button>
-     <block wx:for="{{imagetest}}">
-                <view class="image_class">
-                    <image src="{{item}}" class="image_class"/>
-                </view>
-            </block>
-    <!-- <image class="imagestest" src="{{imagetest}}">  </image> -->
+
+  <!--my order info -->
+  <view class="separate"></view>
+
+  <view class="order" catchtap="toOrder">
+    <text class="myorder-text">我的订单</text>
+    <text class="myorderall-text">查看全部订单</text>
+    <image class="next-image" src="../../images/itemdetail/cart.png"></image>
+  </view>
+  <view class="line"></view>
+
+  <view class="navs">
+    <block wx:for-items="{{orderItems}}" wx:key="name">
+      <view class="nav-item" catchtap="toOrder" data-type="{{item.name}}" data-typeid="{{item.typeId}}">
+        <image src="{{item.imageurl}}" class="nav-image" />
+        <text>{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="separate"></view>
+
+  <view class="mypersonal-list">
+    <view class="list-item">
+      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <text class="item-text">我的收藏</text>
+    </view>
+   <view class="line"></view>
+    <view class="list-item">
+      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <text class="item-text">收货地址</text>
+    </view>
+    <view class="line"></view>
+    <view class="list-item">
+      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <text class="item-text">我的评价</text>
+    </view>
+   <view class="line"></view>
+    <view class="list-item">
+      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <text class="item-text">推广邀请</text>
+    </view>
+  </view>
+ <view class="separate"></view>
 
 </view>

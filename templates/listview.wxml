@@ -1,0 +1,13 @@
+<template name="listview">
+  <view class='product_container'>
+    <view class='product_item' wx:for="{{productitem}}" wx:for-index="idx" wx:for-item="productitem" wx:key="item" >
+     <navigator class='navigator_item' url="../itemdetail/itemdetail?code={{productitem.code}}">
+        <image class='product_img' mode='aspectFit' src='{{productitem.imgs[0]}}' />
+        <view class='product_text'>
+          <view class='product_description'>这是一个描述，商品描述,超过2行用省略号显示</view>
+          <view class='product_name'>{{productitem.name}}   {{productitem.price}}</view>
+        </view>
+        </navigator>
+    </view>
+  </view>
+</template>

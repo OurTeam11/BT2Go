@@ -1,27 +1,33 @@
+//首页。
 var WxSearch = require('../../wxSearch/wxSearch.js');
 var app = getApp();
+//import api from '../../utils/api.js'
+var api = require('../../utils/api.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    imgUrls: [
-      'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+    productitem: [
+      {
+        "name": "20元",
+        "code": "",
+        "imgs": [],
+        "price": "",
+      }
     ],
+
     indicatorDots: true,
     vertical: false,
     autoplay: true,
     interval: 3000,
     duration: 1000,
     loadingHidden: false,  // loading
-    venuesItems:{}
   },
- swiperchange:function() {
+  swiperchange: function () {
 
- },
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -43,26 +49,37 @@ Page({
       }
     })
 
-    //venuesList
-    wx.request({
-      url: 'http://118.190.208.121/tcsystem/api/item/list?page=1',
-      method: 'GET',
-      data: {},
-      header: {
-        'Accept': 'application/json'
-      },
-      success: function (res) {
-        console.log(res)
-        that.setData({
-          venuesItems: res.data.list
-        })
-        setTimeout(function () {
-          that.setData({
-            loadingHidden: true
-          })
-        }, 1500)
-      }
+    api.getReq('list?page=1', {}, (callback) => {
+      that.setData({
+        productitem: callback.list
+      })
+      setTimeout(function () {
+           that.setData({
+             loadingHidden: true
+           })
+         }, 1500)
     })
+    
+    // wx.request({
+    //   url: 'http://118.190.208.121/tcsystem/api/item/list?page=1',
+    //   //url: 'http://localhost:3300/api/item/list?page=1',
+    //   method: 'GET',
+    //   data: {},
+    //   header: {
+    //     'Accept': 'application/json'
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     that.setData({
+    //       productitem: res.data.list
+    //     })
+    //     setTimeout(function () {
+    //       that.setData({
+    //         loadingHidden: true
+    //       })
+    //     }, 1500)
+    //   }
+    // })
   },
 
   wxSerchFocus: function (e) {
@@ -70,12 +87,18 @@ Page({
     //WxSearch.wxSearchFocus(e, that);
     wx.navigateTo({
       url: '../searchpage/searchpage',
-      success: function (res) { console.log("success" + res)},
-      fail: function (res) { "fail" + console.log(res)},
-      complete: function (res) { "complete" + console.log(res)},
+      success: function (res) {
+        console.log("success" + res)
+      },
+      fail: function (res) { "fail" + console.log(res) },
+      complete: function (res) { "complete" + console.log(res) },
     })
   },
-
+  wxSearchBlur: function (e) {
+    //var that = this;
+    console.log("liufeng,wxSearchBlur");
+    //WxSearch.wxSearchBlur(e, that);
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -87,7 +110,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+   
   },
 
   /**
@@ -123,5 +146,6 @@ Page({
    */
   onShareAppMessage: function () {
     
-  }
+  },
+
 })

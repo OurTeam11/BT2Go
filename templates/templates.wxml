@@ -1,0 +1,6 @@
+<import src="listview.wxml"/>
+
+<template is="listview" data='{{productitem}}'/>
+
+
+  

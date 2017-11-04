@@ -1,1 +1,2 @@
 /* pages/shoppingcart/cart.wxss */
+@import "/templates/countstepper.wxss";

@@ -1,0 +1,38 @@
+<!-- 主页搜索框起到导航作用，链接到搜索page-->
+<import src="/wxSearch/wxSearch.wxml" />
+
+<!--使用listview 模板-->
+<import src="/templates/listview.wxml" />
+
+<view class="weui-search-bar" id='mainsearchbar'>
+  <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+      <input type="text" class="weui-search-bar__input" placeholder="在所有商品中搜索" value="{{wxSearchData.value}}" bindfocus="wxSerchFocus" bindblur="wxSearchBlur" />
+      <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+  </view>
+</view>
+<template is="wxSearch" data="{{wxSearchData}}" />
+
+<scroll-view class='scrollviewclass' scroll-y="true" scroll-into-view='mainsearchbar'>
+  <!--swiper广告栏，对应每一组page -->
+    <swiper indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+      <block wx:for="{{images}}" wx:key="{{item}}">
+        <swiper-item>
+          <image src="{{item.picurl}}" mode='top right right' class="slide-image" />
+        </swiper-item>
+      </block>
+    </swiper>
+
+
+    <view class="text">
+      <view class="line_flag"></view>
+      <text>精品推荐</text>
+    </view>
+
+    <!--使用listview模板 -->
+    <template is="listview" data='{{productitem}}' />
+</scroll-view>

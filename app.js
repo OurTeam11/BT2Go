@@ -21,7 +21,9 @@ App({
     } else {
       wx.login({
         success: res => {
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          console.log(res);
+          //发送 res.code 到后台换取 openId, sessionKey, unionId
+          //需要返回一个tokenid，给客户端保存，下次购买的时候要加入这个tokenid
           // wx.request({
           //   url: 'https://api.weixin.qq.com/sns/jscode2session'
           //   +'?appid=wxd9ffe176e5321152'
@@ -41,7 +43,7 @@ App({
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
-              console.log(res.userInfo)
+              console.log(res)
               this.globalData.userInfo = res.userInfo
               typeof cb == "function" && cb(that.globalData.userInfo)
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回

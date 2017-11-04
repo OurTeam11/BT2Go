@@ -1,4 +1,2 @@
-
-<view clickOnTap>
-购物车
-</view>
+<import src="../../templates/countstepper.wxml" />
+<template is="itemcount" data="{{minusStatus,num}}" />
