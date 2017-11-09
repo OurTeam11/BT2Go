@@ -32,7 +32,7 @@
         </view>
       </view>
       <text class="border-line"></text>
-      <view class="row">
+      <view class="row_itemcount">
         <text>购买数量</text>
         <template is="itemcount" data="{{minusStatus,num}}" />
       </view>

@@ -1,7 +1,6 @@
 {
   "pages":[
     "pages/index/homeindex",
-    "pages/logs/logs",
     "pages/myinfo/my",
     "pages/shoppingcart/cart",
     "pages/searchpage/searchpage",

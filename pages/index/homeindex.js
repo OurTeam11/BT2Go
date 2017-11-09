@@ -1,8 +1,10 @@
 //首页。
 var WxSearch = require('../../wxSearch/wxSearch.js');
 var app = getApp();
-//import api from '../../utils/api.js'
-var api = require('../../utils/api.js');
+var api = require('../../utils/api');
+var config = require('../../config');
+var showtoast = require('../../utils/commontoast');
+
 Page({
 
   /**
@@ -34,52 +36,50 @@ Page({
   onLoad: function (options) {
     //sliderList
     var that = this
-
-    wx.request({
-      url: 'http://huanqiuxiaozhen.com/wemall/slider/list',
-      method: 'GET',
-      data: {},
-      header: {
-        'Accept': 'application/json'
-      },
-      success: function (res) {
+    api.request({
+      url: "http://huanqiuxiaozhen.com/wemall/slider/list",
+      login: false,
+      success(result) {
+        //showtoast.showSuccess('请求成功完成');
+        console.log('request success', result);
         that.setData({
-          images: res.data
-        })
+          images: result.data
+        });
+      },
+      fail(error) {
+        //showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
       }
-    })
+    });
 
-    api.getReq('list?page=1', {}, (callback) => {
-      that.setData({
-        productitem: callback.list
-      })
-      setTimeout(function () {
-           that.setData({
-             loadingHidden: true
-           })
-         }, 1500)
-    })
-    
-    // wx.request({
-    //   url: 'http://118.190.208.121/tcsystem/api/item/list?page=1',
-    //   //url: 'http://localhost:3300/api/item/list?page=1',
-    //   method: 'GET',
-    //   data: {},
-    //   header: {
-    //     'Accept': 'application/json'
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     that.setData({
-    //       productitem: res.data.list
-    //     })
-    //     setTimeout(function () {
-    //       that.setData({
-    //         loadingHidden: true
-    //       })
-    //     }, 1500)
-    //   }
-    // })
+// qcloud.request() 方法和 wx.request() 方法使用是一致的，不过如果用户已经登录的情况下，会把用户的会话信息带给服务器，服务器可以跟踪用户
+        api.request({
+            // 要请求的地址
+            url: /*this.data.requestUrl*/"http://118.190.208.121/tcsystem/api/item/list?page=1",
+
+            // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+            login: false,
+
+            success(result) {
+                showtoast.showSuccess('请求成功完成');
+                console.log('request success', result);
+                that.setData({
+                  productitem: result.data.list
+         })
+            },
+
+            fail(error) {
+                showtoast.showModel('请求失败', error);
+                console.log('request fail', error);
+            },
+
+            complete() {
+                console.log('request complete');
+            }
+        });
   },
 
   wxSerchFocus: function (e) {
