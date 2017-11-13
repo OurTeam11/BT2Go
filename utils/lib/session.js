@@ -1,5 +1,5 @@
-var cons = require('./constants.js');
-var SESSION_KEY = 'app-sessionkey' + cons.TMP_SESSION_ID;
+var cons = require('./constants');
+var SESSION_KEY = 'app-sessionkey-' + cons.TMP_SESSION_ID;
 
 var Session = {
 	get : function() {

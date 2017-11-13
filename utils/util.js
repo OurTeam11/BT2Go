@@ -15,7 +15,7 @@ const formatNumber = n => {
 }
 
 /**
- * ÍØÕ¹¶ÔÏó
+ * æ‹“å±•å¯¹è±¡
  */
 var extend = function extend(target) {
     var sources = Array.prototype.slice.call(arguments, 1);

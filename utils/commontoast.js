@@ -1,4 +1,7 @@
 
+/**
+* 一些Toast提示放在这个类里面处理
+*/
 // 显示繁忙提示
 var showBusy = text => wx.showToast({
   title: text,

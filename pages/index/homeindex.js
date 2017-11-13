@@ -13,7 +13,7 @@ Page({
   data: {
     productitem: [
       {
-        "name": "20元",
+        "name": "",
         "code": "",
         "imgs": [],
         "price": "",
@@ -62,7 +62,7 @@ Page({
 
             // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
             login: false,
-
+            method: 'GET',
             success(result) {
                 showtoast.showSuccess('请求成功完成');
                 console.log('request success', result);

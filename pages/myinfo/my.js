@@ -44,9 +44,8 @@ Page({
     
   },
 
-  //登陆View的click事件，调用全局app变量的getUserInfo方法。
   getUserInfo:function() {
-    // var that = this
+     var that = this
     // app.getUserInfo(function (user_info) {
     //   __is_login = true;
     //   that.setData({
@@ -64,6 +63,10 @@ Page({
       fail(error) {
         //showModel('登录失败', error);
         console.log('登录失败', error);
+        that.setData({
+          userInfo: error,
+         hasUserInfo: true
+       })
       }
     });
   },
