@@ -1,1 +1,11 @@
 @import "/wxSearch/wxSearch.wxss";
+
+.weui-icon-search_in-box {
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  padding-top: 20rpx;
+}
+
+.wxSearch-input {
+  padding-left: 70rpx;
+}

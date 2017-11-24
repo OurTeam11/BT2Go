@@ -1,5 +1,9 @@
+/**
+ 通过storage获取session和userinfo。
+*/
 var cons = require('./constants');
 var SESSION_KEY = 'app-sessionkey-' + cons.TMP_SESSION_ID;
+var USER_INFO_KEY = 'app-userinfokey-' + cons.TMP_USER_INFO;
 
 var Session = {
 	get : function() {
@@ -15,4 +19,21 @@ var Session = {
 	}
 }
 
-module.exports = Session;
+var Userinfo = {
+  get: function () {
+    return wx.getStorageSync(USER_INFO_KEY) || null;
+  },
+
+  set: function (userinfo_value) {
+    wx.setStorageSync(USER_INFO_KEY, userinfo_value);
+  },
+
+  clear: function () {
+    wx.removeStorageSync(USER_INFO_KEY);
+  }
+}
+
+module.exports = {
+	Session:Session,
+	Userinfo:Userinfo
+}

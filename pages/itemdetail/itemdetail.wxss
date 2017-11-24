@@ -192,3 +192,21 @@ text {
   right: 30rpx;
 }
 
+
+.goods-tab-nav{
+    display: inline-block;
+    width: 33.33%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-bottom: 1rpx solid #ededed;
+    box-sizing: border-box;
+    text-align: center;
+    color: #c7c7cb;
+}
+.goods-tab-nav.on{
+    color: #bcaa8a;
+    border-bottom: 5rpx solid #bcaa8a;
+}
+.goods-content{
+    padding: 40rpx;
+}

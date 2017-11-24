@@ -1,7 +1,8 @@
 const app = getApp();
+var oneobj = require('./orderobject');
 
 //商品编号。
-var itemcode = "";
+var pcode = "";
 
 Page({
 
@@ -9,30 +10,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-    addressinfo:{"costumername" : "刘峰", "phonenumber" : "13811060120", "addr" : "北京市，海淀区联想大厦5楼"},
-    itemname:"",
-    itempicurl:"",
-    itemprice: 0.1,
-    itemcount : 2,
-    freight:10,
-    sumcount:0,
-    userDataInfo:{}
+    //订单信息对象。
+    orderobj:{},
 
-
+    //一个订单可能包含多个商品，商品列表。
+    productlist:[],
+    producttypenumber:0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("generator order" + options.code);
-    itemcode = options.code;
-
-    console.log("generator order" + options.count);
-    this.setData({itemcount:options.count});
-    this.setData({
-      userInfo: app.globalData.userInfo
-    });
+     this.setData({producttypenumber:options.producttypenum});
+     var pnum = options.producttypenum;
+     this.setData({productlist:JSON.parse(options.plist)});
+      for (var i=0 ; i < pnum; i++) {
+        oneobj.orderObj.orderprice += this.data.productlist[i].price;
+      }
+     oneobj.orderObj.orderAddress = "北京市朝阳区。";
+     oneobj.orderObj.productlist = this.data.productlist;
+     console.log(oneobj.orderObj);
+     //绑定UI
+     this.setData({orderobj:oneobj.orderObj});
 
   },
 

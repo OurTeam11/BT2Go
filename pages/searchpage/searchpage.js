@@ -1,4 +1,4 @@
-var WxSearch = require('../../wxSearch/wxSearch.js');
+var WxSearch = require('../../wxSearch/wxSearch');
 var app = getApp();
 
 Page({
@@ -16,7 +16,7 @@ Page({
   onLoad: function (options) {
     //初始化一些搜索数据
     var that = this
-    WxSearch.init(that, 43, ['weappdev', '小程序', 'wxParse', 'wxSearch', 'wxNotification']);
+    WxSearch.init(that, 43, ['football', '小程序', 'NBA', 'FIFA', 'wxNotification'],true, true);
     WxSearch.initMindKeys(['weappdev.com', '微信小程序开发', '微信开发', '微信小程序']);
   },
 

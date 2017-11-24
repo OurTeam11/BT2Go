@@ -4,7 +4,6 @@
     "pages/myinfo/my",
     "pages/shoppingcart/cart",
     "pages/searchpage/searchpage",
-    "templates/templates",
     "pages/itemdetail/itemdetail",
     "pages/order/order",
     "pages/order/generateorder"

@@ -1,3 +1,5 @@
+var oneobj = require('./orderobject');
+
 Page({
 
   /**
@@ -12,7 +14,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    this.setData({typeid:options.typeid});
+    var status = oneobj.orderObj.orderstatus;
+    console.log("liufeng", status);
     
+    var tt = oneobj.doSum(1, 3, function(sum){
+         console.log("callback:" , sum);
+    });
+    console.log("tt:" , tt);
+
+    var test = oneobj.doTest(-1,
+        {success:function(callback) {
+         console.log("success:" , callback);
+        },
+        fail:function(callback) {
+          console.log("fail:" , callback);
+        }}
+      );
   },
 
   /**

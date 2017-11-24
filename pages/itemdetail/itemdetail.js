@@ -1,7 +1,7 @@
 const app = getApp();
 //商品编码,查询商品的唯一信息。
 var pcode = "";
-var __is_login = false;
+
 Page({
 
   /**
@@ -14,34 +14,35 @@ Page({
     autoplay: true,
     interval: 3000,
     duration: 1000,
+
+    //点赞
     isLike: false,
+
+    //数量选择的 Dialog.
     showDialog: false,
-    // banner
+
+    // swiper list 图片。
     imgUrls: [
       "http://mz.djmall.xmisp.cn/files/product/20161201/148057921620_middle.jpg",
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057922659_middle.jpg",
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057923813_middle.jpg",
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057924965_middle.jpg",
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057925958_middle.jpg"
+      "http://mz.djmall.xmisp.cn/files/product/20161201/148057922659_middle.jpg"
     ],
+
     // 商品详情介绍
     detailImg: [
       "http://7xnmrr.com1.z0.glb.clouddn.com/detail_1.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_2.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_3.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_4.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_5.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_6.jpg",
+      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_2.jpg"
     ],
 
     //商品价格
-    itemprice: "300元",
-    
-    // input默认是1  
+    itemprice: 300,
+    // input默认是1
     num: 1,
     // 使用data数据对象设置样式名  
     minusStatus: 'disabled',
-
+    //库存
+    stock: 100,
+    //商品编码
+    productcode:"",
   },
 
   /* 点击减号 */
@@ -84,7 +85,6 @@ Page({
   //预览图片
   previewImage: function (e) {
     var current = e.target.dataset.src;
-
     wx.previewImage({
       current: current, // 当前显示图片的http链接  
       urls: this.data.imgUrls // 需要预览的图片http链接列表  
@@ -108,6 +108,7 @@ Page({
        showDialog:false
      })
   },
+
   addCar:function() {
      console.log("addCar");
   },
@@ -127,9 +128,10 @@ Page({
     // });
     var that = this;
     if (app.globalData.userInfo) {
-      console.log("购买数量：" + that.data.num);
+      var productlist = JSON.stringify([{pcode: this.pcode, price: this.data.itemprice*this.data.num}]);
+      console.log(productlist);
       wx.navigateTo({
-        url: '../order/generateorder?code=' + this.pcode + '&count=' + that.data.num,
+        url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
       })
     } else {
       wx.showToast({
@@ -138,7 +140,6 @@ Page({
        duration: 2000
      });
     }
-    
   },
 
   /**
@@ -148,13 +149,8 @@ Page({
     var that = this;
     this.pcode = options.code;
     console.log(" pcode:" + this.pcode);
-    //看是否登录：
-    if (app.globalData.userInfo) {
-      __is_login = true;
-    } else {
-      __is_login =false;
-    }
-    console.log("是否已经登录:" + __is_login);
+    this.setData({productcode:options.code});
+
     wx.request({
       url: 'http://huanqiuxiaozhen.com/wemall/slider/list',
       method: 'GET',
@@ -169,9 +165,18 @@ Page({
         })
       }
     })
+    this.setData({
+      curIndex: 0
+    })
 
   },
 
+  bindTap:function(e) {
+    const index = parseInt(e.currentTarget.dataset.index);
+    this.setData({
+      curIndex: index
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

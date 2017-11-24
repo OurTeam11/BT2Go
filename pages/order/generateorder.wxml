@@ -1,8 +1,8 @@
 <view>Generate Order</view>
 
 <view> 订单信息：</view>
-<view> 订单用户： {{addressinfo.costumername}}</view>
-<view> 订单地址： {{addressinfo.addr}}</view>
-<view> 商品价格： {{itemprice*itemcount}} </view>
+<view> 订单用户： {{orderobj.costumername}}</view>
+<view> 订单地址： {{orderobj.orderAddress}}</view>
+<view> 商品价格： {{orderobj.orderprice}}  元</view>
 
 <button bindtap='onPay'>确认支付</button>

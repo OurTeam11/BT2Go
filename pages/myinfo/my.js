@@ -1,4 +1,5 @@
 //index.js
+var app = getApp();
 //获取应用实例
 var api = require('../../utils/api');
 var showtoast = require('../../utils/commontoast');
@@ -7,10 +8,8 @@ Page({
   data: {
     motto: 'Hello World',
     userInfo: {},
-    imagetest: [],
-
-    //判断是否已经登录了。
     hasUserInfo:false,
+    
     // orderItems
     orderItems: [
       {
@@ -41,31 +40,42 @@ Page({
   },
 
   onLoad: function () {
-    
+    var that = this;
+    console.log("userinfo:", app.globalData.userInfo);
+    if (app.globalData.hasUserInfo) {
+      that.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    }
   },
 
   getUserInfo:function() {
      var that = this
-    // app.getUserInfo(function (user_info) {
-    //   __is_login = true;
-    //   that.setData({
-    //     userInfo: user_info,
-    //     hasUserInfo: true
-    //   })
-    // })
+     if (app.globalData.hasUserInfo) {
+       that.setData({
+         userInfo: app.globalData.userInfo,
+         hasUserInfo:true
+       })
+       return;
+     }
     showtoast.showBusy('正在登录');
     api.login({
       success(result) {
         showtoast.showSuccess('登录成功');
         console.log('登录成功', result);
+        that.setData({
+          userInfo: result,
+          hasUserInfo:true
+        })
       },
 
       fail(error) {
-        //showModel('登录失败', error);
+        showtoast.showModel('登录失败', error);
         console.log('登录失败', error);
         that.setData({
           userInfo: error,
-         hasUserInfo: true
+          hasUserInfo:true
        })
       }
     });
@@ -75,7 +85,7 @@ Page({
     var typeid = e.currentTarget.dataset.typeid;
     console.log(typeid);
     wx.navigateTo({
-      url: '../order/order',
+      url: '../order/order?typeid=' + typeid,
     })
   },
 });
