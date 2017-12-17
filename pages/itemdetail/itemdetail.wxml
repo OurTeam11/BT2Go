@@ -9,22 +9,22 @@
 </swiper>
 <scroll-view scroll-y="true">
   <view class="detail">
-    <text class="title">【商品详情】标题，这个商品的基本信息</text>
-    <textarea class="description">这是一行商品描述，可以多行显示，一般来说是最多5行。这是一行商品描述，可以多行显示，一般来说是最多5行。</textarea>
-    <text class="price">￥500</text>
+    <text class="title">{{productname}}</text>
+    <textarea class="description">{{productdescription}}</textarea>
+    <text class="price">{{itemprice}} 元</text>
   </view>
   <view class="line"></view>
   <!-- sku选择 -->
   <!-- <text bindtap="toggleDialog">请选择购买数量</text> -->
   <import src="/template/quantity/index.wxml" />
   <!-- sku选择 -->
-  <text bindtap="toggleDialog">请选择购买数量   {{num}}</text>
+  <text bindtap="toggleDialog">请选择购买数量 : {{num}}</text>
   <view class="dialog {{ showDialog ? 'dialog--show' : '' }}">
     <view class="dialog__mask" bindtap="toggleDialog" />
     <view class="dialog__container">
       <view class="row">
         <image bindtap="closeDialog" class="image-close" src="../../images/itemdetail/close.png"></image>
-        <image class="image-sku" src="http://mz.djmall.xmisp.cn/files/product/20161201/148057921620_middle.jpg"></image>
+        <image class="image-sku" src="{{imgUrls[0]}}"></image>
         <view class="column">
           <text class="sku-price">{{itemprice}}</text>
           <text class="sku-title">库存 {{stock}} 件</text>
@@ -38,7 +38,7 @@
       </view>
       <text class="border-line"></text>
 
-      <button class="button-green" bindtap="addCar" formType="submit">加入购物车</button>
+      <button class="button-green" bindtap="addToCar" formType="submit">加入购物车</button>
       <button class="button-red" bindtap="immeBuy" formType="submit">立即购买</button>
     </view>
   </view>
@@ -55,8 +55,8 @@
                  <image class="image_detail" src="{{item}}" />
                </block>
             </view>
-            <view wx:if="{{curIndex === 1}}"><text class="text-remark">东西还可以，好评~</text></view>
-            <view wx:if="{{curIndex === 2}}">{{goods.service}}</view>
+            <view wx:if="{{curIndex === 1}}"><text class="text-remark">评价系统，后期做。待开发</text></view>
+            <view wx:if="{{curIndex === 2}}">售后保障，后期做，待开发。</view>
         </view>
     </view>
       <view class="temp"></view>
@@ -66,6 +66,6 @@
   <image bindtap="toCar" src="../../images/itemdetail/cart.png" />
   <view class="line_nav"></view>
   <image bindtap="addLike" src="{{isLike?'../../images/itemdetail/like_selected.png':'../../images/itemdetail/like.png'}}" />
-  <button class="button-green" bindtap="addCar" formType="submit">加入购物车</button>
+  <button class="button-green" bindtap="addToCar" formType="submit">加入购物车</button>
   <button class="button-red" bindtap="immeBuy" formType="submit">立即购买</button>
 </view>

@@ -121,10 +121,14 @@
 
 }
 .list-item {
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 80rpx;
+}
+.navigator-class{
+  width: 100%;
 }
 .item-image {
   width: 40rpx;

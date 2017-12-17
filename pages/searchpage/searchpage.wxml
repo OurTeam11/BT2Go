@@ -1,5 +1,7 @@
 <import src="/wxSearch/wxSearch.wxml"/>
-<view class="wxSearch-section">
+
+<view class="search-bar_top">
+<view class="wxSearch-section" id='mainsearchbar'>
    <view class="wxSearch-pancel">
        <icon class="weui-icon-search_in-box" type="search" size="15"></icon>
        <input bindinput="wxSearchInput" bindfocus="wxSerchFocus" value="{{wxSearchData.value}}" bindblur="wxSearchBlur" class="wxSearch-input" placeholder="在所有商品中搜索" />
@@ -7,3 +9,16 @@
    </view>
 </view>
 <template is="wxSearch" data="{{wxSearchData}}"/>
+</view>
+
+<scroll-view class='scrollviewclass' scroll-y="true" scroll-into-view='mainsearchbar'>
+<!--使用listview模板 -->
+
+  <!--使用listview 模板-->
+  <import src="/templates/listview.wxml" />
+    <template is="listview" data='{{productitem}}' />
+
+    <view class="no-product-response" hidden="{{!noproduct}}">没有找到任何商品</view>  
+    <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>  
+    <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+</scroll-view>

@@ -4,6 +4,7 @@ var app = getApp();
 var api = require('../../utils/api');
 var config = require('../../config');
 var showtoast = require('../../utils/commontoast');
+var Session = require('../../utils/lib/session');
 
 Page({
 
@@ -11,20 +12,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    productitem: [
-      {
-        "code": "", //商品编码
-        "name": "", //商品名称
-        "imgs": [], //商品图片
-        "price": "", //商品价格
-      }
-    ],
+    //description, id, name, price, thumbnail.
+    productitem: [],
+
     //swiper的一些变量控制
     indicatorDots: true,
     vertical: false,
     autoplay: true,
     interval: 3000,
     duration: 1000,
+    images:['http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'],
+
+    searchLoading: false, //"上拉加载"的变量，默认false，隐藏  
+    searchLoadingComplete: false,//“没有数据”的变量，默认false，隐藏
+
+    page: 1, //请求页面。
+
   },
 
   //swiper切换函数
@@ -32,42 +37,25 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    //sliderList
-    var that = this
-    api.request({
-      url: "http://huanqiuxiaozhen.com/wemall/slider/list",
-      login: false,
-      success(result) {
-        //showtoast.showSuccess('请求成功完成');
-        console.log('request success', result);
-        that.setData({
-          images: result.data
-        });
-      },
-      fail(error) {
-        //showtoast.showModel('请求失败', error);
-        console.log('request fail', error);
-      },
-      complete() {
-        console.log('request complete');
-      }
-    });
-
+  
+  doRequestRecommend:function() {
+    var that = this;
     // api.request() 方法和 wx.request() 方法使用是一致的，不过如果用户已经登录的情况下，会把用户的会话信息带给服务器，服务器可以跟踪用户
     api.request({
       // 要请求的地址
-      url: /*this.data.requestUrl*/"http://118.190.208.121/tcsystem/api/item/list?page=1",
-      data:{X : 123, Y  : 456},
+      url: config.server.requestRecommendItem,
+      data: {session:Session.Session.get(), page:that.data.page},
       // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
-      login: false,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       method: 'GET',
       success(result) {
         showtoast.showSuccess('请求成功完成');
-        console.log('request success', result);
+        for (var i = 0; i < result.data.list.length; i++) {
+          //拼接humbnail的完整路径名字。
+          result.data.list[i].thumbnail = 'http://localhost/image/' + result.data.list[i].thumbnail;
+        }
         that.setData({
           productitem: result.data.list
         })
@@ -75,16 +63,33 @@ Page({
 
       fail(error) {
         showtoast.showModel('请求失败', error);
-        console.log('request fail', error);
       },
 
       complete() {
-        console.log('request complete');
       }
     });
   },
 
-  wxSerchFocus: function (e) {
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+   
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    console.log("onReady");
+    if (Session.Session.get() && Session.Userinfo.get()) {
+      this.doRequestRecommend();
+    } else {
+      showtoast.showModel('登录失败', '您需要正常登陆才能够访问服务器');
+    }
+  },
+
+  testtap:function() {
     var that = this
     //WxSearch.wxSearchFocus(e, that);
     wx.navigateTo({
@@ -96,21 +101,11 @@ Page({
       complete: function (res) { "complete" + console.log(res) },
     })
   },
-  wxSearchBlur: function (e) {
-    console.log("liufeng,wxSearchBlur");
-  },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log("onShow");
   },
 
   /**
@@ -131,21 +126,35 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    console.log("onPullDownRefresh");
+    this.setData({page:1});
+    this.setData({searchLoading : false});
+    this.setData({searchLoadingComplete : false});
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    console.log("onReachBottom");
+    this.setData({searchLoading : true});
+    this.setData({searchLoadingComplete : false});
+    //触发搜索，分页请求。
+    this.data.page++;
+    //请求服务器更多的数据。
 
   },
+  //请求更多数据加载。
+  doRequestRecommendMore:function() {
 
+  },
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
 
   },
+
+
 
 })

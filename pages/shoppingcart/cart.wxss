@@ -21,19 +21,23 @@
     position: absolute;
     top: 20rpx;
     left: 85rpx;
-    width: 185rpx;
-    height: 185rpx;
+    padding-left: 10rpx;
+    padding-top: 10rpx;
+    width: 160rpx;
+    height: 160rpx;
 }
 .cart-list .cart-pro-name{
     display: inline-block;
     width: 300rpx;
     height: 105rpx;
+    padding-top: 10rpx;
     line-height: 50rpx;
     overflow: hidden;
 }
 .cart-list .cart-pro-price{
     display: inline-block;
     float: right;
+    color: red;
     height: 105rpx;
     line-height: 50rpx;
 }
@@ -74,7 +78,7 @@
     width: 100%;
     height: 90rpx;
     line-height: 90rpx;
-    padding:0 100rpx 0 80rpx;
+    padding:0 20rpx 0 80rpx;
     box-sizing: border-box;
     background: gainsboro;
     color:black;
@@ -87,24 +91,30 @@
     height: 45rpx;
 }
 .order-icon{
-    position: absolute;
-    right: 40rpx;
-    top: 25rpx;
-    width: 45rpx;
-    height: 45rpx;
+   padding-left: 20rpx;
+   margin-left: 30rpx;
 }
 .order-icon image,.order-icon navigator{
   display: block;
   width: 45rpx;
   height: 45rpx;
 }
-.cart-toatl-price{
-    float: right;
-    width: 120rpx;
-}
 
 .cart-no-data{
     padding:40rpx 0;
     color: #999;
     text-align: center;
+}
+
+.cart-footer-left{
+    float: left;
+    display:flex;
+    direction: row;
+}
+
+
+.cart-footer-right{
+    float: right;
+    display:flex;
+    direction: row;
 }

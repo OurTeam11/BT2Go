@@ -1,6 +1,9 @@
 const app = getApp();
-//商品编码,查询商品的唯一信息。
-var pcode = "";
+var api = require('../../utils/api');
+var config = require('../../config');
+var showtoast = require('../../utils/commontoast');
+var Session = require('../../utils/lib/session');
+
 
 Page({
 
@@ -22,19 +25,13 @@ Page({
     showDialog: false,
 
     // swiper list 图片。
-    imgUrls: [
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057921620_middle.jpg",
-      "http://mz.djmall.xmisp.cn/files/product/20161201/148057922659_middle.jpg"
-    ],
+    imgUrls: [],
 
     // 商品详情介绍
-    detailImg: [
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_1.jpg",
-      "http://7xnmrr.com1.z0.glb.clouddn.com/detail_2.jpg"
-    ],
+    detailImg: [],
 
     //商品价格
-    itemprice: 300,
+    itemprice: 0,
     // input默认是1
     num: 1,
     // 使用data数据对象设置样式名  
@@ -42,7 +39,12 @@ Page({
     //库存
     stock: 100,
     //商品编码
-    productcode:"",
+    productid:"",
+
+    //商品title
+    productname:"",
+    //商品描述
+    productdescription:"",
   },
 
   /* 点击减号 */
@@ -109,8 +111,31 @@ Page({
      })
   },
 
-  addCar:function() {
-     console.log("addCar");
+  // 添加购物车方法。
+  // 接口调用method：post
+  // 输入参数：session (String类型), productId (String类型), amount (int类型，商品的数量，不传就默认为1)
+  // 返回数据：{status:200, msg:"ok"}
+  addToCar:function() {
+     api.request({
+      // 要请求的地址
+      url: config.server.addToCart,
+      data: {session:Session.Session.get(), productId:this.data.productid, amount: this.data.num},
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      method: 'POST',
+      success(result) {
+        var data = result.data;
+        if (data.status === 200 && data.msg == 'ok') {
+            showtoast.showSuccess('添加购物车完成');
+        } else {
+          showtoast.showModel('添加购物车失败', '服务器返回代码' + data.status + '服务器返回信息：' + data.msg);
+        }
+      },
+
+      fail(error) {
+        showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+    });
   },
   // 跳到购物车
   toCar: function() {
@@ -119,19 +144,18 @@ Page({
       url: '../shoppingcart/cart'
     })
   },
+
   // 立即购买
   immeBuy:function() {
-    // wx.showToast({
-    //   title: '购买成功',
-    //   icon: 'success',
-    //   duration: 2000
-    // });
     var that = this;
     if (app.globalData.userInfo) {
       var productlist = JSON.stringify([{pcode: this.pcode, price: this.data.itemprice*this.data.num}]);
       console.log(productlist);
+      // wx.navigateTo({
+      //   url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
+      // })
       wx.navigateTo({
-        url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
+        url: '../addrmgr/chooseAddrs/chooseAddrs?plist=' + productlist + '&producttypenum=1&flag=buydirect',
       })
     } else {
       wx.showToast({
@@ -142,46 +166,84 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var that = this;
-    this.pcode = options.code;
-    console.log(" pcode:" + this.pcode);
-    this.setData({productcode:options.code});
-
-    wx.request({
-      url: 'http://huanqiuxiaozhen.com/wemall/slider/list',
-      method: 'GET',
-      data: {},
-      header: {
-        'Accept': 'application/json'
-      },
-      success: function (res) {
-        console.log(res);
-        that.setData({
-          images: res.data
-        })
-      }
-    })
-    this.setData({
-      curIndex: 0
-    })
-
-  },
-
   bindTap:function(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     this.setData({
       curIndex: index
     })
   },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.setData({productid:options.code});
+    this.setData({
+      curIndex: 0
+    });
+    console.log("productid:",this.data.productid);
+
+
+  },
+
+  //获取单一商品的方法。
+  doRequestOneItem: function() {
+    var that = this;
+    // api.request() 方法和 wx.request() 方法使用是一致的，不过如果用户已经登录的情况下，会把用户的会话信息带给服务器，服务器可以跟踪用户
+    api.request({
+      // 要请求的地址
+      url: config.server.requestOneDetailItem + that.data.productid,
+      data: {session:Session.Session.get()},
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      method: 'GET',
+      success(result) {
+        showtoast.showSuccess('请求成功完成');
+        console.log('getOneItem:', result.data);
+        var data = result.data;
+        if (data.status === 200) {
+          for (var i = 0; i < data.product.details.length; i++) {
+            //拼接details图片的完整路径名字。
+            data.product.details[i] = 'http://localhost/image/' + data.product.details[i];
+          }
+          that.setData({detailImg:data.product.details});
+          
+          for (var i = 0; i < data.product.pictures.length; i++) {
+            //拼接details图片的完整路径名字。
+            data.product.pictures[i] = 'http://localhost/image/' + data.product.pictures[i];
+          }
+          that.setData({imgUrls:data.product.pictures});
+
+          that.setData({productname:data.product.name});
+          that.setData({itemprice: data.product.price});
+          that.setData({productdescription:data.product.description});
+
+        } else {
+          //返回值错误，非200. 
+
+        }
+      },
+
+      fail(error) {
+        showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    if (app.globalData.userInfo && this.data.productid) {
+      this.doRequestOneItem();
+    }
   },
 
   /**

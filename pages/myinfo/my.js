@@ -6,7 +6,6 @@ var showtoast = require('../../utils/commontoast');
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo:false,
     
@@ -65,7 +64,7 @@ Page({
         showtoast.showSuccess('登录成功');
         console.log('登录成功', result);
         that.setData({
-          userInfo: result,
+          userInfo: {},
           hasUserInfo:true
         })
       },
@@ -75,7 +74,7 @@ Page({
         console.log('登录失败', error);
         that.setData({
           userInfo: error,
-          hasUserInfo:true
+          hasUserInfo:false
        })
       }
     });

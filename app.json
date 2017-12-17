@@ -6,14 +6,16 @@
     "pages/searchpage/searchpage",
     "pages/itemdetail/itemdetail",
     "pages/order/order",
-    "pages/order/generateorder"
-
+    "pages/order/generateorder",
+    "pages/addrmgr/chooseAddrs/chooseAddrs",
+    "pages/addrmgr/newAddrs/newAddrs"
   ],
   "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "",
-    "navigationBarTextStyle":"black"
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "首页",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "light"
   },
 
   "tabBar": {

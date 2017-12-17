@@ -35,10 +35,12 @@
       <text class="item-text">我的收藏</text>
     </view>
    <view class="line"></view>
-    <view class="list-item">
-      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
-      <text class="item-text">收货地址</text>
-    </view>
+    <navigator class="navigator-class" url="../addrmgr/chooseAddrs/chooseAddrs?flag=myinfo">
+      <view class="list-item">
+        <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+        <text class="item-text">收货地址</text>
+      </view>
+    </navigator>
     <view class="line"></view>
     <view class="list-item">
       <image class="item-image" src="../../images/itemdetail/cart.png"></image>
@@ -48,6 +50,11 @@
     <view class="list-item">
       <image class="item-image" src="../../images/itemdetail/cart.png"></image>
       <text class="item-text">推广邀请</text>
+    </view>
+    <view class="line"></view>
+    <view class="list-item">
+      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <text class="item-text">系统设置</text>
     </view>
   </view>
  <view class="separate"></view>

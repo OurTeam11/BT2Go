@@ -106,6 +106,7 @@ function wxSearchFocus(e, that, callBack) {
 
   // }
 }
+
 function wxSearchBlur(e, that, callBack) {
   var temData = that.data.wxSearchData;
   temData.value = e.detail.value;

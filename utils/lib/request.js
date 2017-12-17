@@ -5,16 +5,6 @@ var login = require('./login');
 
 var noop = function noop() { };
 
-var buildAuthHeader = function buildAuthHeader(session) {
-  var header = {};
-
-  if (session) {
-    header[constants.WX_HEADER_SKEY] = session;
-  }
-
-  return header;
-};
-
 /***
  * @class
  * 表示请求过程中发生的异常
@@ -81,21 +71,13 @@ function request(options) {
   }
 
   // 实际进行请求的方法
-  //每次请求网络都需要带上session_key.
-  options.data = util.extend({}, { 'session': Session.Session.get() }, options.data);
-  //util.extend({}, defaultOptions, options);
-  console.log("options.data:", options.data);
   function doRequest() {
-    var authHeader = buildAuthHeader(Session.Session.get());
-
     wx.request(util.extend({}, options, {
-      header: util.extend({}, originHeader, authHeader),
-
       success: function (response) {
         var data = response.data;
-
+        console.log("data,response:::", response);
         var error, message;
-        if (data && data.code === -1) {
+        if (data && data.status === 403 && data.msg == 'Session expired') {
           Session.Session.clear();
           Session.Userinfo.clear();
           // 如果是登录态无效，并且还没重试过，会尝试登录后刷新凭据重新请求
@@ -104,10 +86,14 @@ function request(options) {
             doRequestWithLogin();
             return;
           }
-
           message = '登录态已过期';
           error = new RequestError(data.error, message);
-
+          callFail(error);
+          return;
+        } if (data && data.status === 403 && data.msg == 'Session required') {
+          // 用户请求没有携带session，不允许访问。
+          message = '访问服务器，需要携带Session参数';
+          error = new RequestError(data.error, message);
           callFail(error);
           return;
         } else {
@@ -115,7 +101,11 @@ function request(options) {
         }
       },
 
-      fail: callFail,
+      fail:function() {
+          message = '访问服务器失败，请检查网络连接。';
+          error = new RequestError(data.error, message);
+          callFail(error);
+       },
       complete: noop,
     }));
   };

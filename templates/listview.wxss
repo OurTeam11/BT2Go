@@ -49,9 +49,17 @@
   -webkit-box-orient: vertical;
 }
 .product_name {
-    padding-top:10px;
+    padding-top:5rpx;
     padding-left: 20rpx;
     text-align: left;
     margin-left: 10rpx;
     font-size: 11px;
+}
+
+.product_price {
+    padding-top:5rpx;
+    padding-left: 20rpx;
+    text-align: left;
+    margin-left: 10rpx;
+    font-size: 14px;
 }

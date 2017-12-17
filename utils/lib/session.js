@@ -4,6 +4,7 @@
 var cons = require('./constants');
 var SESSION_KEY = 'app-sessionkey-' + cons.TMP_SESSION_ID;
 var USER_INFO_KEY = 'app-userinfokey-' + cons.TMP_USER_INFO;
+var ADDRESS_INFO = 'app-useraddrkey-' + cons.LOCAL_ADDRESS_ALL;
 
 var Session = {
 	get : function() {
@@ -33,7 +34,22 @@ var Userinfo = {
   }
 }
 
+var AddressInfo = {
+  get: function () {
+    return wx.getStorageSync(ADDRESS_INFO) || null;
+  },
+
+  set: function (address_info) {
+    wx.setStorageSync(ADDRESS_INFO, address_info);
+  },
+
+  clear: function () {
+    wx.removeStorageSync(ADDRESS_INFO);
+  }
+}
+
 module.exports = {
 	Session:Session,
-	Userinfo:Userinfo
+	Userinfo:Userinfo,
+	AddressInfo:AddressInfo
 }

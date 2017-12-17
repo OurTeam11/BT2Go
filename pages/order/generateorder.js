@@ -28,7 +28,7 @@ Page({
       for (var i=0 ; i < pnum; i++) {
         oneobj.orderObj.orderprice += this.data.productlist[i].price;
       }
-     oneobj.orderObj.orderAddress = "北京市朝阳区。";
+     oneobj.orderObj.orderAddress = "北京市朝阳区大屯路121号3单元102.";
      oneobj.orderObj.productlist = this.data.productlist;
      console.log(oneobj.orderObj);
      //绑定UI

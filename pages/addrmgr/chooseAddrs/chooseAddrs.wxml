@@ -1,0 +1,23 @@
+<view class="item">
+  <block wx:for="{{list}}" wx:key="{{index}}">
+    <view class="oneItem">
+    <icon wx:if="{{item.default}}" type="success" color="yellow" data-index="{{index}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
+                <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="toSelectAddr"/>
+      <view class="info">
+        <text>{{item.name}}，{{item.phonenumber}}</text>
+        <text>地址：{{item.addre}}, {{item.door}}</text>
+      </view>
+      <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}">
+        <image src="../../../images/modify.png" mode="widthFix" bindtap="detete" />
+      </view>
+    </view>
+  </block>
+</view>
+
+<!-- 信息部分结束 -->
+<button wx:if="{{ifSubmitOrder}}" class="submitOrder" hover-class="button-hover" bindtap="submitOrder" >提交订单</button>
+<view wx:else class="add" bindtap="addAddre">
+  <image class="left" src="../../../images/6.png" mode="widthFix" />
+  <view class="text">新增个人地址</view>
+  <image class="right" src="../../../images/right.png" mode="widthFix" />
+</view>
