@@ -80,10 +80,10 @@
 }
 
 .next-image {
-  width: 20rpx;
-  height: 25rpx;
+  width: 30rpx;
+  height: 30rpx;
   position: relative;
-  right: 10rpx;
+  right: 15rpx;
 }
 
 .navs {

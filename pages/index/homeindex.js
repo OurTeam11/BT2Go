@@ -30,6 +30,8 @@ Page({
 
     page: 1, //请求页面。
 
+    canRequestMore: false
+
   },
 
   //swiper切换函数
@@ -40,6 +42,7 @@ Page({
   
   doRequestRecommend:function() {
     var that = this;
+    that.setData({canRequestMore:false});
     // api.request() 方法和 wx.request() 方法使用是一致的，不过如果用户已经登录的情况下，会把用户的会话信息带给服务器，服务器可以跟踪用户
     api.request({
       // 要请求的地址
@@ -52,6 +55,12 @@ Page({
       method: 'GET',
       success(result) {
         showtoast.showSuccess('请求成功完成');
+        if (result.data.list.length >= 20) {
+          that.setData({canRequestMore:true});
+        } else {
+          that.setData({canRequestMore:false});
+          that.setData({searchLoadingComplete : true});
+        }
         for (var i = 0; i < result.data.list.length; i++) {
           //拼接humbnail的完整路径名字。
           result.data.list[i].thumbnail = 'http://localhost/image/' + result.data.list[i].thumbnail;
@@ -74,7 +83,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   
+   console.log("onLoad,homeindex");
   },
 
   /**
@@ -89,7 +98,7 @@ Page({
     }
   },
 
-  testtap:function() {
+  goToSearchPage:function() {
     var that = this
     //WxSearch.wxSearchFocus(e, that);
     wx.navigateTo({
@@ -130,24 +139,28 @@ Page({
     this.setData({page:1});
     this.setData({searchLoading : false});
     this.setData({searchLoadingComplete : false});
+    this.doRequestRecommend();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("onReachBottom");
-    this.setData({searchLoading : true});
-    this.setData({searchLoadingComplete : false});
-    //触发搜索，分页请求。
-    this.data.page++;
-    //请求服务器更多的数据。
+    if (this.data.canRequestMore) {
+      console.log("onReachBottom");
+      this.setData({searchLoading : true});
+      this.setData({searchLoadingComplete : false});
+      //触发搜索，分页请求。
+      this.data.page++;
+      //请求服务器更多的数据
+      this.doRequestRecommend();
+    } else {
+      this.setData({searchLoading : false});
+      this.setData({searchLoadingComplete : true});
+    }
 
   },
-  //请求更多数据加载。
-  doRequestRecommendMore:function() {
-
-  },
+ 
   /**
    * 用户点击右上角分享
    */

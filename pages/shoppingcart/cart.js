@@ -223,7 +223,18 @@ Page({
 
   //结算
   checkout:function(e) {
+    if (this.data.carts) {
+      var cartslist = JSON.stringify(this.data.carts);
+      console.log(cartslist);
+      // wx.navigateTo({
+      //   url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
+      // })
+      wx.navigateTo({
+        url: '../addrmgr/chooseAddrs/chooseAddrs?cartslist=' + cartslist + '&flag=carts2order',
+      })
+    } else {
 
+    }
   }
 
 })

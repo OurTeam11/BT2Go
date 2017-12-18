@@ -7,33 +7,43 @@ Page({
    */
   data: {
     typeid: 0,
-    
+    curIndex:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    this.setData({typeid:options.typeid});
-    var status = oneobj.orderObj.orderstatus;
-    console.log("liufeng", status);
+    console.log("options",options);
+    if (options.typeid == 'undefined') {
+      this.setData({curIndex: 0});
+      console.log("liufeng, undefined typeid", options.typeid);
+    } else {
+      this.setData({typeid:options.typeid});
+      console.log("liufeng, not undefined typeid", options.typeid);
+      this.setData({curIndex: parseInt(options.typeid)});
+    }
     
-    var tt = oneobj.doSum(1, 3, function(sum){
-         console.log("callback:" , sum);
-    });
-    console.log("tt:" , tt);
+    // var tt = oneobj.doSum(1, 3, function(sum){
+    //      console.log("callback:" , sum);
+    // });
+    // console.log("tt:" , tt);
 
-    var test = oneobj.doTest(-1,
-        {success:function(callback) {
-         console.log("success:" , callback);
-        },
-        fail:function(callback) {
-          console.log("fail:" , callback);
-        }}
-      );
+    // var test = oneobj.doTest(-1,
+    //     {success:function(callback) {
+    //      console.log("success:" , callback);
+    //     },
+    //     fail:function(callback) {
+    //       console.log("fail:" , callback);
+    //     }}
+    //   );
   },
 
+ bindTap:function(e) {
+    const index = parseInt(e.currentTarget.dataset.index);
+    console.log("liufeng", this.data.typeid);
+    this.setData({ curIndex: index});
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

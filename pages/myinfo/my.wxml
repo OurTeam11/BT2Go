@@ -14,7 +14,7 @@
   <view class="order" catchtap="toOrder">
     <text class="myorder-text">我的订单</text>
     <text class="myorderall-text">查看全部订单</text>
-    <image class="next-image" src="../../images/itemdetail/cart.png"></image>
+    <image class="next-image" src="../../images/right.png"></image>
   </view>
   <view class="line"></view>
 
@@ -31,29 +31,29 @@
 
   <view class="mypersonal-list">
     <view class="list-item">
-      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <image class="item-image" src="../../images/myinfocommon/myfav.png"></image>
       <text class="item-text">我的收藏</text>
     </view>
    <view class="line"></view>
     <navigator class="navigator-class" url="../addrmgr/chooseAddrs/chooseAddrs?flag=myinfo">
       <view class="list-item">
-        <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+        <image class="item-image" src="../../images/myinfocommon/location.png"></image>
         <text class="item-text">收货地址</text>
       </view>
     </navigator>
     <view class="line"></view>
     <view class="list-item">
-      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <image class="item-image" src="../../images/myinfocommon/comments.png"></image>
       <text class="item-text">我的评价</text>
     </view>
    <view class="line"></view>
     <view class="list-item">
-      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <image class="item-image" src="../../images/myinfocommon/invite.png"></image>
       <text class="item-text">推广邀请</text>
     </view>
     <view class="line"></view>
     <view class="list-item">
-      <image class="item-image" src="../../images/itemdetail/cart.png"></image>
+      <image class="item-image" src="../../images/myinfocommon/checkorder.png"></image>
       <text class="item-text">系统设置</text>
     </view>
   </view>

@@ -43,7 +43,6 @@
     </view>
   </view>
 
-  <!--liufeng add  -->
   <view class="line"></view>
   <view class="goods-tab-box">
         <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">商品详情</view>

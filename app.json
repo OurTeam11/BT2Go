@@ -8,7 +8,8 @@
     "pages/order/order",
     "pages/order/generateorder",
     "pages/addrmgr/chooseAddrs/chooseAddrs",
-    "pages/addrmgr/newAddrs/newAddrs"
+    "pages/addrmgr/newAddrs/newAddrs",
+    "pages/addrmgr/changeAddrs/changeAddrs"
   ],
   "window":{
     "navigationBarBackgroundColor": "#ffffff",

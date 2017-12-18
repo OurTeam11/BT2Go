@@ -10,18 +10,18 @@ Page({
     ifSubmitOrder: false
   },
   addAddre: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../newAddrs/newAddrs'
     })
   },
 
   toModifyAddre: function (e) {
     console.log(e.currentTarget);
-    console.log("选中的电话" + e.currentTarget.dataset.addrevalue);
-    console.log("选中的index" + e.currentTarget.dataset.index)
-    // wx.navigateTo({
-    //   url: '../modifyAddre/modifyAddre?name='+ e.currentTarget.dataset.name+"&tel="+e.currentTarget.dataset.tel+"&addrevalue="+e.currentTarget.dataset.addrevalue+"&areavalue="+e.currentTarget.dataset.areavalue+"&door="+e.currentTarget.dataset.door+"&index="+e.currentTarget.dataset.index
-    // })
+    console.log("选中的dataset：", e.currentTarget.dataset);
+    let oneaddr = e.currentTarget.dataset;
+     wx.navigateTo({
+       url: '../changeAddrs/changeAddrs?addr=' + JSON.stringify(oneaddr),
+     });
   },
 
 toSelectAddr: function (e) {
@@ -58,6 +58,13 @@ toSelectAddr: function (e) {
       let addresslist = Session.AddressInfo.get() || [];
       this.setData({list: addresslist});
       this.setData({ifSubmitOrder:true});
+    } else if (flag == 'carts2order') {
+      console.log("carts2order entry");
+      let addresslist = Session.AddressInfo.get() || [];
+      this.setData({list: addresslist});
+      this.setData({ifSubmitOrder:true});
+    } else if (flag == 'changeAddr') {
+      this.setData({ list: JSON.parse(options.addresslist) });
     }
   },
 

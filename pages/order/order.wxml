@@ -1,1 +1,16 @@
-<view>Order</view>
+ <view class="goods-tab-box">
+        <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">待付款</view>
+        <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">待发货</view>
+        <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">待收货</view>
+        <view class="goods-tab-nav {{curIndex === 3 ?'on':''}}" bindtap="bindTap" data-index="3">待评价</view>
+        <view class="goods-content">
+            <view wx:if="{{curIndex === 0}}">
+              <block wx:for-items="{{detailImg}}" wx:key="name">
+                 <image class="image_detail" src="{{item}}" />
+               </block>
+            </view>
+            <view wx:if="{{curIndex === 1}}"><text class="text-remark">付款成功，代发货</text></view>
+            <view wx:if="{{curIndex === 2}}">待收获，已经付款，已发货。</view>
+            <view wx:if="{{curIndex === 3}}">待评价的订单，后期开发。。</view>
+        </view>
+    </view>

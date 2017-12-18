@@ -15,25 +15,25 @@ Page({
         typeId: 0,
         name: '待付款',
         url: 'bill',
-        imageurl: '../../images/itemdetail/cart.png',
+        imageurl: '../../images/order/waitforpay.png',
       },
       {
         typeId: 1,
         name: '待发货',
         url: 'bill',
-        imageurl: '../../images/itemdetail/cart.png',
+        imageurl: '../../images/order/waitforsend.png',
       },
       {
         typeId: 2,
         name: '待收货',
         url: 'bill',
-        imageurl: '../../images/itemdetail/cart.png'
+        imageurl: '../../images/order/waitforrecieve.png'
       },
       {
         typeId: 3,
         name: '待评价',
         url: 'bill',
-        imageurl: '../../images/itemdetail/cart.png'
+        imageurl: '../../images/order/waitforcomment.png'
       }
     ],
   },
@@ -81,8 +81,9 @@ Page({
   },
 
   toOrder: function (e) {
+    console.log(e);
     var typeid = e.currentTarget.dataset.typeid;
-    console.log(typeid);
+    
     wx.navigateTo({
       url: '../order/order?typeid=' + typeid,
     })

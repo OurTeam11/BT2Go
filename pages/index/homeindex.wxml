@@ -3,7 +3,7 @@
 <view class="search-bar_top">
   <import src="/wxSearch/wxSearch.wxml" />
   <!--使用listview 模板-->
-  <view class="weui-search-bar" bindtap = "testtap" id='mainsearchbar'>
+  <view class="weui-search-bar" bindtap = "goToSearchPage" id='mainsearchbar'>
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>

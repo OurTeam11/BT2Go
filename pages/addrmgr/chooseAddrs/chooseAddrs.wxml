@@ -7,7 +7,7 @@
         <text>{{item.name}}，{{item.phonenumber}}</text>
         <text>地址：{{item.addre}}, {{item.door}}</text>
       </view>
-      <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}">
+      <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}" data-phonenumber="{{item.phonenumber}}" data-addre="{{item.addre}}" data-door="{{item.door}}" data-default="{{item.default}}" data-label="{{item.label}}">
         <image src="../../../images/modify.png" mode="widthFix" bindtap="detete" />
       </view>
     </view>
