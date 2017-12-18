@@ -21,9 +21,10 @@ Page({
     autoplay: true,
     interval: 3000,
     duration: 1000,
-    images:['http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'],
+    images: ['../../images/swiper/1.png',
+      '../../images/swiper/2.png',
+      '../../images/swiper/3.png',
+      '../../images/swiper/4.png'],
 
     searchLoading: false, //"上拉加载"的变量，默认false，隐藏  
     searchLoadingComplete: false,//“没有数据”的变量，默认false，隐藏

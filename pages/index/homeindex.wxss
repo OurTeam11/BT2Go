@@ -23,6 +23,13 @@
   overflow: hidden;
 }
 
+swiper-item image {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+} 
+
 .line_flag {
     width: 5px;
     height: 20px;
