@@ -42,7 +42,9 @@ Page({
  bindTap:function(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     console.log("liufeng", this.data.typeid);
-    this.setData({ curIndex: index});
+    this.setData({curIndex: index});
+    //request网络去获取对应的订单状态。
+    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

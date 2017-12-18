@@ -83,7 +83,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   console.log("onLoad,homeindex");
+   //TODO:未来登陆放在这里里面。
   },
 
   /**
@@ -94,7 +94,8 @@ Page({
     if (Session.Session.get() && Session.Userinfo.get()) {
       this.doRequestRecommend();
     } else {
-      showtoast.showModel('登录失败', '您需要正常登陆才能够访问服务器');
+      //showtoast.showModel('登录失败', '您需要正常登陆才能够访问服务器');
+      this.doRequestRecommend();
     }
   },
 

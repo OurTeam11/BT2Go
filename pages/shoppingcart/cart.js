@@ -61,7 +61,7 @@ Page({
         },
       });
     } else {
-      showEmptyCart();
+      that.showEmptyCart();
     }
   },
 
