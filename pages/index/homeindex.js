@@ -21,10 +21,11 @@ Page({
     autoplay: true,
     interval: 3000,
     duration: 1000,
-    images: ['../../images/swiper/1.png',
-      '../../images/swiper/2.png',
-      '../../images/swiper/3.png',
-      '../../images/swiper/4.png'],
+    images: ['http://118.190.208.121/image/1-1513659439954.png',
+      'http://118.190.208.121/image/2-1513659444691.png',
+      'http://118.190.208.121/image/3-1513659448845.png',
+      'http://118.190.208.121/image/4-1513659453228.png',
+      'http://118.190.208.121/image/6594300751219178.png'],
 
     searchLoading: false, //"上拉加载"的变量，默认false，隐藏  
     searchLoadingComplete: false,//“没有数据”的变量，默认false，隐藏
