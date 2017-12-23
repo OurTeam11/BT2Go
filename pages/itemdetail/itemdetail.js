@@ -149,14 +149,17 @@ Page({
   immeBuy:function() {
     var that = this;
     if (app.globalData.userInfo) {
-      var productlist = JSON.stringify([{pcode: this.pcode, price: this.data.itemprice*this.data.num}]);
+      //id, img, name, price, count, selected.
+      var productlist = JSON.stringify([{id: that.data.productid, img: that.data.imgUrls[0],
+                                         price: that.data.itemprice*that.data.num,
+                                         name: that.data.productname, count: that.data.num}]);
       console.log(productlist);
+       wx.navigateTo({
+         url: '../order/generateOrder/generateorder?plist=' + productlist + '&type=detail2order',
+       })
       // wx.navigateTo({
-      //   url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
+      //   url: '../addrmgr/chooseAddrs/chooseAddrs?plist=' + productlist + '&producttypenum=1&flag=buydirect',
       // })
-      wx.navigateTo({
-        url: '../addrmgr/chooseAddrs/chooseAddrs?plist=' + productlist + '&producttypenum=1&flag=buydirect',
-      })
     } else {
       wx.showToast({
        title: '需要先登录，才可以购买',
@@ -206,13 +209,13 @@ Page({
         if (data.status === 200) {
           for (var i = 0; i < data.product.details.length; i++) {
             //拼接details图片的完整路径名字。
-            data.product.details[i] = 'http://localhost/image/' + data.product.details[i];
+            data.product.details[i] = config.imgUrlPrefix + data.product.details[i];
           }
           that.setData({detailImg:data.product.details});
           
           for (var i = 0; i < data.product.pictures.length; i++) {
             //拼接details图片的完整路径名字。
-            data.product.pictures[i] = 'http://localhost/image/' + data.product.pictures[i];
+            data.product.pictures[i] = config.imgUrlPrefix + data.product.pictures[i];
           }
           that.setData({imgUrls:data.product.pictures});
 

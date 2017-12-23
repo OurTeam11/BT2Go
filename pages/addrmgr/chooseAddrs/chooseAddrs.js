@@ -7,10 +7,11 @@ var Session = require('../../../utils/lib/session');
 Page({
   data: {
     list: [],
-    ifSubmitOrder: false
+    ifSelectToOrder: false,
+    ifShowFooter:true
   },
   addAddre: function (e) {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../newAddrs/newAddrs'
     })
   },
@@ -26,6 +27,13 @@ Page({
 
 toSelectAddr: function (e) {
   console.log("toSelectAddr", e);
+  if (this.data.ifSelectToOrder) {
+    // back to order.
+    // 在C页面内 navigateBack，将返回A页面
+    wx.navigateBack({
+      delta: 1
+    });
+  }
     let li = this.data.list;
     for (var i = 0; i < this.data.list.length; i++) {
 
@@ -46,23 +54,21 @@ toSelectAddr: function (e) {
 
 
     if (flag == 'newAddress') {
-      this.setData({ list: JSON.parse(options.addresslist) });
+      this.setData({ list: JSON.parse(options.addresslist)});
     } else if (flag == 'myinfo') {
       console.log("my info entry")
       let addresslist = Session.AddressInfo.get() || [];
       this.setData({ list: addresslist});
-      this.setData({ifSubmitOrder:false});
-    } else if (flag == 'buydirect') {
-      console.log("itemDetails entry")
-      // url: '../addrmgr/chooseAddrs/chooseAddrs?plist=' + productlist + '&producttypenum=1&flag=buydirect',
+    } else if (flag == 'generateorder') {
+      console.log("generateorder entry")
       let addresslist = Session.AddressInfo.get() || [];
       this.setData({list: addresslist});
-      this.setData({ifSubmitOrder:true});
+      this.setData({ifSelectToOrder:true});
+      this.setData({ifShowFooter:false});
     } else if (flag == 'carts2order') {
       console.log("carts2order entry");
       let addresslist = Session.AddressInfo.get() || [];
       this.setData({list: addresslist});
-      this.setData({ifSubmitOrder:true});
     } else if (flag == 'changeAddr') {
       this.setData({ list: JSON.parse(options.addresslist) });
     }

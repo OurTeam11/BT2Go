@@ -1,5 +1,6 @@
 const app = getApp();
-var oneobj = require('./orderobject');
+var oneobj = require('../orderobject');
+var Session = require('../../../utils/lib/session');
 
 //商品编号。
 var pcode = "";
@@ -13,27 +14,36 @@ Page({
     //订单信息对象。
     orderobj:{},
 
-    //一个订单可能包含多个商品，商品列表。
-    productlist:[],
-    producttypenumber:0,
+    //地址信息
+    addressInfo: {},
+
+    //订单商品信息
+    orderproducts: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     this.setData({producttypenumber:options.producttypenum});
-     var pnum = options.producttypenum;
-     this.setData({productlist:JSON.parse(options.plist)});
-      for (var i=0 ; i < pnum; i++) {
-        oneobj.orderObj.orderprice += this.data.productlist[i].price;
-      }
-     oneobj.orderObj.orderAddress = "北京市朝阳区大屯路121号3单元102.";
-     oneobj.orderObj.productlist = this.data.productlist;
-     console.log(oneobj.orderObj);
-     //绑定UI
-     this.setData({orderobj:oneobj.orderObj});
+    console.log("generate order onload.")
+    var type = options.type;
+    if (type == 'cart2order') {
+      //从购物车过来的
+      this.setData({orderproducts:JSON.parse(options.plist)});
+      console.log('generator:', this.data.orderproducts);
 
+    } else if (type == 'detail2order') {
+      //从购物车过来的
+      this.setData({orderproducts:JSON.parse(options.plist)});
+      console.log('detail2order:', this.data.orderproducts);
+    }
+
+  },
+  
+  addressClick: function() {
+    wx.navigateTo({
+      url: '../../addrmgr/chooseAddrs/chooseAddrs?flag=generateorder',
+    })
   },
 
   onPay : function() {
@@ -56,14 +66,22 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+    console.log("onReady..")
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    console.log("onShow..")
+    var addres = Session.AddressInfo.get();
+    for (var i=0; i < addres.length; i++) {
+      if (addres[i].default) {
+        this.setData({addressInfo: addres[i]});
+        return;
+      }
+    }
+    this.setData({addressInfo:Session.AddressInfo.get()[0]});
   },
 
   /**

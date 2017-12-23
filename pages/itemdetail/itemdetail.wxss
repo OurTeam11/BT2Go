@@ -3,11 +3,13 @@
 
 swiper {
   height: 500rpx;
+  display: flex;
+  width: wrap;
+  padding:50rpx;
+  flex-direction: row;
+  justify-conent:center;
 }
-swiper-item image {
-  width: 100%;
-  height: 100%;
-}
+
 .detail {
   display: flex;
   width:100%;
@@ -149,11 +151,11 @@ text {
   border-radius: 20rpx;
 }
 .image-close {
-  width: 40rpx;
-  height: 40rpx;
+  width: 55rpx;
+  height: 55rpx;
   position: fixed;
-  right: 10rpx;
-  top: 10rpx;
+  right: 8rpx;
+  top: 8rpx;
 }
 .column {
   display: flex;

@@ -6,7 +6,7 @@
     "pages/searchpage/searchpage",
     "pages/itemdetail/itemdetail",
     "pages/order/order",
-    "pages/order/generateorder",
+    "pages/order/generateOrder/generateorder",
     "pages/addrmgr/chooseAddrs/chooseAddrs",
     "pages/addrmgr/newAddrs/newAddrs",
     "pages/addrmgr/changeAddrs/changeAddrs"

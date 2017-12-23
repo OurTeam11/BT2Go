@@ -1,4 +1,5 @@
 <!-- 信息部分开始 -->
+<import src="../../../templates/citypicker/citypicker.wxml"/>
 <form bindsubmit="formSubmit" report-submit="true">
 <view class = "info">
 <!-- 姓名部分 -->
@@ -22,12 +23,8 @@
 <!-- 收货地址部分 -->
 <view class = "item">
 <text>所在区域</text>
-<view class = "right">
-<picker name="addre" class = "addre" value="{{addreindex}}" range="{{addreRange}}" bindchange="addrePickerBindchange">
- {{addreRange[addreindex]}}
-</picker>
-
-</view>
+<view class = "right" wx:if="{{!displayLocation}}" bindtap="translate"> 输入地区 </view>
+<view class = "right" wx:else bindtap="translate"> {{province}} {{city}} {{county}} </view>
 </view>
 
 <!-- 详细地址部分 -->
@@ -48,6 +45,8 @@
 
 </view>
 </view>
+
+<template is="areaData" data="{{...item}}"/>
 
 </view>
 <!-- 信息部分结束 -->

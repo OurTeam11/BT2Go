@@ -2,9 +2,10 @@
  * 小程序配置文件,接口URL.
  */
 
-var server_host = "http://localhost/opsystem/api";
+var server_host = "http://192.168.0.107/opsystem/api";
 
 var config = {
+  imgUrlPrefix: "http://192.168.0.107/image/",
   server: {
   	//登陆login地址
     loginUrl: `${server_host}/onLogin`,

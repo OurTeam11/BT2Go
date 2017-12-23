@@ -9,7 +9,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.6.0",
-	"appid": "wx8a9c5929fbd50ece",
+	"appid": "touristappid",
 	"projectname": "BT2Go",
 	"condition": {
 		"search": {

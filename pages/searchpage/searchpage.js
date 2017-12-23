@@ -178,7 +178,7 @@ Page({
         if (result.data.list.length != 0) {
           for (var i = 0; i < result.data.list.length; i++) {
             //拼接humbnail的完整路径名字。
-            result.data.list[i].thumbnail = 'http://localhost/image/' + result.data.list[i].thumbnail;
+            result.data.list[i].thumbnail = config.imgUrlPrefix + result.data.list[i].thumbnail;
           }
           that.setData({
             productitem: result.data.list,

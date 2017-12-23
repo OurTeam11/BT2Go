@@ -3,7 +3,9 @@ var api = require('../../../utils/api');
 var config = require('../../../config');
 var showtoast = require('../../../utils/commontoast');
 var Session = require('../../../utils/lib/session');
-
+var model = require('../../../templates/citypicker/citypicker.js')
+var show = false;
+var item = {};
 Page({
   data: {
     name: "请填写您的姓名",
@@ -13,11 +15,49 @@ Page({
     door: "街道门牌信息",
     addrLabelindex: 0,
     addrLabelRange: ['选择标签', '家', '工作单位', '学校', '其他地点'],
-
+    displayLocation: false,
     //AddrList
-    addrList:[]
+    addrList:[],
+    item: {      
+    	show: show    
+    }
   },
 
+  onReady: function (e) {    
+  	var that = this;   
+	model.updateAreaData(that, 0, e);
+  this.setData({
+    displayLocation: false
+  });  
+  },
+
+  translate: function (e) {
+
+  	model.animationEvents(this, 0, true,400);    
+  },
+
+  hiddenFloatView: function (e) {    
+  	model.animationEvents(this, 200, false,400);  
+  },
+
+  hiddenFloatViewWithYes: function (e) {
+
+    model.animationEvents(this, 200, false, 400);
+    this.setData({ 
+      displayLocation:true
+    });
+  },
+
+  bindChange: function (e) {    
+  	model.updateAreaData(this, 1, e);    
+	item = this.data.item;    
+	this.setData({      
+		province: item.provinces[item.value[0]].name,      
+		city: item.citys[item.value[1]].name,      
+		county: item.countys[item.value[2]].name    
+	});  
+  },
+  
   addrePickerBindchange: function (e) {
     console.log("e.detail.value:", e.detail.value);
     this.setData({

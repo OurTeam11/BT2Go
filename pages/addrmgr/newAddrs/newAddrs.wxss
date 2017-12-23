@@ -1,3 +1,4 @@
+@import '../../../templates/citypicker/citypicker.wxss';
 page {  
   display: block;  
   min-height: 100%;  

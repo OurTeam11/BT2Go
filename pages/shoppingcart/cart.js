@@ -45,7 +45,7 @@ Page({
             console.log('data:', data);
             //给图片加上http前缀。
             for (var i = 0; i < data.list.length; i ++) {
-              data.list[i].img = 'http://localhost/image/' + data.list[i].img;
+              data.list[i].img = config.imgUrlPrefix + data.list[i].img;
               data.list[i].count = parseInt(data.list[i].count);
             }
             that.setData({carts: data.list, hasList: true});
@@ -223,17 +223,33 @@ Page({
 
   //结算
   checkout:function(e) {
-    if (this.data.carts) {
-      var cartslist = JSON.stringify(this.data.carts);
+    var ishasSelected = false;
+    for (var j=0; j < this.data.carts.length; j++) {
+      if (this.data.carts[j].selected) {
+        ishasSelected = true;
+        break;
+      }
+    }
+    if (ishasSelected) {
+      var cartslist = [];
+      for (var i=0; i< this.data.carts.length; i++) {
+        if (this.data.carts[i].selected) {
+          cartslist.push(this.data.carts[i]);
+        }
+      }
       console.log(cartslist);
+      if (cartslist.length > 0) {
+        wx.navigateTo({
+          url: '../order/generateOrder/generateorder?plist=' +  JSON.stringify(cartslist) + '&type=cart2order',
+        })
+      } else {
+        console.log('cartslist 长度为0，没有选择物品');
+      }
       // wx.navigateTo({
-      //   url: '../order/generateorder?plist=' + productlist + '&producttypenum=1',
+      //   url: '../addrmgr/chooseAddrs/chooseAddrs?cartslist=' + cartslist + '&flag=carts2order',
       // })
-      wx.navigateTo({
-        url: '../addrmgr/chooseAddrs/chooseAddrs?cartslist=' + cartslist + '&flag=carts2order',
-      })
     } else {
-
+       console.log('没有选中的商品');
     }
   }
 

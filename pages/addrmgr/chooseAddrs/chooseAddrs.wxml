@@ -8,16 +8,19 @@
         <text>地址：{{item.addre}}, {{item.door}}</text>
       </view>
       <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}" data-phonenumber="{{item.phonenumber}}" data-addre="{{item.addre}}" data-door="{{item.door}}" data-default="{{item.default}}" data-label="{{item.label}}">
-        <image src="../../../images/modify.png" mode="widthFix" bindtap="detete" />
+        <image src="../../../images/modify.png" mode="widthFix" bindtap="toModifyAddre" />
       </view>
     </view>
   </block>
 </view>
 
 <!-- 信息部分结束 -->
+<block wx:if="{{ifShowFooter}}">
 <button wx:if="{{ifSubmitOrder}}" class="submitOrder" hover-class="button-hover" bindtap="submitOrder" >提交订单</button>
+
 <view wx:else class="add" bindtap="addAddre">
   <image class="left" src="../../../images/6.png" mode="widthFix" />
   <view class="text">新增个人地址</view>
   <image class="right" src="../../../images/right.png" mode="widthFix" />
 </view>
+</block>

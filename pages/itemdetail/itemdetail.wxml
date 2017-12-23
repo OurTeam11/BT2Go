@@ -1,12 +1,14 @@
 <!-- banner -->
 <import src="../../templates/countstepper.wxml" />
-<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-  <block wx:for="{{imgUrls}}">
-    <swiper-item>
-      <image src="{{item}}" data-src="{{item}}" bindtap="previewImage"></image>
-    </swiper-item>
+<swiper  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block  wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage"></image>
+      </swiper-item>
+   
   </block>
 </swiper>
+
 <scroll-view scroll-y="true">
   <view class="detail">
     <text class="title">{{productname}}</text>
@@ -28,7 +30,7 @@
         <view class="column">
           <text class="sku-price">{{itemprice}}</text>
           <text class="sku-title">库存 {{stock}} 件</text>
-          <text class="sku-title">商品编码：{{productcode}}</text>
+          <text class="sku-title">商品编码：{{productid}}</text>
         </view>
       </view>
       <text class="border-line"></text>
