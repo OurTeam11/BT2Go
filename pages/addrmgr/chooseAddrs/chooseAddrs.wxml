@@ -4,10 +4,10 @@
     <icon wx:if="{{item.default}}" type="success" color="yellow" data-index="{{index}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
                 <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="toSelectAddr"/>
       <view class="info">
-        <text>{{item.name}}，{{item.phonenumber}}</text>
-        <text>地址：{{item.addre}}, {{item.door}}</text>
+        <text>{{item.name}}，{{item.phonenumber}}，{{item.label}}</text>
+        <text>地址：{{item.location.province}}{{item.location.city}}{{item.location.county}}, {{item.door}}</text>
       </view>
-      <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}" data-phonenumber="{{item.phonenumber}}" data-addre="{{item.addre}}" data-door="{{item.door}}" data-default="{{item.default}}" data-label="{{item.label}}">
+      <view class="modify" data-index="{{index}}" data-name="{{item.name}}" data-phonenumber="{{item.phonenumber}}" data-location="{{item.location}}" data-door="{{item.door}}" data-default="{{item.default}}" data-label="{{item.label}}">
         <image src="../../../images/modify.png" mode="widthFix" bindtap="toModifyAddre" />
       </view>
     </view>

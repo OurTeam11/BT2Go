@@ -16,23 +16,63 @@ Page({
     addrLabelindex: 0,
     addrLabelRange: ['选择标签', '家', '工作单位', '学校', '其他地点'],
     displayLocation: false,
+    displayItem:false,
     //AddrList
     addrList:[],
+    index:-1,
     item: {      
     	show: show    
+    },
+    location:{
+      province:{},
+      city:{},
+      county:{}
     }
   },
 
-  onReady: function (e) {    
+  onLoad: function (options) {
+    if (options.addr){
+      let addr = JSON.parse(options.addr);
+      console.log("change addr:", addr);
+      if (addr) {
+        wx.setNavigationBarTitle({ title: '修改收货地址' })
+        this.setData({ name: addr.name });
+        this.setData({ tel: addr.phonenumber });
+        this.setData({ door: addr.door });
+        this.setData({
+          displayLocation: true,
+          displayItem:true,
+          location: {
+            province: addr.location.province,
+            city: addr.location.city,
+            county: addr.location.county
+          }
+        });
+        for (var i = 0; i < this.data.addrLabelRange.length; i++) {
+          if (this.data.addrLabelRange[i] == addr.label) {
+            this.setData({ addrLabelindex: i });
+          }
+        }
+
+        this.setData({ index: addr.index })
+        console.log("index,,",this.data.index)
+        this.setData({ ifdefault: addr.default });
+      }
+    }
+    else{
+      wx.setNavigationBarTitle({ title: '新建收货地址' })
+      this.setData({
+        displayLocation: false
+      }); 
+    }
+  },
+
+  onReady: function (e) {
   	var that = this;   
 	model.updateAreaData(that, 0, e);
-  this.setData({
-    displayLocation: false
-  });  
   },
 
   translate: function (e) {
-
   	model.animationEvents(this, 0, true,400);    
   },
 
@@ -41,21 +81,21 @@ Page({
   },
 
   hiddenFloatViewWithYes: function (e) {
-
+    item = this.data.item;
+    location = this.data.location;
     model.animationEvents(this, 200, false, 400);
     this.setData({ 
-      displayLocation:true
+      displayLocation: true,
+      location:{
+        province: item.provinces[item.value[0]].name,
+        city: item.citys[item.value[1]].name,
+        county: item.countys[item.value[2]].name
+      }
     });
   },
 
   bindChange: function (e) {    
-  	model.updateAreaData(this, 1, e);    
-	item = this.data.item;    
-	this.setData({      
-		province: item.provinces[item.value[0]].name,      
-		city: item.citys[item.value[1]].name,      
-		county: item.countys[item.value[2]].name    
-	});  
+  	model.updateAreaData(this, 1, e);     
   },
   
   addrePickerBindchange: function (e) {
@@ -90,22 +130,31 @@ Page({
       console.log('form发生了submit事件，携带数据为：', e.detail.value)
       //首先保存服务器成功后，需要保存再本地。然后再跳转到选择地址界面。
       //地址格式 address['name': 'liufeng', 'phonenumber': '13811060120',
-      //                  'addre': '北京市东城区', 'door': 北京市朝阳区慧忠里B区，
+      //                  'location': '北京市东城区', 'door': 北京市朝阳区慧忠里B区，
       //                  'label':'家', 'default':true]
       var oneAddr = {name: e.detail.value.name, phonenumber:e.detail.value.tel,
-                     addre: that.data.addreRange[that.data.addreindex], door:e.detail.value.door,
+                     location: that.data.location, door:e.detail.value.door,
                      label: that.data.addrLabelRange[that.data.addrLabelindex], default: false};
+
       that.data.addrList = Session.AddressInfo.get() || [];
-      that.data.addrList.push(oneAddr);
+      if (that.data.index !== -1){
+        that.data.addrList[that.data.index] = oneAddr;
+      }else{
+        that.data.addrList.push(oneAddr);
+      }
       Session.AddressInfo.set(that.data.addrList);
 
       var allAddress = JSON.stringify(that.data.addrList);
-      wx.redirectTo({
-        url: '../chooseAddrs/chooseAddrs?addresslist=' + allAddress + '&flag=newAddress',
-        //？后面跟的是需要传递到下一个页面的参数
-
-      });
-      console.log("传过去的地址下标是多少？" + e.detail.value.addre)
+      if (that.data.index !== -1) {
+        wx.navigateBack ({
+          url: '../chooseAddrs/chooseAddrs?addresslist=' + allAddress + '&flag=changeAddr',
+        });
+      }else{
+        wx.navigateBack ({
+          url: '../chooseAddrs/chooseAddrs?addresslist=' + allAddress + '&flag=newAddress',
+          //？后面跟的是需要传递到下一个页面的参数
+        });
+      }
     }
     if (flag == false) {
       wx.showModal({
@@ -113,7 +162,5 @@ Page({
         content: warn
       })
     }
-
   },
-
 })

@@ -11,7 +11,7 @@ Page({
     ifShowFooter:true
   },
   addAddre: function (e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../newAddrs/newAddrs'
     })
   },
@@ -21,7 +21,7 @@ Page({
     console.log("选中的dataset：", e.currentTarget.dataset);
     let oneaddr = e.currentTarget.dataset;
      wx.navigateTo({
-       url: '../changeAddrs/changeAddrs?addr=' + JSON.stringify(oneaddr),
+       url: '../newAddrs/newAddrs?addr=' + JSON.stringify(oneaddr),
      });
   },
 

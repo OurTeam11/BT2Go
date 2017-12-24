@@ -6,7 +6,8 @@
 <view class = "item">
 <text>用户姓名</text>
 <view class = "right">
-<input type="text" name = "name"placeholder="{{name}}" focus="{{focus}}"/>
+<input type="text" name = "name" wx:if="{{displayItem}}" value="{{name}}" focus="{{focus}}"/>
+<input type="text" name = "name" wx:else placeholder="{{name}}" focus="{{focus}}"/>
 </view>
 </view>
 
@@ -14,7 +15,8 @@
 <view class = "item">
 <text>联系电话</text>
 <view class = "right">
-<input name="tel" type="number" placeholder="{{tel}}"  focus="{{focus}}"/>
+<input name="tel" type="number" wx:if="{{displayItem}}" value="{{tel}}" focus="{{focus}}"/>
+<input name="tel" type="number" wx:else placeholder="{{tel}}"  focus="{{focus}}"/>
 </view>
 </view>
 
@@ -24,14 +26,15 @@
 <view class = "item">
 <text>所在区域</text>
 <view class = "right" wx:if="{{!displayLocation}}" bindtap="translate"> 输入地区 </view>
-<view class = "right" wx:else bindtap="translate"> {{province}} {{city}} {{county}} </view>
+<view class = "right" wx:else bindtap="translate"> {{location.province}} {{location.city}} {{location.county}} </view>
 </view>
 
 <!-- 详细地址部分 -->
 <view class = "item">
 <text>详细地址</text>
 <view class = "right">
-<input name="door" type="text" placeholder="{{door}}"  focus="{{focus}}"/>
+<input name="door" type="text"  wx:if="{{displayItem}}" value="{{door}}" focus="{{focus}}"/>
+<input name="door" type="text"  wx:else placeholder="{{door}}"  focus="{{focus}}"/>
 </view>
 </view>
 
@@ -46,9 +49,8 @@
 </view>
 </view>
 
-<template is="areaData" data="{{...item}}"/>
-
 </view>
 <!-- 信息部分结束 -->
 <button class = "save" formType="submit" >保存</button>
 </form>
+<template is="areaData" data="{{...item}}"/>
