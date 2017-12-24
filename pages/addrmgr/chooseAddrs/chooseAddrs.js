@@ -7,6 +7,7 @@ var Session = require('../../../utils/lib/session');
 Page({
   data: {
     list: [],
+    path:"none",
     ifSelectToOrder: false,
     ifShowFooter:true
   },
@@ -47,31 +48,34 @@ toSelectAddr: function (e) {
     Session.AddressInfo.set(this.data.list);
   },
 
+  onShow:function(){
+    if (this.data.path == 'myinfo'){
+      let addresslist = Session.AddressInfo.get() || [];
+      this.setData({ list: addresslist });
+    } else if (this.data.pat == 'generateorder'){
+      let addresslist = Session.AddressInfo.get() || [];
+      this.setData({ list: addresslist });
+      this.setData({ ifSelectToOrder: true });
+      this.setData({ ifShowFooter: false });
+    } else if (this.data.pat == 'carts2order'){
+      let addresslist = Session.AddressInfo.get() || [];
+      this.setData({ list: addresslist });
+    } else{
+      this.setData({ list: JSON.parse(options.addresslist) });
+    }
+  },
   onLoad: function (options) {
     var sign = 0//判断从修改页面中的保存还是删除按钮过来，保存为1，删除为2
     var flag = options.flag;
     sign = options.sign;
 
-
-    if (flag == 'newAddress') {
-      this.setData({ list: JSON.parse(options.addresslist)});
-    } else if (flag == 'myinfo') {
-      console.log("my info entry")
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({ list: addresslist});
+    if (flag == 'myinfo') {
+      this.setData({ path: 'myinfo'});
     } else if (flag == 'generateorder') {
-      console.log("generateorder entry")
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({list: addresslist});
-      this.setData({ifSelectToOrder:true});
-      this.setData({ifShowFooter:false});
+      this.setData({ path: 'generateorder' });
     } else if (flag == 'carts2order') {
-      console.log("carts2order entry");
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({list: addresslist});
-    } else if (flag == 'changeAddr') {
-      this.setData({ list: JSON.parse(options.addresslist) });
-    }
+      this.setData({ path: 'carts2order' });
+    } 
   },
 
   submitOrder:function() {
