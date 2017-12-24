@@ -50,19 +50,19 @@ toSelectAddr: function (e) {
 
   onShow:function(){
     if (this.data.path == 'myinfo'){
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({ list: addresslist });
+      console.log("myinfo")
     } else if (this.data.pat == 'generateorder'){
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({ list: addresslist });
+      console.log("generateorder")
       this.setData({ ifSelectToOrder: true });
       this.setData({ ifShowFooter: false });
     } else if (this.data.pat == 'carts2order'){
-      let addresslist = Session.AddressInfo.get() || [];
-      this.setData({ list: addresslist });
+      console.log("carts2order")
     } else{
-      this.setData({ list: JSON.parse(options.addresslist) });
+      console.log("addr change or create")
     }
+    let addresslist = Session.AddressInfo.get() || [];
+    this.setData({ list: addresslist });
+    this.setData({ path: 'none' });
   },
   onLoad: function (options) {
     var sign = 0//判断从修改页面中的保存还是删除按钮过来，保存为1，删除为2
