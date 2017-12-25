@@ -10,6 +10,7 @@ Page({
   data: {
     name: "请填写您的姓名",
     tel: "请填写您的联系方式",
+    zipcode:"请填写您的邮政编码",
     addreindex: 0,
     addreRange: ['选择地址', '北京市海淀区', '北京市东城区', '北京市西城区', '北京市朝阳区', '北京市丰台区', '北京市石景山区'],
     door: "街道门牌信息",
@@ -39,6 +40,7 @@ Page({
         this.setData({ name: addr.name });
         this.setData({ tel: addr.phonenumber });
         this.setData({ door: addr.door });
+        this.setData({ zipcode: addr.zipcode });
         this.setData({
           displayLocation: true,
           displayItem:true,
@@ -125,16 +127,18 @@ Page({
       warn = "请选择您的所在区域";
     } else if (e.detail.value.door == "") {
       warn = "请输入您的具体地址";
-    } else {
+    } else if (!(/^[1-9][0-9]{5}$/.test(e.detail.value.zipcode))){
+      warn = "请输入正确的邮政编码";
+    }else {
       flag = true;
       console.log('form发生了submit事件，携带数据为：', e.detail.value)
       //首先保存服务器成功后，需要保存再本地。然后再跳转到选择地址界面。
       //地址格式 address['name': 'liufeng', 'phonenumber': '13811060120',
       //                  'location': '北京市东城区', 'door': 北京市朝阳区慧忠里B区，
-      //                  'label':'家', 'default':true]
+      //                  'zipcode':'100007', 'default':true]
       var oneAddr = {name: e.detail.value.name, phonenumber:e.detail.value.tel,
                      location: that.data.location, door:e.detail.value.door,
-                     label: that.data.addrLabelRange[that.data.addrLabelindex], default: false};
+                     zipcode: e.detail.value.zipcode, default: false};
 
       that.data.addrList = Session.AddressInfo.get() || [];
       if (that.data.index !== -1){
