@@ -29,6 +29,12 @@ var config = {
     deleteFromCart:`${server_host}/cart/delete`,
     //修改商品数量， url: http://localhost:3100/opsystem/api/cart/{productId}/quantity
     modifyItemCount: `${server_host}/cart/`,
+    //增加地址
+    addAddres: `${server_host}/address/add`,
+    //获取地址列表
+    getAddresList: `${server_host}/address/list`,
+    //修改地址
+    modifyAddres: `${server_host}/address/update`,
   }
 }
 

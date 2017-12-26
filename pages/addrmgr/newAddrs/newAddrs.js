@@ -44,11 +44,12 @@ Page({
         this.setData({
           displayLocation: true,
           displayItem:true,
+          /*
           location: {
             province: addr.location.province,
             city: addr.location.city,
             county: addr.location.county
-          }
+          }*/
         });
         for (var i = 0; i < this.data.addrLabelRange.length; i++) {
           if (this.data.addrLabelRange[i] == addr.label) {
@@ -150,15 +151,59 @@ Page({
 
       var allAddress = JSON.stringify(that.data.addrList);
       if (that.data.index !== -1) {
-        wx.navigateBack ({
-          url: '../chooseAddrs/chooseAddrs?addresslist=' + allAddress + '&flag=changeAddr',
+        api.request({
+          url: config.server.modifyAddres,
+          data: {
+            session: Session.Session.get(),
+            id:that.data.index,
+            addr: oneAddr.door,
+            zipcode: oneAddr.zipcode,
+            contact: oneAddr.phonenumber,
+            consignee: oneAddr.name
+          },
+          method: 'POST',
+          success(result) {
+            var data = result.data;
+            if (data.status === 200) {
+              showtoast.showSuccess('修改地址完成');
+            } else {
+              showtoast.showModel('修改地址失败', '服务器返回代码' + data.status + '服务器返回信息：' + data.msg);
+            }
+          },
+
+          fail(error) {
+            showtoast.showModel('修改地址失败请求失败', error);
+            console.log('modify addres request fail', error);
+          },
         });
       }else{
-        wx.navigateBack ({
-          url: '../chooseAddrs/chooseAddrs?addresslist=' + allAddress + '&flag=newAddress',
-          //？后面跟的是需要传递到下一个页面的参数
+        api.request({
+          url: config.server.addAddres,
+          data: { session: Session.Session.get(), 
+                  addr: oneAddr.door,
+                  zipcode: oneAddr.zipcode,
+                  contact: oneAddr.phonenumber,
+                  consignee: oneAddr.name},
+          method: 'POST',
+          success(result) {
+            var data = result.data;
+            if (data.status === 200) {
+              showtoast.showSuccess('添加地址完成');
+            } else {
+              showtoast.showModel('添加地址失败', '服务器返回代码' + data.status + '服务器返回信息：' + data.msg);
+            }
+          },
+
+          fail(error) {
+            showtoast.showModel('添加地址请求失败', error);
+            console.log('add addres request fail', error);
+          },
         });
       }
+
+      wx.navigateBack({
+        url: '../chooseAddrs/chooseAddrs',
+      });
     }
     if (flag == false) {
       wx.showModal({

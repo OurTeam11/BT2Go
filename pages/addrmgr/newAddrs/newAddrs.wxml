@@ -22,12 +22,12 @@
 
 
 
-<!-- 收货地址部分 -->
+<!-- 收货地址部分 
 <view class = "item">
 <text>所在区域</text>
 <view class = "right" wx:if="{{!displayLocation}}" bindtap="translate"> 输入地区 </view>
 <view class = "right" wx:else bindtap="translate"> {{location.province}} {{location.city}} {{location.county}} </view>
-</view>
+</view>-->
 
 <!-- 详细地址部分 -->
 <view class = "item">

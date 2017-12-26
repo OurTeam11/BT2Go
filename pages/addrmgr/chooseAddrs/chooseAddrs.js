@@ -60,8 +60,45 @@ toSelectAddr: function (e) {
     } else{
       console.log("addr change or create")
     }
-    let addresslist = Session.AddressInfo.get() || [];
-    this.setData({ list: addresslist });
+    var that = this;
+    api.request({
+      url: config.server.getAddresList,
+      data: { session: Session.Session.get() },
+      method: 'GET',
+      success(result) {
+        var data = result.data;
+        if (data.status === 200) {
+          console.log('获取地址列表成功');
+          if (data.list.length >0){
+            let li = [];
+            for (var i = 0; i < data.list.length; i++) {
+              var oneAddr = { index: data.list[i].id,
+                              door: data.list[i].addr,
+                              zipcode: data.list[i].zipcode,
+                              name: data.list[i].consignee,
+                              phonenumber: data.list[i].contact};
+              li.push(oneAddr);
+            }
+            that.setData({ list: li });
+          }else{
+            let addresslist = Session.AddressInfo.get() || [];
+            that.setData({ list: addresslist });
+          }
+        } else {
+          showtoast.showModel('获取地址列表失败', '服务器返回代码' + data.status);
+          let addresslist = Session.AddressInfo.get() || [];
+          that.setData({ list: addresslist });
+        }
+      },
+
+      fail(error) {
+        var that = this; 
+        showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+        let addresslist = Session.AddressInfo.get() || [];
+        that.setData({ list: addresslist });
+      },
+    });
     this.setData({ path: 'none' });
   },
   onLoad: function (options) {
