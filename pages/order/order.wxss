@@ -1,4 +1,8 @@
-
+.top_line{
+    height: 10px;
+    background-color: #EFEFF4;
+    padding-top:10rpx;
+}
 .goods-tab-nav{
     display: inline-block;
     width: 25%;
@@ -13,6 +17,73 @@
     color: #bcaa8a;
     border-bottom: 5rpx solid #bcaa8a;
 }
+
 .goods-content{
     padding: 10rpx;
+}
+
+.goods_info{
+    display: flex;
+    min-height: 100px;
+}
+.order_icon{
+    display: flex;
+    margin-left: 8rpx;
+    max-height: 80rpx;
+    max-width: 80px;
+}
+.order_header{
+    border: 1px solid silver;
+    padding: 2px;
+    display: flex;
+    direction: row;
+    justify-content: space-between;
+}
+.oneProduct{
+  padding: 5rpx;
+  display:flex;
+  direction: row;
+  justify-content: space-between;
+}
+.oneProductList{
+  background-color: #EFEFF4;
+  display:flex;
+  direction: column;
+  justify-content: space-between;
+}
+.order_footer{
+  display:flex;
+  direction: row;
+  justify-content: flex-end;
+}
+.order_footer2 {
+  display:flex;
+  direction: row;
+  justify-content: flex-end;
+}
+.order_info_right_color{
+    color: #939393;
+    font-size: 12px;
+    padding-top: 1px;
+}
+.text_style_1{
+    color: #B3B3B3;
+    padding: 1px;
+    font-size: 10px;
+    line-height: 1.5em;
+}
+.text_style_2{
+    padding: 2px;
+    margin-left:3px;
+    margin-right:3px;
+    font-size: 10px;
+    color: #B3B3B3;
+}
+.text_style_3{
+  padding: 2px;
+  margin-left:3px;
+    margin-right:3px;
+  font-size: 12px;
+  line-height: 1.5em;
+  color: red;
 }

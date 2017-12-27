@@ -1,11 +1,12 @@
 <view>
     <view class="top_line"></view>
     <scroll-view scroll-y="true" scroll-x="false">
-        <view bindtap="addressClick">
+        <view wx:if="{{ifNoAddress}}" bindtap="addressClick" class="no_address_list"> 还没有地址，请选择一个地址。</view>
+        <view wx:else bindtap="addressClick">
             <view class="top_view">
-            <text>{{addressInfo.name}}  {{addressInfo.phonenumber}}</text>
+            <text>{{addressInfo.consignee}}  {{addressInfo.contact}}   {{addressInfo.status}}</text>
         </view>
-        <view class="address_view"><text>{{addressInfo.addre}} {{addressInfo.door}}</text></view>
+        <view class="address_view"><text>{{addressInfo.zipcode}} {{addressInfo.addr}}</text></view>
         </view>
           <block wx:for="{{orderproducts}}" wx:key="{{index}}">
 	        <view class="goods_info">
@@ -37,20 +38,20 @@
         </view>
         <view class="bottom_text_1">
             <text>商品金额</text>
-            <text class="right_text">¥ {{orderData.goodsTotalPrice}}</text>
+            <text class="right_text">¥ {{orderData.productTotalPrice}}</text>
         </view>
         <view class="bottom_text_2">
             <text>运费</text>
-            <text class="right_text">＋ ¥ {{orderData.goodsTotalFreight}}</text>
+            <text class="right_text">＋ ¥ {{orderData.productTotalFreight}}</text>
         </view>
         <view class="bottom_text_3">
             <text>优惠券</text>
-            <text class="right_text">－ ¥ 0.0</text>
+            <text class="right_text">－ ¥ {{orderData.productCoupon}}</text>
         </view>
         <view class="true_pay">
-            <text class="true_pay_right">¥{{orderData.goodsTotalPrice}}</text>
+            <text class="true_pay_right">¥{{orderData.productTotalPrice}}</text>
             <text>实付金额:　</text>
         </view>
-        <button class="bottom_btn" bindtap="paynow" type="primary">微信支付</button>
+        <button class="bottom_btn" bindtap="doPayment" type="primary">微信支付</button>
     </scroll-view>
 </view>

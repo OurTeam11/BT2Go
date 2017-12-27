@@ -29,12 +29,25 @@ var config = {
     deleteFromCart:`${server_host}/cart/delete`,
     //修改商品数量， url: http://localhost:3100/opsystem/api/cart/{productId}/quantity
     modifyItemCount: `${server_host}/cart/`,
-    //增加地址
+
+    //地址管理
     addAddres: `${server_host}/address/add`,
-    //获取地址列表
     getAddresList: `${server_host}/address/list`,
-    //修改地址
     modifyAddres: `${server_host}/address/update`,
+    changeDefault: `${server_host}/address/changeDefault`,
+
+    //订单管理
+    prepareOrder: `${server_host}/order/prepare`,
+    createAndPay: `${server_host}/order/createAndPay`,
+    getOrderList: `${server_host}/order/list`,
+    getOrderDetail: `${server_host}/order/`,//{订单编号}
+    confirmPay:    `${server_host}/order/pay`,
+    queryOrderStatus: `${server_host}/order/queryStatus`,
+    queryOrderTracking:`${server_host}/order/tracking`,
+
+
+    
+    
   }
 }
 

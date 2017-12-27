@@ -156,7 +156,9 @@ Page({
         app.globalData.hasUserInfo = true;
         console.log('登录成功', app.globalData.userInfo, app.globalData.hasUserInfo);
         //d登陆成功，调用推荐接口。
-        that.doRequestRecommend();
+        if (Session.Session.get() && Session.Userinfo.get()) {
+          that.doRequestRecommend();
+        }
       },
 
       fail(error) {
@@ -173,9 +175,7 @@ Page({
    */
   onReady: function () {
     console.log("onReady");
-    if (Session.Session.get() && Session.Userinfo.get()) {
-      this.doRequestRecommend();
-    }
+    // 
   },
 
   goToSearchPage:function() {

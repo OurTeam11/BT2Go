@@ -6,11 +6,28 @@ var Session = require('../../../utils/lib/session');
 
 Page({
   data: {
-    list: [],
+    list: [{id:0, addr:'', contact:'', consignee:'', zipcode:'', status:0}],
     path:"none",
     ifSelectToOrder: false,
     ifShowFooter:true
   },
+
+   onLoad: function (options) {
+    var sign = 0//判断从修改页面中的保存还是删除按钮过来，保存为1，删除为2
+    var flag = options.flag;
+    sign = options.sign;
+
+    if (flag == 'myinfo') {
+      this.setData({ path: 'myinfo'});
+    } else if (flag == 'generateorder') {
+      this.setData({ path: 'generateorder' });
+    } else if (flag == 'carts2order') {
+      this.setData({ path: 'carts2order' });
+    }
+
+    this.setData({path:flag});
+  },
+
   addAddre: function (e) {
     wx.navigateTo({
       url: '../newAddrs/newAddrs'
@@ -26,41 +43,48 @@ Page({
      });
   },
 
-toSelectAddr: function (e) {
-  console.log("toSelectAddr", e);
-  if (this.data.ifSelectToOrder) {
-    // back to order.
-    // 在C页面内 navigateBack，将返回A页面
-    wx.navigateBack({
-      delta: 1
+  changeDefaultAddr:function(aid) {
+    var that =this;
+    api.request({
+      url: config.server.changeDefault,
+      data: { session: Session.Session.get(), aid:parseInt(aid)},
+      method: 'POST',
+      success(result) {
+        var data = result.data;
+        console.log("change default success..");
+        if (data.status === 200) {
+          that.reflashAddrList();
+        } else {
+          console.log("change default failed..");
+        }
+      },
+      fail(error) {
+        console.log("change default failed..");
+      },
     });
-  }
-    let li = this.data.list;
-    for (var i = 0; i < this.data.list.length; i++) {
 
-      if (i == e.currentTarget.dataset.index) {
-        li[e.currentTarget.dataset.index].default = true;
-      } else {
-        li[i].default = false;
-      }
-    }
-    this.setData({list:li});
-    Session.AddressInfo.set(this.data.list);
   },
-
-  onShow:function(){
-    if (this.data.path == 'myinfo'){
-      console.log("myinfo")
-    } else if (this.data.pat == 'generateorder'){
-      console.log("generateorder")
-      this.setData({ ifSelectToOrder: true });
-      this.setData({ ifShowFooter: false });
-    } else if (this.data.pat == 'carts2order'){
-      console.log("carts2order")
-    } else{
-      console.log("addr change or create")
+  
+  toSelectAddr: function (e) {
+    console.log("changeDefault: ", e);
+    //如果是生成订单过来的，选择default后，返回，如果不是就不返回任何界面。
+    let aid = e.currentTarget.dataset.id;
+    this.changeDefaultAddr(aid);
+    if (this.data.path == 'generateorder') {
+      // back to order.
+      // 在C页面内 navigateBack，将返回A页面
+      wx.navigateBack({
+        delta: 1
+      }); 
+    } else if (this.data.path == 'myinfo') {
+      
     }
+  },
+  
+  reflashAddrList:function() {
     var that = this;
+
+    that.setData({list:[]});
     api.request({
       url: config.server.getAddresList,
       data: { session: Session.Session.get() },
@@ -68,21 +92,12 @@ toSelectAddr: function (e) {
       success(result) {
         var data = result.data;
         if (data.status === 200) {
-          console.log('获取地址列表成功');
-          if (data.list.length >0){
-            let li = [];
-            for (var i = 0; i < data.list.length; i++) {
-              var oneAddr = { index: data.list[i].id,
-                              door: data.list[i].addr,
-                              zipcode: data.list[i].zipcode,
-                              name: data.list[i].consignee,
-                              phonenumber: data.list[i].contact};
-              li.push(oneAddr);
-            }
-            that.setData({ list: li });
+          if (data.list.length >0) {
+            // 赋值给list。
+            that.setData({ list: data.list });
           }else{
             let addresslist = Session.AddressInfo.get() || [];
-            that.setData({ list: addresslist });
+            that.setData({list:addresslist});
           }
         } else {
           showtoast.showModel('获取地址列表失败', '服务器返回代码' + data.status);
@@ -99,21 +114,25 @@ toSelectAddr: function (e) {
         that.setData({ list: addresslist });
       },
     });
-    this.setData({ path: 'none' });
   },
-  onLoad: function (options) {
-    var sign = 0//判断从修改页面中的保存还是删除按钮过来，保存为1，删除为2
-    var flag = options.flag;
-    sign = options.sign;
 
-    if (flag == 'myinfo') {
-      this.setData({ path: 'myinfo'});
-    } else if (flag == 'generateorder') {
-      this.setData({ path: 'generateorder' });
-    } else if (flag == 'carts2order') {
-      this.setData({ path: 'carts2order' });
-    } 
+  onShow:function(){
+    if (this.data.path == 'myinfo') {
+      console.log("myinfo")
+      this.setData({ ifShowFooter: true });
+    } else if (this.data.path == 'generateorder'){
+      console.log("generateorder")
+      this.setData({ ifShowFooter: false });
+    } else if (this.data.path == 'undefined'){
+      console.log("addr change or create")
+    } else {
+
+    }
+    
+    this.reflashAddrList();
   },
+
+ 
 
   submitOrder:function() {
     console.log("submitOrder")

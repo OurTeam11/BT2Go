@@ -1,0 +1,1 @@
+<view>订单：{{ordernumber}}， 支付结果：{{payResult}}</view>

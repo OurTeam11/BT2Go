@@ -157,9 +157,6 @@ Page({
        wx.navigateTo({
          url: '../order/generateOrder/generateorder?plist=' + productlist + '&type=detail2order',
        })
-      // wx.navigateTo({
-      //   url: '../addrmgr/chooseAddrs/chooseAddrs?plist=' + productlist + '&producttypenum=1&flag=buydirect',
-      // })
     } else {
       wx.showToast({
        title: '需要先登录，才可以购买',
@@ -169,7 +166,7 @@ Page({
     }
   },
 
-  bindTap:function(e) {
+  changeTab:function(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     this.setData({
       curIndex: index

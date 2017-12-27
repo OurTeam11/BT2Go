@@ -1,13 +1,13 @@
 <view class="item">
   <block wx:for="{{list}}" wx:key="{{index}}">
     <view class="oneItem">
-    <icon wx:if="{{item.default}}" type="success" color="yellow" data-index="{{index}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
-                <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="toSelectAddr"/>
+    <icon wx:if="{{item.status === 2}}" type="success" color="yellow" data-id="{{item.id}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
+                <icon wx:else type="circle" class="cart-pro-select" data-id="{{item.id}}" bindtap="toSelectAddr"/>
       <view class="info">
-        <text>{{item.name}}，{{item.phonenumber}}，{{item.zipcode}}</text>
-        <text>地址：{{item.door}}</text>
+        <text>{{item.consignee}}，{{item.contact}}，{{item.zipcode}}</text>
+        <text>地址：{{item.addr}}</text>
       </view>
-      <view class="modify" bindtap="toModifyAddre" data-index="{{index}}" data-name="{{item.name}}" data-phonenumber="{{item.phonenumber}}" data-door="{{item.door}}" data-default="{{item.default}}" data-zipcode="{{item.zipcode}}">
+      <view class="modify" bindtap="toModifyAddre" data-id="{{item.id}}" data-consignee="{{item.consignee}}" data-contact="{{item.contact}}" data-addr="{{item.addr}}" data-status="{{item.status}}" data-zipcode="{{item.zipcode}}">
         <image src="../../../images/modify.png" mode="widthFix"  />
       </view>
     </view>
@@ -16,9 +16,7 @@
 
 <!-- 信息部分结束 -->
 <block wx:if="{{ifShowFooter}}">
-<button wx:if="{{ifSubmitOrder}}" class="submitOrder" hover-class="button-hover" bindtap="submitOrder" >提交订单</button>
-
-<view wx:else class="add" bindtap="addAddre">
+<view class="add" bindtap="addAddre">
   <image class="left" src="../../../images/6.png" mode="widthFix" />
   <view class="text">新增个人地址</view>
   <image class="right" src="../../../images/right.png" mode="widthFix" />

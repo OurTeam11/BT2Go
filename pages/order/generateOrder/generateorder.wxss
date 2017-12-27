@@ -1,6 +1,13 @@
 .top_line{
-    height: 0.5px;
+    height: 10px;
     background-color: #EFEFF4;
+}
+.no_address_list{
+    font-size: 15px;
+    padding: 10px;
+    text-color:red;
+    border-bottom: 10px solid silver;
+    border-bottom-color: #EFEFF4;
 }
 .top_view{
     font-size: 15px;

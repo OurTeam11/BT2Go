@@ -7,9 +7,10 @@
     "pages/itemdetail/itemdetail",
     "pages/order/order",
     "pages/order/generateOrder/generateorder",
+    "pages/order/orderDetail/orderdetail",
+    "pages/order/paymentStatus/paystatus",
     "pages/addrmgr/chooseAddrs/chooseAddrs",
-    "pages/addrmgr/newAddrs/newAddrs",
-    "pages/addrmgr/changeAddrs/changeAddrs"
+    "pages/addrmgr/newAddrs/newAddrs"
   ],
   "window":{
     "navigationBarBackgroundColor": "#ffffff",

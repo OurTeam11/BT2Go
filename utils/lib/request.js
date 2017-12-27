@@ -37,7 +37,7 @@ function request(options) {
     var message = '请求传参应为 object 类型，但实际传了 ' + (typeof options) + ' 类型';
     throw new RequestError(constants.ERR_INVALID_PARAMS, message);
   }
-
+  //console.log("options-----:", options);
   var requireLogin = options.login;
   var success = options.success || noop;
   var fail = options.fail || noop;
@@ -75,7 +75,6 @@ function request(options) {
     wx.request(util.extend({}, options, {
       success: function (response) {
         var data = response.data;
-        console.log("data,response:::", response);
         var error, message;
         if (data && data.status === 403 && data.msg == 'Session expired') {
           Session.Session.clear();
@@ -101,9 +100,9 @@ function request(options) {
         }
       },
 
-      fail:function() {
-          message = '访问服务器失败，请检查网络连接。';
-          error = new RequestError(data.error, message);
+      fail:function(error) {
+          //var message = '访问服务器失败，请检查网络连接。';
+          //var error = new RequestError('连接失败', message);
           callFail(error);
        },
       complete: noop,
