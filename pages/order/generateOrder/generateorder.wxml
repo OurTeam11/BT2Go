@@ -38,18 +38,18 @@
         </view>
         <view class="bottom_text_1">
             <text>商品金额</text>
-            <text class="right_text">¥ {{orderData.productTotalPrice}}</text>
+            <text class="right_text">¥ {{orderTotalPrice}}</text>
         </view>
         <view class="bottom_text_2">
             <text>运费</text>
-            <text class="right_text">＋ ¥ {{orderData.productTotalFreight}}</text>
+            <text class="right_text">＋ ¥ </text>
         </view>
         <view class="bottom_text_3">
             <text>优惠券</text>
-            <text class="right_text">－ ¥ {{orderData.productCoupon}}</text>
+            <text class="right_text">－ ¥ </text>
         </view>
         <view class="true_pay">
-            <text class="true_pay_right">¥{{orderData.productTotalPrice}}</text>
+            <text class="true_pay_right">¥{{orderTotalPrice}}</text>
             <text>实付金额:　</text>
         </view>
         <button class="bottom_btn" bindtap="doPayment" type="primary">微信支付</button>

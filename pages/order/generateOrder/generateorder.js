@@ -10,10 +10,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    //订单信息对象，用于后台返回的prepare订单。addres, productTotalPrice,
-    orderData: {},
+    ifNoAddress: false,//如果没有地址，提示用户要选择地址。
 
-    ifNoAddress: false,
+    orderTotalPrice:0, // 订单的总价格。用于显示。
 
     //地址信息, addr, consignee, contact, zipcode, status,
     addressInfo: {},
@@ -24,47 +23,111 @@ Page({
     //订单号，服务器创建订单成功，会生成一个订单号。
     order_no: '',
 
-    //是否购物车来的。
+    //是否购物车来的。如果购物车来的，生成订单后会删除购物车信息。
     ifCartCome:false,
-
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("prepare and create.")
-    var that = this;
     var type = options.type;
     if (type == 'cart2order') {
       //从购物车过来的
-      that.setData({ orderproducts: JSON.parse(options.plist) });
-      console.log('generator:', that.data.orderproducts);
-      that.setData({ifCartCome:true});
+      this.setData({orderproducts: JSON.parse(options.plist)});
+      this.setData({ifCartCome:true});
     } else if (type == 'detail2order') {
       //从购物车过来的
-      that.setData({ orderproducts: JSON.parse(options.plist) });
-      console.log('detail2order:', that.data.orderproducts);
-      that.setData({ifCartCome:false});
+      this.setData({ orderproducts: JSON.parse(options.plist) });
+      this.setData({ifCartCome:false});
     }
+    console.log('generateorder,onload.要生成订单的商品列表:',
+      this.data.orderproducts);
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var that = this;
+    //prepare订单接口需要这个参数，pid列表数组。
+    let productids = [];
+    for (var i in that.data.orderproducts) {
+      productids[i] = that.data.orderproducts[i].id;
+    }
+
+    that.prepareOrder(productids, {
+      //成功的，肯定是返回200，并且带地址和价格的。
+      getDefaultAddressAndPrice: function (result) {
+        console.log("prepareOrder,response:", result);
+        var addrs = result.data.address;
+        console.log(addrs);
+        if (!addrs || addrs.length === 0) {
+          that.setData({ ifNoAddress: true });
+          console.log("地址为空");
+        } else {
+          for (var i = 0; i < addrs.length; i++) {
+            if (addrs[i].status === 2) {
+              console.log("地址赋值", addrs[i]);
+              that.setData({ addressInfo: addrs[i] });
+              break;
+            } else {
+              that.setData({ addressInfo: addrs[0] });
+            }
+          }
+        }
+        //设置价格。
+        var prices = result.data.prices;
+        console.log("服务器返回商品价格：" , prices);
+        if (!prices || prices.length === 0) {
+          console.log("获取价格失败");
+        } else {
+          //获取价格成功后，需要和orderproducts中的价格比较。最后算出一个总价。
+          //{}
+          var totalPrice = 0;
+          var tmpproducts = that.data.orderproducts;
+
+          for (var i = 0; i < prices.length; i++) {
+            var id = prices[i].id;
+            for (var j =0;j  < tmpproducts.length; j++) {
+              if (id == tmpproducts[j].id) {
+                tmpproducts[j].price = prices[i].price;
+              }
+            }
+          }
+          for (var i = 0; i < tmpproducts.length; i++) {
+            totalPrice += tmpproducts[i].price * tmpproducts[i].count;
+          }
+          console.log("liufeng:",tmpproducts , totalPrice);
+          that.setData({orderproducts:tmpproducts});
+          that.setData({orderTotalPrice: totalPrice});
+        }
+      },
+      failedPrepareOrder: function (result) {
+        console.log(result);
+      }
+    });
   },
 
   //prepare， 进入订单界面需要调用这个接口。
   // 1， 返回地址，2 返回商品金额。用于显示。
   prepareOrder: function (productids, callback) {
+    if (productids == 'undefined' || productids == []) {
+      console.log("商品id列表为空或者undefined。:",productids);
+      return;
+    }
+
     var that = this;
-    console.log("prepare ids:", productids);
     api.request({
       // 要请求的地址
       url: config.server.prepareOrder,
-      data: { session: Session.Session.get(), pids: JSON.stringify(productids) },
-      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      data: {session: Session.Session.get(), pids: JSON.stringify(productids)},
       header: {
         'content-type': 'application/json' // 默认值
       },
       method: 'POST',
       success(result) {
-        console.log("data,response---", result);
+        console.log("prepareOrder，response ---", result);
         var data = result.data;
         if (data.status === 200) {
           callback.getDefaultAddressAndPrice(data);
@@ -120,25 +183,34 @@ Page({
 
   //微信付款函数调用。调用后台服务器付款接口。createAndPay
   doPayment: function () {
-    //首先保存成订单--代付款状态。
+    //首先检查地址和商品是否为空。条件都满足了才能发起订单支付。
+    if (this.data.ifNoAddress) {
+      console.log('地址不能为空');
+      return;
+    }
+    if (this.data.orderTotalPrice === 0) {
+      console.log('订单数据获取失败，不能为空');
+      return;
+    }
+    //首先保存成订单--代付款状态.
     var that = this;
-    let order = [{pid:'', amount:0, price:0}];
+    //创建order对象，用于给服务器传递order信息。
+    let order = [];
+    let totalPrice = that.data.orderTotalPrice;
     for (var i = 0; i < that.data.orderproducts.length; i++) {
-      console.log("orderproducts:", that.data.orderproducts[i].id);
       let toorder = {pid:that.data.orderproducts[i].id, amount:parseInt(that.data.orderproducts[i].count),
                       price:parseInt(that.data.orderproducts[i].price)};
       order.push(toorder);
     }
 
-    let total = that.data.orderData.productTotalPrice;
-    console.log("order:", order, " total:", total, "delivery:", that.data.addressInfo);
+    console.log("order:", order, " total:", parseInt(totalPrice), "delivery:", that.data.addressInfo);
 
     api.request({
       // 要请求的地址
       url: config.server.createAndPay,
       data: {
         session: Session.Session.get(), order: JSON.stringify(order), delivery: JSON.stringify(that.data.addressInfo),
-        total:total},
+        total: parseInt(totalPrice)},
       // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
       header: {
         'content-type': 'application/json' // 默认值
@@ -198,7 +270,6 @@ Page({
   doWXRequestPayment: function (payparams) {
     var that = this;
     console.log("doWXRequestPayment----param:", payparams);
-    let order_no = that.data.order_no;
     wx.requestPayment({
       'timeStamp': payparams.timeStamp,
       'nonceStr': payparams.nonce,
@@ -208,7 +279,7 @@ Page({
       'success': function (res) {
         console.log("微信支付成功",res);
         wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + order_no,
+          url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + that.data.order_no,
           success: function (res) {
             // success
             console.log("显示结果界面，成功")
@@ -218,7 +289,7 @@ Page({
       'fail': function (res) {
         console.log("微信支付失败",res);
         wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付失败&orderno=' + + order_no,
+          url: '../paymentStatus/paystatus?paystatus=支付失败&orderno=' + that.data.order_no,
           success: function (res) {
             // success
             console.log("显示结果界面，失败。")
@@ -232,58 +303,6 @@ Page({
    */
   onReady: function () {
     console.log("onReady..")
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    console.log("onShow..", );
-    var that = this;
-    let productids = [];
-    for (var i = 0; i < that.data.orderproducts.length; i++) {
-      productids[i] = that.data.orderproducts[i].id;
-    }
-    that.prepareOrder(productids, {
-      //成功的，肯定是返回200，并且带地址和价格的。
-      getDefaultAddressAndPrice: function (result) {
-        console.log("prepareOrder,response:", result);
-        var addrs = result.data.address;
-        console.log(addrs);
-        if (!addrs || addrs.length === 0) {
-          that.setData({ ifNoAddress: true });
-          console.log("地址为空");
-        } else {
-          for (var j = 0; j < addrs.length; j++) {
-            if (addrs[j].status === 2) {
-              console.log("地址赋值", addrs[j]);
-              that.setData({ addressInfo: addrs[j] });
-              break;
-            } else {
-              that.setData({ addressInfo: addrs[0] });
-            }
-          }
-        }
-        //设置价格。
-        var prices = result.data.prices;
-        if (!prices || prices.length === 0) {
-          console.log("获取价格失败");
-        } else {
-          var totalPrice = 0;
-          for (var p = 0; p < prices.length; p++) {
-            totalPrice += prices[p].price;
-          }
-        }
-        let orderdata = {
-          status: 1, productTotalPrice: totalPrice,
-          productCoupon: 0, productTotalFreight: 10, address: addrs
-        };
-        that.setData({ orderData: orderdata });
-      },
-      failedPrepareOrder: function (result) {
-        console.log(result);
-      }
-    });
   },
 
   /**

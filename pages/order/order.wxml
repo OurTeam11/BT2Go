@@ -5,7 +5,6 @@
         <view class="goods-tab-nav {{curIndex === 3 ?'on':''}}" bindtap="bindTap" data-index="3">待评价</view>
         <view class="goods-content">
             <view wx:if="{{curIndex === 0}}">
-              <view class="top_line"></view>
                <block wx:for="{{orderlist}}" wx:key="{{index}}">
                  <view class="oneOrder">
                    <view class="order_header">
@@ -19,15 +18,16 @@
                          <text class="text_style_2">{{item.name}}</text>
                          <text class="text_style_2">购买数量X: {{item.amount}}</text>
                        </view>
+                       <view class="split_line"></view>
                       </view>
 
                    <view class="order_footer">
                      <text class="text_style_3">订单状态：{{item.status}}</text>
-                     <text class="text_style_3">价格合计：¥ {{item.total}}</text>
+                     <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
                     </view>
                     <view class="order_footer2">
                      <button class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
-                     <button class="text_style_3" bindtap="toPayOrder" data-orderno="{{item.id}}">删除订单</button>
+                     <button class="text_style_3" bindtap="toCancelOrder" data-orderno="{{item.id}}">申请取消订单</button>
                      <button class="text_style_3" bindtap="toPayOrder" data-orderno="{{item.id}}">去付款</button>
                     </view>
                   </view>
@@ -36,7 +36,6 @@
             </view>
             <view wx:if="{{curIndex === 1}}">
               <block wx:for="{{orderlist}}" wx:key="{{index}}">
-                 <view class="top_line"></view>
                  <view class="oneOrder">
                    <view class="order_header">
                      <text class="text_style_1">订单:{{item.id}}</text>
@@ -53,10 +52,11 @@
                    <view class="order_footer">
                      <text class="text_style_3">订单状态：{{item.status}}</text>
                      <text class="text_style_3">查看详情</text>
-                     <text class="text_style_3">价格合计：¥ {{item.total}}</text>
+                     <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
                     </view>
                      <view class="order_footer2">
-                     <text class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</text>
+                      <text class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</text>
+                      <text class="text_style_3" bindtap="toCancelOrder" data-orderno="{{item.id}}">申请取消订单</text>
                     </view>
                   </view>
                    <view class="top_line"></view>
@@ -64,7 +64,6 @@
             </view>
             <view wx:if="{{curIndex === 2}}">
               <block wx:for="{{orderlist}}" wx:key="{{index}}">
-                 <view class="top_line"></view>
                  <view class="oneOrder">
                    <view class="order_header">
                      <text class="text_style_1">订单:{{item.id}}</text>
@@ -81,11 +80,12 @@
                    <view class="order_footer">
                      <text class="text_style_3">订单状态：{{item.status}}</text>
                      <text class="text_style_3">查看详情</text>
-                     <text class="text_style_3">价格合计：¥ {{item.total}}</text>
+                     <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
                     </view>
                      <view class="order_footer2">
                      <button class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
                      <button class="text_style_3" bindtap="toTrackingStatus" data-orderno="{{item.id}}">查看物流信息</button>
+                     <button class="text_style_3" bindtap="toConfirmReceived" data-orderno="{{item.id}}">确认收货</button>
                     </view>
                   </view>
                    <view class="top_line"></view>

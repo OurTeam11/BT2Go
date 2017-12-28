@@ -154,7 +154,7 @@ Page({
                                          price: that.data.itemprice*that.data.num,
                                          name: that.data.productname, count: that.data.num}]);
       console.log(productlist);
-       wx.navigateTo({
+       wx.redirectTo({
          url: '../order/generateOrder/generateorder?plist=' + productlist + '&type=detail2order',
        })
     } else {

@@ -27,6 +27,7 @@ Page({
       this.getPaymentStatus(that.data.ordernumber, {
         getPaymentSuccess:function(result) {
           that.setData({payResult:'支付成功'});
+          console.log("查询结果成功，微信支付成功");
         },
         getPaymentFailed:function(error) {
           that.setData({payResult:'支付失败'});

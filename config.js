@@ -15,7 +15,7 @@ var config = {
     register: `${server_host}/register`,
 
     //请求推荐商品列表地址。  url: http://localhost:3100/opsystem/api/product/recommend
- 	  requestRecommendItem: `${server_host}/product/recommend`,
+ 	requestRecommendItem: `${server_host}/product/recommend`,
     //商品单页显示，          url: http://localhost:3100/opsystem/api/product/{productId}
     requestOneDetailItem: `${server_host}/product/`,
     //商品搜索，url: http://localhost:3100/opsystem/api/product/search
@@ -35,6 +35,7 @@ var config = {
     getAddresList: `${server_host}/address/list`,
     modifyAddres: `${server_host}/address/update`,
     changeDefault: `${server_host}/address/changeDefault`,
+    deleteAddres: `${server_host}/address/delete`,
 
     //订单管理
     prepareOrder: `${server_host}/order/prepare`,

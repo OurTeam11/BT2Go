@@ -1,6 +1,7 @@
 <view class="main">
   <view wx:if="{{hasList}}">
     <view class="cart-box">
+    <view class="top_line"></view>
       <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
         <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}" class="cart-pro-select" bindtap="selectList" />
         <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList" />
@@ -8,7 +9,7 @@
           <image class="cart-thumb" src="{{item.img}}"></image>
         </navigator>
         <text class="cart-pro-name">{{item.name}}</text>
-        <text class="cart-pro-price">￥{{item.price}}</text>
+        <text class="cart-pro-price">￥{{item.price/100}}</text>
         <view class="cart-count-box">
           <text class="cart-count-down" bindtap="minusCount" data-obj="{{obj}}" data-index="{{index}}">-</text>
           <text class="cart-count-num">{{item.count}}</text>
@@ -17,6 +18,7 @@
         <text class="cart-del" bindtap="deleteList" data-index="{{index}}">×</text>
       </view>
     </view>
+    <view class="top_line"></view>
 
     <view class="cart-footer">
       <view class="cart-footer-left">

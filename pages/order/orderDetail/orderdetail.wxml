@@ -1,6 +1,6 @@
 <view>订单详情</view>
 <view>订单id: {{orderinfo.id}}</view>
 <view>订单状态: {{orderinfo.status}}</view>
-<view>订单金额：{{orderinfo.total}}</view>
+<view>订单金额：{{orderinfo.total/100}}</view>
 <view>订单产品：{{orderinfo.products}}</view>
 <view>订单地址：{{orderinfo.address}}</view>
