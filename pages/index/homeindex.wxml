@@ -29,7 +29,7 @@
 
     <view class="text">
       <view class="line_flag"></view>
-      <text>精品推荐</text>
+      <text class="recommend_text_style">精品推荐</text>
     </view>
 
     <!--使用listview模板 -->

@@ -1,56 +1,83 @@
 /* 直接设置swiper属性 */
-@import "/templates/countstepper.wxss";
 
-swiper {
-  height: 500rpx;
-  display: flex;
-  width: wrap;
-  padding:50rpx;
-  flex-direction: row;
-  justify-conent:center;
+.slide-image {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .detail {
   display: flex;
-  width:100%;
+  width: 100%;
   height: wrap;
   flex-direction: column;
-  margin-top: 15rpx;
-  margin-bottom: 0rpx;
+  margin-top: 20rpx;
 }
+
 .detail .title {
-  font-size: 40rpx;
-  margin: 10rpx;
+  font-size: 35rpx;
+  width: 95%;
+  font-weight: bold;
+  padding: 10rpx;
   color: black;
   text-align: justify;
 }
+
 .detail .description {
-  width:95%;
-  height:100rpx;
-  padding: 10rpx;
-  font-size: 25rpx;
-  color: black;
-  margin:10rpx;
+  padding-top: 20rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  padding-bottom: 20rpx;
+  font-size: 32rpx;
+  margin-left: 0rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient: horizontal;
 }
+
 .detail .price {
+  width: 95%;
   color: red;
-  font-size: 40rpx;
-  margin-top: 10rpx;
-  
+  padding-top: 20rpx;
+  padding-left:20rpx;
+  padding-bottom: 20rpx;
+  font-size: 35rpx;
+  text-align: justify;
 }
-.line_flag {
-  width: 80rpx;
-  height: 1rpx;
+
+.detail .instruction {
+   width: 95%;
+  padding-top: 20rpx;
+  padding-left:20rpx;
+  padding-bottom: 20rpx;
+  font-size: 35rpx;
+  text-align: justify;
+}
+
+.detail .activity {
+   width: 95%;
+  padding-top: 20rpx;
+  padding-left:20rpx;
+  padding-bottom: 20rpx;
+  font-size: 35rpx;
+  text-align: justify;
+}
+
+.line {
+  width: 100%;
+  height: 5px;
   display: inline-block;
-  margin: 20rpx auto;
   background-color: gainsboro;
   text-align: center;
 }
-.line {
+
+
+.line2 {
   width: 100%;
-  height: 10rpx;
+  height: 1px;
   display: inline-block;
-  margin: 20rpx 0rpx;
   background-color: gainsboro;
   text-align: center;
 }
@@ -67,15 +94,19 @@ swiper {
   width: 100%;
   height: 100rpx;
 }
+
 .button-green {
   background-color: #4caf50; /* Green */
 }
+
 .button-red {
   background-color: #f44336; /* 红色 */
 }
+
 .image_detail {
   width: 100%;
 }
+
 button {
   color: white;
   text-align: center;
@@ -87,20 +118,25 @@ button {
   height: 100%;
   line-height: 100rpx;
 }
+
 .detail-nav image {
   width: 70rpx;
   height: 50rpx;
   margin: 20rpx 40rpx;
 }
+
 .line_nav {
   width: 5rpx;
   height: 100%;
   background-color: gainsboro;
 }
+
 /* 占位 */
+
 .temp {
   height: 100rpx;
 }
+
 text {
   display: block;
   height: 60rpx;
@@ -108,108 +144,84 @@ text {
   font-size: 30rpx;
   margin: 10rpx;
 }
+
 .text-remark {
   display: block;
   font-size: 25rpx;
   margin: 10rpx;
 }
 
-/* sku选择 */
-.dialog__mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-}
-.dialog__container {
-  position: fixed;
-  bottom: 0;
-  width: 750rpx;
-  background: white;
-  transform: translateY(150%);
-  transition: all 0.4s ease;
-  z-index: 11;
-}
-.dialog--show .dialog__container {
-  transform: translateY(0);
-}
-.dialog--show .dialog__mask {
-  display: block;
-}
-.image-sku {
-  width: 200rpx;
-  height: 200rpx;
-  z-index: 12;
-  position: absolute;
-  padding:20rpx;
-  left: 20px;
-  top: -30px;
-  border-radius: 20rpx;
-}
-.image-close {
-  width: 55rpx;
-  height: 55rpx;
-  position: fixed;
-  right: 8rpx;
-  top: 8rpx;
-}
-.column {
-  display: flex;
-  flex-direction: column;
-}
-.row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-}
 .row_itemcount {
+  font-size: 30rpx;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
   display: flex;
-  justify-content: space-between;
+  direction: row;
+  justify-content: flex-start;
+  text-align: justify;
 }
-.border-line {
-  width: 100%;
-  height: 8rpx;
-  display: inline-block;
-  margin: 30rpx 0rpx;
-  background-color: gainsboro;
+.carts-num {
+  margin-left: 30px;
+  border: 1rpx solid #aaa;
+  border-radius: 5rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
   text-align: center;
-}
-.sku-title {
-  position: relative;
-  left: 300rpx;
-  margin: 1rpx;
-}
-.sku-price {
-  color: red;
-  position: relative;
-  left: 300rpx;
-  margin: 1rpx;
-}
-.row .quantity-position {
-  position: absolute;
-  right: 30rpx;
+  height: 50rpx;
 }
 
+.carts-num input {
+  border-left: 1rpx solid #aaa;
+  border-right: 1rpx solid #aaa;
+  font-size: 30rpx;
+  font-family: arial;
+  height: 50rpx;
+  line-height: 50rpx;
+  width: 80rpx;
+}
 
-.goods-tab-nav{
-    display: inline-block;
-    width: 33.33%;
-    height: 90rpx;
-    line-height: 90rpx;
-    border-bottom: 1rpx solid #ededed;
-    box-sizing: border-box;
-    text-align: center;
-    color: #c7c7cb;
+.carts-num .minus, .carts-num .plus {
+  color: #000;
+  text-align: center;
+  line-height: 50rpx;
+  width: 40rpx;
 }
-.goods-tab-nav.on{
-    color: #bcaa8a;
-    border-bottom: 5rpx solid #bcaa8a;
+
+.carts-num .minus {
+  font-size: 30rpx;
+   width: 40rpx;
 }
-.goods-content{
-    padding: 10rpx;
+
+.carts-num .minus.disabled {
+  color: #ccc;
+   width: 40rpx;
+}
+
+.carts-num .plus {
+  font-size: 30rpx;
+   width: 40rpx;
+}
+
+.goods-tab-nav {
+  display: inline-block;
+  width: 33.33%;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-bottom: 1rpx solid #ededed;
+  box-sizing: border-box;
+  text-align: center;
+  color: #c7c7cb;
+}
+
+.goods-tab-nav.on {
+  color: #bcaa8a;
+  border-bottom: 5rpx solid #bcaa8a;
+}
+
+.goods-content {
+  padding: 10rpx;
 }

@@ -6,6 +6,7 @@
         <view class="goods-content">
             <view wx:if="{{curIndex === 0}}">
                <block wx:for="{{orderlist}}" wx:key="{{index}}">
+               <view class="top_line"></view>
                  <view class="oneOrder">
                    <view class="order_header">
                      <text class="text_style_1">订单:{{item.id}}</text>
@@ -18,12 +19,11 @@
                          <text class="text_style_2">{{item.name}}</text>
                          <text class="text_style_2">购买数量X: {{item.amount}}</text>
                        </view>
-                       <view class="split_line"></view>
                       </view>
-
+                      <view class="split_line"></view>
                    <view class="order_footer">
-                     <text class="text_style_3">订单状态：{{item.status}}</text>
-                     <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
+                     <text class="text_style_3">订单状态：{{item.status===0?'待付款':item.status}}  </text>
+                     <text class="text_style_3">  价格合计：¥ {{item.total/100}}</text>
                     </view>
                     <view class="order_footer2">
                      <button class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
@@ -31,64 +31,67 @@
                      <button class="text_style_3" bindtap="toPayOrder" data-orderno="{{item.id}}">去付款</button>
                     </view>
                   </view>
-                   <view class="top_line"></view>
+                   <view class="bottom_line"></view>
                 </block>
             </view>
             <view wx:if="{{curIndex === 1}}">
               <block wx:for="{{orderlist}}" wx:key="{{index}}">
+              <view class="top_line"></view>
                  <view class="oneOrder">
                    <view class="order_header">
                      <text class="text_style_1">订单:{{item.id}}</text>
                      <text class="text_style_1">创建时间{{item.createTime}}</text>
                    </view>
-                      <block class = "oneProductList" bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">
+                      <block class = "oneProductList" bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">                     
                        <view class="oneProduct">
                          <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
                          <text class="text_style_2">{{item.name}}</text>
                          <text class="text_style_2">购买数量X: {{item.amount}}</text>
                        </view>
                       </block>
-
+                    <view class="split_line"></view>
                    <view class="order_footer">
-                     <text class="text_style_3">订单状态：{{item.status}}</text>
-                     <text class="text_style_3">查看详情</text>
+                     <text class="text_style_3">订单状态：{{item.status===1?'待发货':item.status}}</text>
                      <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
                     </view>
                      <view class="order_footer2">
-                      <text class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</text>
-                      <text class="text_style_3" bindtap="toCancelOrder" data-orderno="{{item.id}}">申请取消订单</text>
+                      <button class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
+                      <button class="text_style_3" bindtap="toAlarmTrack" data-orderno="{{item.id}}">提醒发货</button>
+                      <button class="text_style_3" bindtap="toCancelOrder" data-orderno="{{item.id}}">申请取消订单</button>
                     </view>
                   </view>
-                   <view class="top_line"></view>
+                   <view class="bottom_line"></view>
                 </block>
             </view>
             <view wx:if="{{curIndex === 2}}">
               <block wx:for="{{orderlist}}" wx:key="{{index}}">
+              <view class="top_line"></view>
                  <view class="oneOrder">
                    <view class="order_header">
                      <text class="text_style_1">订单:{{item.id}}</text>
                      <text class="text_style_1">创建时间{{item.createTime}}</text>
                    </view>
+
                       <block class = "oneProductList"  bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">
+                      
                        <view class="oneProduct">
                          <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
                          <text class="text_style_2">{{item.name}}</text>
                          <text class="text_style_2">购买数量X: {{item.amount}}</text>
                        </view>
                       </block>
-
+                        <view class="split_line"></view>
                    <view class="order_footer">
-                     <text class="text_style_3">订单状态：{{item.status}}</text>
-                     <text class="text_style_3">查看详情</text>
+                     <text class="text_style_3">订单状态：{{item.status===2?'待收货':item.status}}</text>
                      <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
                     </view>
                      <view class="order_footer2">
                      <button class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
-                     <button class="text_style_3" bindtap="toTrackingStatus" data-orderno="{{item.id}}">查看物流信息</button>
+                     <button class="text_style_3" bindtap="toTrackingStatus" data-trackingid="{{item.trackingNo}}">查看物流信息</button>
                      <button class="text_style_3" bindtap="toConfirmReceived" data-orderno="{{item.id}}">确认收货</button>
                     </view>
                   </view>
-                   <view class="top_line"></view>
+                   <view class="bottom_line"></view>
                 </block>
             </view>
             <view wx:if="{{curIndex === 3}}">待评价的订单，后期开发。。</view>

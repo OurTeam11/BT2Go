@@ -46,7 +46,6 @@ Page({
            }
          }
         that.setData({orderlist: tmplist});
-        
       },
       getOrderListFailed:function(result) {
         
@@ -86,7 +85,7 @@ Page({
   toOrderDetail:function(e) {
      var orderid = e.currentTarget.dataset.orderno;
      console.log("ordernumber:",orderid);
-     wx.redirectTo({
+     wx.navigateTo({
         url: './orderDetail/orderdetail?oid=' + orderid,
         success: function (res) {
           // success
@@ -155,7 +154,7 @@ Page({
       'paySign': payparams.paySign,
       'success': function (res) {
         console.log("微信支付成功",res);
-        wx.redirectTo({
+        wx.navigateTo({
           url: './paymentStatus/paystatus?paystatus=支付成功&orderno=' + order_no,
           success: function (res) {
             // success
@@ -165,8 +164,8 @@ Page({
       },
       'fail': function (res) {
         console.log("微信支付失败",res);
-        wx.redirectTo({
-          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + + order_no,
+        wx.navigateTo({
+          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + order_no,
           success: function (res) {
             // success
             console.log("显示结果界面，失败。")
@@ -182,8 +181,15 @@ Page({
   },
 
   toTrackingStatus:function(e) {
-    var orderid = e.currentTarget.dataset.orderno;
-    console.log("toTrackingStatus:",orderid);
+    var trackingid = e.currentTarget.dataset.trackingid;
+    console.log("toTrackingStatus:tid: ", trackingid);
+    wx.navigateTo({
+      url: './trackStatus/tracking?tid=' + trackingid,
+      success: function (res) {
+        // success
+        console.log("显示结果界面，成功。")
+      },
+    });
   },
 
   toCancelOrder:function(e) {

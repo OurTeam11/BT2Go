@@ -1,3 +1,4 @@
+'use strict';
 const app = getApp();
 var api = require('../../utils/api');
 var config = require('../../config');
@@ -17,6 +18,9 @@ Page({
     autoplay: true,
     interval: 3000,
     duration: 1000,
+
+    bgc: '#C79C77',
+    Height:"", //Swipter高度属性。
 
     //点赞
     isLike: false,
@@ -45,6 +49,18 @@ Page({
     productname:"",
     //商品描述
     productdescription:"",
+  },
+
+  imgH: function (e) {
+    var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
+    console.log(winWid);
+    var imgh = e.detail.height;　　　　　　　　　　　　　//图片高度
+    var imgw = e.detail.width;
+    var swiperH = winWid * imgh / imgw + "px"　//等比设置swiper的高度.
+    //即 屏幕宽度 / swiper高度 = 图片宽度 / 图片高度    ==》swiper高度 = 屏幕宽度 * 图片高度 / 图片宽度
+    this.setData({
+      Height: swiperH　　　　　　　　//设置高度
+    })
   },
 
   /* 点击减号 */
@@ -76,7 +92,7 @@ Page({
     });
   },
   /* 输入框事件 */
-  bindManual: function (e) {
+  bindIptCartNum: function (e) {
     var num = e.detail.value;
     // 将数值与状态写回  
     this.setData({
@@ -215,7 +231,6 @@ Page({
             data.product.pictures[i] = config.imgUrlPrefix + data.product.pictures[i];
           }
           that.setData({imgUrls:data.product.pictures});
-
           that.setData({productname:data.product.name});
           that.setData({itemprice: data.product.price});
           that.setData({productdescription:data.product.description});

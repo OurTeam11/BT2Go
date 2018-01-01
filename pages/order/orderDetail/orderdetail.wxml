@@ -1,6 +1,17 @@
 <view>订单详情</view>
 <view>订单id: {{orderinfo.id}}</view>
+<view>创建时间：{{orderinfo.ct}}</view>
 <view>订单状态: {{orderinfo.status}}</view>
-<view>订单金额：{{orderinfo.total/100}}</view>
-<view>订单产品：{{orderinfo.products}}</view>
+<view>订单金额：{{orderinfo.total/100}} 元</view>
+<view>订单产品列表：</view>
+
+ <block class = "oneProductList" wx:for="{{orderinfo.products}}" wx:key="{{index}}">
+    <view class="oneProduct">
+     <image class="order_icon" src="https://www.xjbt2go.com/image/{{item.img}}" mode="aspectFit"></image>
+      <text class="text_style_2">产品名称：{{item.name}}</text>
+      <text class="text_style_2">产品id：{{item.name}}</text>
+       <text class="text_style_2">购买数量X: {{item.amount}}</text>
+      </view>
+   </block>
+
 <view>订单地址：{{orderinfo.address}}</view>

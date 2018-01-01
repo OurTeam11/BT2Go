@@ -27,7 +27,7 @@
         <text>全选</text>
       </view>
       <view class="cart-footer-right">
-        <text>￥{{totalPrice}}</text>
+        <text>￥{{totalPrice/100}} 元</text>
         <view class="order-icon">
           <text bindtap="checkout">结算</text>
         </view>

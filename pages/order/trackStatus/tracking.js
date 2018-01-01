@@ -2,53 +2,47 @@ var api = require('../../../utils/api');
 var config = require('../../../config');
 var showtoast = require('../../../utils/commontoast');
 var Session = require('../../../utils/lib/session');
-var util = require('../../../utils/util')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    orderid:'',
-    orderStatus:'',
-    orderresult:'',
-    orderinfo:{address:'', ct:'', id:'', status:0, total:0, tracking_no:'', products:[]},
-
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var oid = options.oid;
-    this.setData({orderid:oid});
-    this.getOrderDetail(oid);
+    var trackingid = options.tid;
+    this.getTrackingStatus(trackingid);
   },
-  
-  getOrderDetail:function(oid) {
+
+  getTrackingStatus:function(tid) {
     var that = this;
-    console.log(config.server.getOrderDetail + oid);
+    console.log(config.server.queryOrderTracking,tid);
     api.request({
-      url: config.server.getOrderDetail+oid,
-      data: { session: Session.Session.get()},
+      url: config.server.queryOrderTracking,
+      data: { session: Session.Session.get(), tracking_no: JSON.stringify(tid) },
       method: 'GET',
       success(result) {
         var data = result.data;
-        console.log("order detail:", data, util.formatTime(new Date()));  
+        console.log("tracking detail:", data);
         if (data.status === 200) {
-          data.data.ct = util.formatTime2(data.data.ct);
-          that.setData({orderinfo:data.data});
-          that.setData({orderresult:'获取订单成功'});
-          console.log('获取订单详情',that.data.orderinfo);
+         // that.setData({ orderinfo: data.data });
+         // that.setData({ orderresult: '获取订单成功' });
         } else {
-          that.setData({ orderresult: '获取订单失败' });
+          that.setData({orderresult: '获取物流信息失败'});
         }
       },
       fail(error) {
-        that.setData({ orderresult: '获取订单失败' });
+        that.setData({orderresult: '获取物流失败'});
       },
     });
   },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

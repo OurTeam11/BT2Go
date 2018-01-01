@@ -7,6 +7,7 @@
 .cart-box{
     padding-bottom: 50rpx;
     padding-top:50rpx;
+  
 }
 .cart-list{
     position: relative;
@@ -28,8 +29,8 @@
     left: 85rpx;
     padding-left: 10rpx;
     padding-top: 10rpx;
-    width: 130rpx;
-    height: 130rpx;
+    width: 160rpx;
+    height: 160rpx;
 }
 .cart-list .cart-pro-name{
     display: inline-block;
@@ -48,14 +49,16 @@
 }
 .cart-list .cart-count-box{
     position: absolute;
+     border: 1rpx solid #aaa;
+     border-radius: 5rpx;
     left: 285;
-    bottom: 20rpx;
-    width: 250rpx;
-    height: 80rpx;
+    bottom: 30rpx;
+    width: 255rpx;
+    height: 70rpx;
 }
 .cart-list .cart-count-box text{
     display: inline-block;
-    line-height: 80rpx;
+    line-height: 70rpx;
     text-align: center;
 }
 .cart-count-down,.cart-count-add{
@@ -65,6 +68,8 @@
 }
 .cart-count-num{
     width: 150rpx;
+     border-left: 1rpx solid #aaa;
+  border-right: 1rpx solid #aaa;
 }
 .cart-del{
     position: absolute;
@@ -123,3 +128,4 @@
     display:flex;
     direction: row;
 }
+

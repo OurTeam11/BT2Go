@@ -15,7 +15,9 @@
 .container {
     background-color: #F2f2f2;
 }
-
+swiper {
+  height:210px;
+}
 swiper-item image {
     height: 100%;
     width: 100%;
@@ -24,13 +26,17 @@ swiper-item image {
 } 
 
 .line_flag {
-    width: 5px;
-    height: 20px;
+    width: 6px;
+    height: 23px;
     margin-right: 5px;
     display: inline-block;
     background-color: #f9f027;
 }
-
+.recommend_text_style{
+  font-size: 16px;
+  color: black;
+  
+}
 view.text {
     display: flex;
     align-items: center;

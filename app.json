@@ -10,7 +10,8 @@
     "pages/order/orderDetail/orderdetail",
     "pages/order/paymentStatus/paystatus",
     "pages/addrmgr/chooseAddrs/chooseAddrs",
-    "pages/addrmgr/newAddrs/newAddrs"
+    "pages/addrmgr/newAddrs/newAddrs",
+    "pages/order/trackStatus/tracking"
   ],
   "window":{
     "navigationBarBackgroundColor": "#ffffff",

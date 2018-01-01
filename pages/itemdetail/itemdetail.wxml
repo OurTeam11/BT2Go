@@ -1,48 +1,32 @@
 <!-- banner -->
-<import src="../../templates/countstepper.wxml" />
-<swiper  indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-  <block  wx:for="{{imgUrls}}">
+<swiper  indicator-active-color="{{bgc}}" style='height:{{Height}}' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block  wx:for="{{imgUrls}}" wx:key="unique">
       <swiper-item>
-        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage"></image>
+        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage" class="slide-image" mode="widthFix" bindload='imgH'></image>
       </swiper-item>
-   
   </block>
 </swiper>
 
 <scroll-view scroll-y="true">
   <view class="detail">
     <text class="title">{{productname}}</text>
-    <textarea class="description">{{productdescription}}</textarea>
-    <text class="price">{{itemprice/100}} 元</text>
+    <view class="description">{{productdescription}}</view>
+      <view class="line"></view>
+    <view class="price">价格：{{itemprice/100}} 元  ， ori:300元</view>
+     <view class="line2"></view>
+    <view class="activity">活动，优惠卷，等等。</view>
+     <view class="line2"></view>
+    <view class="instruction">购物满100免邮费，100元以下20邮费</view>
   </view>
   <view class="line"></view>
-  <!-- sku选择 -->
-  <!-- <text bindtap="toggleDialog">请选择购买数量</text> -->
-  <import src="/template/quantity/index.wxml" />
-  <!-- sku选择 -->
-  <text bindtap="toggleDialog">请选择购买数量 : {{num}}</text>
-  <view class="dialog {{ showDialog ? 'dialog--show' : '' }}">
-    <view class="dialog__mask" bindtap="toggleDialog" />
-    <view class="dialog__container">
-      <view class="row">
-        <image bindtap="closeDialog" class="image-close" src="../../images/itemdetail/close.png"></image>
-        <image class="image-sku" src="{{imgUrls[0]}}"></image>
-        <view class="column">
-          <text class="sku-price">商品价格：{{itemprice/100}}</text>
-          <text class="sku-title">库存 {{stock}} 件</text>
-          <text class="sku-title">商品编码：{{productid}}</text>
-        </view>
-      </view>
-      <text class="border-line"></text>
-      <view class="row_itemcount">
-        <text>购买数量  {{num}}</text>
-        <template is="itemcount" data="{{minusStatus,num}}" />
-      </view>
-      <text class="border-line"></text>
 
-      <button class="button-green" bindtap="addToCar" formType="submit">加入购物车</button>
-      <button class="button-red" bindtap="immeBuy" formType="submit">立即购买</button>
-    </view>
+  <view class="row_itemcount">
+    <text >购买数量：</text>
+    <view class="carts-num">
+        <text class="minus {{minusStatus}}" data-type="-" bindtap="bindMinus">-</text>
+        <input type="number" bindinput="bindIptCartNum" value="{{num}}" />
+        <text class="plus normal" data-type="+" bindtap="bindPlus">+</text>
+      </view>
   </view>
 
   <view class="line"></view>
@@ -53,7 +37,7 @@
         <view class="goods-content">
             <view wx:if="{{curIndex === 0}}">
               <block wx:for-items="{{detailImg}}" wx:key="name">
-                 <image class="image_detail" src="{{item}}" />
+                 <image class="image_detail" src="{{item}}" mode="widthFix"/>
                </block>
             </view>
             <view wx:if="{{curIndex === 1}}"><text class="text-remark">评价系统，后期做。待开发</text></view>

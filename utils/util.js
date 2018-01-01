@@ -14,6 +14,10 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+var formatTime2 = function(datestring) {
+  return datestring.replace(/(.)(?=T)(?=000Z)./, '$1');
+}
+
 /**
  * 拓展对象
  */
@@ -35,5 +39,6 @@ var extend = function extend(target) {
 
 module.exports = {
   formatTime: formatTime,
-  extend: extend
+  extend: extend,
+  formatTime2: formatTime2
 }

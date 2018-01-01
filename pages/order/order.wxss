@@ -1,7 +1,15 @@
 .top_line{
-    height: 10px;
+    margin-top: 10px;
+    margin-bottom: 2px;
+    height: 15px;
     background-color: #EFEFF4;
-    padding-top:10rpx;
+}
+
+.bottom_line{
+   margin-bottom: 10px;
+   margin-top: 2px;
+    height: 15px;
+    background-color: #EFEFF4;
 }
 .goods-tab-nav{
     display: inline-block;
@@ -24,9 +32,10 @@
 
 .order_icon{
     display: flex;
-    margin-left: 8rpx;
-    max-height: 100rpx;
-    max-width: 100rpx;
+    padding-left: 10rpx;
+    padding-top: 10rpx;
+    max-height: 120rpx;
+    max-width: 120rpx;
     justify-content: center;
 }
 .order_header{
@@ -38,22 +47,19 @@
 }
 .oneProduct{
   width:100%;
-  padding: 5rpx;
   display:flex;
   direction: row;
   justify-content: space-between;
 }
 .oneProductList{
-  background-color: #EFEFF4;
   display:flex;
   direction: column;
   justify-content: space-between;
 }
 .split_line{
     height: 2px;
-    background-color: rebeccapurple;
-    padding-top:1px;
-    padding-bottom: 1px;
+    background-color: gainsboro;
+    width:100%;
 }
 .order_footer{
   display:flex;
@@ -72,18 +78,20 @@
 }
 .text_style_1{
     color: gray;
-    padding: 1px;
-    font-size: 12px;
+    padding-top: 3px;
+    padding-buttom : 3px;
+    font-size: 11px;
     line-height: 1.5em;
 }
 .text_style_2{
     padding: 2px;
     margin-right:3px;
-    font-size: 16px;
+    font-size: 15px;
     color: black;
 }
 .text_style_3{
-  padding: 2px;
+  padding-top: 3px;
+  padding-buttom : 3px;
   margin-left:3px;
   margin-right:3px;
   font-size: 12px;
