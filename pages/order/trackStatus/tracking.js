@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    company:'',
+    trackinfo:[],
   },
 
   /**
@@ -25,14 +26,14 @@ Page({
     console.log(config.server.queryOrderTracking,tid);
     api.request({
       url: config.server.queryOrderTracking,
-      data: { session: Session.Session.get(), tracking_no: JSON.stringify(tid) },
+      data: { session: Session.Session.get(), tracking_no: tid},
       method: 'GET',
       success(result) {
         var data = result.data;
         console.log("tracking detail:", data);
         if (data.status === 200) {
-         // that.setData({ orderinfo: data.data });
-         // that.setData({ orderresult: '获取订单成功' });
+          that.setData({ company: data.data.company });
+          that.setData({ trackinfo: data.data.list });
         } else {
           that.setData({orderresult: '获取物流信息失败'});
         }

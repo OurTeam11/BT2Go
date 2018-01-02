@@ -1,0 +1,9 @@
+<view> 快递物流信息：</view>
+<view> 快递公司：{{company}}</view>
+<view> 快递物流详细信息：</view>
+ <block class = "oneProductList" wx:for="{{trackinfo}}" wx:key="{{index}}">
+    <view class="oneProduct">
+      <text class="text_style_2">时间：{{item.datetime}}</text>
+      <text class="text_style_2">信息：{{item.remark}}</text>
+      </view>
+   </block>
