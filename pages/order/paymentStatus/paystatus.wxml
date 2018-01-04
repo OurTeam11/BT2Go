@@ -1,1 +1,8 @@
-<view>订单：{{ordernumber}}， 支付结果：{{payResult}}</view>
+<view class="container_all">
+  <view class="order_header_info">
+    <view class="paystatus_text1">订单：{{ordernumber}}</view>
+  </view>
+    <image class="pic_image" wx:if="{{showokpic}}" src="../../../images/ok.jpg" mode="withFix" />
+    <image class='pic_image' wx:else src="../../../images/nook.jpg" mode="withFix" />
+  <view class="paystatus_text2">支付结果：{{payResult}}</view>
+</view>

@@ -3,6 +3,7 @@ var config = require('../../../config');
 var showtoast = require('../../../utils/commontoast');
 var Session = require('../../../utils/lib/session');
 var util = require('../../../utils/util')
+
 Page({
 
   /**
@@ -13,6 +14,13 @@ Page({
     orderStatus:'',
     orderresult:'',
     orderinfo:{address:'', ct:'', id:'', status:0, total:0, tracking_no:'', products:[]},
+
+    showToPayButton:false,
+    showCancelButton:false,
+    showTrackingButton:false,
+    showAlarmButton:false,
+    showConfirmButton:false,
+    showCommentButton:false,
 
   },
 
@@ -40,6 +48,7 @@ Page({
           that.setData({orderinfo:data.data});
           that.setData({orderresult:'获取订单成功'});
           console.log('获取订单详情',that.data.orderinfo);
+          that.updateButtons(parseInt(that.data.orderinfo.status));
         } else {
           that.setData({ orderresult: '获取订单失败' });
         }
@@ -49,6 +58,41 @@ Page({
       },
     });
   },
+
+  updateButtons:function(type) {
+    if (type === 0) {
+      this.setData({ showToPayButton: true, showCancelButton:true});
+    } else if (type === 1) {
+      this.setData({ showAlarmButton: true, showCancelButton:true});
+    } else if (type === 2) {
+      this.setData({ showTrackingButton: true, showConfirmButton:true});
+    } else if (type === 3) {
+      this.setData({ showTrackingButton: true, showCommentButton: true });
+    } else if (type ===4) {
+      this.setData({
+        showTrackingButton: true});
+    }
+  },
+
+  toPay:function(e) {
+
+  },
+  toCancelOrder: function (e) {
+
+  },
+  toTrackInfo: function (e) {
+
+  },
+  toAlarm: function (e) {
+
+  },
+  toConfirm: function (e) {
+
+  },
+  toAddComments: function (e) {
+
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

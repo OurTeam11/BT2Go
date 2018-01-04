@@ -16,7 +16,7 @@ Page({
     ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-订单完成，4-订单取消
 
     orderlist:[{id:'', total: 0, status:0, trackingNu:'', createTime:'', products:[]}],
-    
+
   },
 
   /**
@@ -35,7 +35,7 @@ Page({
       this.setData({curIndex: parseInt(options.typeid)});
       this.setData({ordertype: parseInt(options.typeid)});
     }
-    
+
     this.getOrderList({
       getOrderListSuccess:function(result) {
          //给图片添加前缀。
@@ -175,11 +175,6 @@ Page({
     })
   },
 
-  deleteOrder: function(e) {
-    var orderid = e.currentTarget.dataset.orderno;
-    console.log("deleteOrder:",orderid);
-  },
-
   toTrackingStatus:function(e) {
     var trackingid = e.currentTarget.dataset.trackingid;
     console.log("toTrackingStatus:tid: ", trackingid);
@@ -200,9 +195,13 @@ Page({
      //确认收货
   },
 
-  bindTap:function(e) {
+  changeTap:function(e) {
     const index = parseInt(e.currentTarget.dataset.index);
-    console.log("liufeng", this.data.typeid);
+    if (index === parseInt(this.data.curIndex)) {
+      console.log("click the same tab");
+      this.setData({ curIndex: index });
+      return;
+    }
     this.setData({curIndex: index});
     this.setData({ordertype:parseInt(index)});
     //request网络去获取对应的订单状态。

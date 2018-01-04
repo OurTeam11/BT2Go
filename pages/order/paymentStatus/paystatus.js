@@ -3,7 +3,6 @@ var config = require('../../../config');
 var showtoast = require('../../../utils/commontoast');
 var Session = require('../../../utils/lib/session');
 
-
 Page({
 
   /**
@@ -12,7 +11,8 @@ Page({
   data: {
     payStatus:'',
     ordernumber:'',
-    payResult:'',
+    payResult:'支付失败',
+    showokpic:false,
   },
 
   /**
@@ -27,10 +27,12 @@ Page({
       this.getPaymentStatus(that.data.ordernumber, {
         getPaymentSuccess:function(result) {
           that.setData({payResult:'支付成功'});
+          that.setData({ showokpic:true});
           console.log("查询结果成功，微信支付成功");
         },
         getPaymentFailed:function(error) {
           that.setData({payResult:'支付失败'});
+          that.setData({ showokpic: false });
         }
       });
 
