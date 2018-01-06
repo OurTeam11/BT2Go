@@ -3,6 +3,7 @@ var api = require('../../utils/api');
 var config = require('../../config');
 var showtoast = require('../../utils/commontoast');
 var Session = require('../../utils/lib/session');
+var payment = require('../../utils/lib/payment');
 
 Page({
 
@@ -13,7 +14,7 @@ Page({
     typeid: 0,
     curIndex:0,
     orderpage: 1,
-    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-订单完成，4-订单取消
+    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-待评价，4-已完成
 
     orderlist:[{id:'', total: 0, status:0, trackingNu:'', createTime:'', products:[]}],
 
@@ -102,78 +103,66 @@ Page({
   //由于任何原因第一次没有支付成功，或者未支付
   //再次支付的时候会调用这个接口
   toPayOrder:function(e) {
-
     var orderid = e.currentTarget.dataset.orderno;
     console.log("toPayOrder:",orderid);
-    var that =this;
-    //confirmPay
-     api.request({
-      // 要请求的地址
-      url: config.server.confirmPay,
-      data: {session: Session.Session.get(), order: orderid},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      method: 'POST',
-      success(result) {
-        console.log("toPayOrder doPayment ok ----  ", result);
-        if (result.data.status === 200) {
-          let data = result.data.data;
-          let payParams = {trade_no: data.out_trade_no, nonce:data.nonceStr,package:data.package,
-                          timeStamp: data.timeStamp, paySign: data.paySign};
-          that.setData({order_no:data.out_trade_no});// 服务器生成的订单。
-          that.doWXRequestPayment(payParams);
-          //支付成功后，刷新订单状态。
-
-        } else {
-          console.log("服务器返回失败。可能保存成未支付的订单");
-          wx.redirectTo({
-            url: '../paymentStatus/paystatus?paystatus=支付失败',
-            success: function (res) {
-              // success
-              console.log("toPayOrder 显示结果界面，成功")
-            },
-          });
-        }
-      },
-      fail(error) {
-        showtoast.showModel('支付失败，toPayOrder 请求失败', error);
-      },
-    });
-  },
-
-  doWXRequestPayment: function (payparams) {
     var that = this;
-    console.log("doWXRequestPayment----param:", payparams);
-    let order_no = that.data.order_no;
-    wx.requestPayment({
-      'timeStamp': payparams.timeStamp,
-      'nonceStr': payparams.nonce,
-      'package': payparams.package,
-      'signType': 'MD5',
-      'paySign': payparams.paySign,
-      'success': function (res) {
-        console.log("微信支付成功",res);
+    payment.doOrderPayment(orderid, {
+      doOrderPaymentSuccess: function (result) {
+        console.log("doOrderPaymentSuccess:", result);
         wx.navigateTo({
-          url: './paymentStatus/paystatus?paystatus=支付成功&orderno=' + order_no,
+          url: './paymentStatus/paystatus?paystatus=支付成功&orderno=' + orderid,
           success: function (res) {
-            // success
-            console.log("显示结果界面，成功")
+            //跳转到支付成功界面
+            that.setData({orderlist: []});
+            that.reflashOrderList(0);
           },
         });
       },
-      'fail': function (res) {
-        console.log("微信支付失败",res);
+      doOrderPaymentFailed: function (result) {
+        console.log("服务器返回失败。可能保存成未支付的订单", result);
         wx.navigateTo({
-          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + order_no,
-          success: function (res) {
-            // success
-            console.log("显示结果界面，失败。")
-          },
+          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
         });
       }
     })
   },
+
+  reflashOrderList:function(ordertype) {
+    var that = this;
+    api.request({
+      // 要请求的地址
+      url: config.server.getOrderList,
+      data: { session: Session.Session.get(), page: parseInt(that.data.orderpage), type: parseInt(ordertype) },
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      method: 'GET',
+      success(result) {
+        console.log("getOrderList", result.data);
+        if (result.data.status === 200) {
+          //给图片添加前缀。
+          let tmplist = result.data.list;
+          for (var i = 0; i < tmplist.length; i++) {
+            for (var j = 0; j < tmplist[i].products.length; j++) {
+              tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
+            }
+          }
+          that.setData({ orderlist: tmplist });
+        } else {
+          console.log("获取订单列表失败，返回值不是200")
+          that.setData({ orderlist: [] });
+        }
+
+      },
+      fail(error) {
+        showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+        that.setData({ orderlist: [] });
+      },
+    });
+  },
+
 
   toTrackingStatus:function(e) {
     var trackingid = e.currentTarget.dataset.trackingid;

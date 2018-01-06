@@ -9,6 +9,7 @@ Page({
     newAddr:{id:0, addr:'', contact:'', consignee:'', zipcode:'', status:0},
     ifChangeAddr:false,
     displayItem:false,
+    ifShowDelete:false,
   },
 
   onLoad: function (options) {
@@ -19,6 +20,7 @@ Page({
         this.setData({newAddr: addr, ifChangeAddr:true, displayItem:true})
       }
       wx.setNavigationBarTitle({ title: '修改收货地址' })
+      this.setData({ ifShowDelete:true});
     }
     else{
       wx.setNavigationBarTitle({ title: '新建收货地址' })
@@ -112,5 +114,32 @@ Page({
         content: warn
       })
     }
+  },
+
+  deleteAddr:function(e) {
+    var id = e.currentTarget.dataset.id;
+    console.log("删除id", id);
+    var addrparams = { session: Session.Session.get(), aid:parseInt(id)};
+    api.request({
+      url: config.server.deleteAddres,
+      data: addrparams,
+      method: 'POST',
+      success(result) {
+        var data = result.data;
+        if (data.status === 200) {
+          showtoast.showSuccess('删除地址完成');
+          wx.navigateBack({
+            delta:1
+          })
+        } else {
+          showtoast.showModel('修改地址失败', '服务器返回代码' + data.status + '服务器返回信息：' + data.msg);
+        }
+      },
+
+      fail(error) {
+        showtoast.showModel('修改地址失败请求失败', error);
+        console.log('modify addres request fail', error);
+      },
+    });
   },
 })

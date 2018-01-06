@@ -29,6 +29,7 @@
   padding-right: 20rpx;
   padding-bottom: 20rpx;
   font-size: 32rpx;
+  width: 95%;
   margin-left: 0rpx;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -51,8 +52,7 @@
    width: 95%;
   padding-top: 20rpx;
   padding-left:20rpx;
-  padding-bottom: 20rpx;
-  font-size: 35rpx;
+  font-size: 25rpx;
   text-align: justify;
 }
 
@@ -61,7 +61,7 @@
   padding-top: 20rpx;
   padding-left:20rpx;
   padding-bottom: 20rpx;
-  font-size: 35rpx;
+  font-size: 25rpx;
   text-align: justify;
 }
 
@@ -160,6 +160,7 @@ text {
   direction: row;
   justify-content: flex-start;
   text-align: justify;
+  align-items: center;
 }
 .carts-num {
   margin-left: 30px;

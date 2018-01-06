@@ -2,6 +2,7 @@ var constants = require('./lib/constants');
 var login = require('./lib/login');
 var Session = require('./lib/session');
 var request = require('./lib/request');
+var payment = require('./lib/payment');
 
 var exports = module.exports = {
     login: login.login,
@@ -10,6 +11,7 @@ var exports = module.exports = {
     clearSession: Session.clear,
     request: request.request,
     RequestError: request.RequestError,
+    payment: payment.doOrderPayment,
 };
 
 // 导出错误类型码

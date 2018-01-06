@@ -3,6 +3,7 @@ var config = require('../../../config');
 var showtoast = require('../../../utils/commontoast');
 var Session = require('../../../utils/lib/session');
 var util = require('../../../utils/util')
+var payment = require('../../../utils/lib/payment');
 
 Page({
 
@@ -46,6 +47,7 @@ Page({
         if (data.status === 200) {
           data.data.ct = util.formatTime2(data.data.ct);
           that.setData({orderinfo:data.data});
+          that.updateOrderStatusString(parseInt(that.data.orderinfo.status));
           that.setData({orderresult:'获取订单成功'});
           console.log('获取订单详情',that.data.orderinfo);
           that.updateButtons(parseInt(that.data.orderinfo.status));
@@ -73,15 +75,57 @@ Page({
         showTrackingButton: true});
     }
   },
-
-  toPay:function(e) {
-
+  updateOrderStatusString:function(type) {
+    if (type === 0) {
+      this.setData({ orderStatus:'待付款'});
+    } else if (type === 1) {
+      this.setData({ orderStatus: '待发货' });
+    } else if (type === 2) {
+      this.setData({ orderStatus: '待收货' });
+    } else if (type === 3) {
+      this.setData({ orderStatus: '待评价' });
+    } else if (type === 4) {
+      this.setData({ orderStatus: '已完成' });
+    }
   },
+  //调用payment api.
+  toPayOrder:function(e) {
+    var orderid = e.currentTarget.dataset.orderid;
+    console.log("Order, DetailtoPayOrder:", orderid);
+    var that = this;
+    payment.doOrderPayment(orderid, {
+      doOrderPaymentSuccess:function(result) {
+        console.log("doOrderPaymentSuccess:",result);
+        wx.redirectTo({
+          url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + orderid,
+          success: function (res) {
+            // success
+            console.log("显示结果界面，成功")
+          },
+        });
+      },
+      doOrderPaymentFailed:function(result) {
+        console.log("服务器返回失败。可能保存成未支付的订单", result);
+        wx.redirectTo({
+          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
+        });
+      }
+    })
+  },
+ 
   toCancelOrder: function (e) {
 
   },
   toTrackInfo: function (e) {
-
+    var trackingid = e.currentTarget.dataset.trackingid;
+    console.log("toTrackingStatus:tid: ", trackingid);
+    wx.navigateTo({
+      url: '../trackStatus/tracking?tid=' + trackingid,
+      success: function (res) {
+        // success
+        console.log("显示结果界面，成功。")
+      },
+    });
   },
   toAlarm: function (e) {
 

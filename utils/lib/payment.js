@@ -1,14 +1,13 @@
 var constants = require('./constants');
 var util = require('../util');
 var Session = require('./session');
-var login = require('./login');
-
+var config = require('../../config');
+var request = require('./request');
 
 function doOrderPayment(orderid,callback) {
     console.log("deleteOrder:",orderid);
-    var that =this;
     //confirmPay
-     api.request({
+    request.request({
       // 要请求的地址
       url: config.server.confirmPay,
       data: {session: Session.Session.get(), order: orderid},
@@ -23,7 +22,7 @@ function doOrderPayment(orderid,callback) {
           let payParams = {trade_no: data.out_trade_no, nonce:data.nonceStr,package:data.package,
                           timeStamp: data.timeStamp, paySign: data.paySign};
           console.log("服务器返回的订单号：", data.out_trade_no);
-          that.doWXRequestPayment(payParams,{
+          doWXRequestPayment(payParams,{
           	wxpaymentSuccess:function (res) {
               callback.doOrderPaymentSuccess(res);
           	},
@@ -35,13 +34,6 @@ function doOrderPayment(orderid,callback) {
         } else {
           console.log("服务器返回失败。可能保存成未支付的订单");
           callback.doOrderPaymentFailed("服务器返回失败。可能保存成未支付的订单");
-          // wx.redirectTo({
-          //   url: '../paymentStatus/paystatus?paystatus=支付失败',
-          //   success: function (res) {
-          //     // success
-          //     console.log("toPayOrder 显示结果界面，成功")
-          //   },
-          // });
         }
       },
       fail(error) {
@@ -52,9 +44,7 @@ function doOrderPayment(orderid,callback) {
 };
 
 function doWXRequestPayment(payparams, callback) {
-	var that = this;
-    console.log("doWXRequestPayment----param:", payparams);
-
+    console.log("调用微信支付接口, requestPayment----param:", payparams);
     wx.requestPayment({
       'timeStamp': payparams.timeStamp,
       'nonceStr': payparams.nonce,
@@ -73,5 +63,5 @@ function doWXRequestPayment(payparams, callback) {
 };
 
 module.exports = {
-  doPayment: doPayment,
+  doOrderPayment: doOrderPayment,
 };

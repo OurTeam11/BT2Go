@@ -42,5 +42,5 @@
 </view>
 <!-- 信息部分结束 -->
 <button class = "save" formType="submit" >保存</button>
+<button class = "save" wx:if = "{{ifShowDelete}}" data-id="{{newAddr.id}}" bindtap='deleteAddr' >删除地址</button>
 </form>
-<template is="areaData" data="{{...item}}"/>
