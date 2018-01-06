@@ -1,0 +1,28 @@
+.oneProductList{
+  float:left;
+  border-left:1px solid #eee;
+}
+
+.oneProduct{
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  padding:20rpx;
+}
+
+.nodeicon{
+    margin: 3rpx;
+    padding-left: 5rpx;
+    padding-right: 10rpx;
+    width:25rpx;
+    height: 25rpx;
+}
+
+.itemdetail{
+  font-size:27rpx;
+  display: flex;
+  border-bottom:1rpx solid #e0e0e0;
+  flex-direction: column;
+  justify-content: space-between;
+  width:85%;
+}

@@ -33,7 +33,7 @@ Page({
         console.log("tracking detail:", data);
         if (data.status === 200) {
           that.setData({ company: data.data.company });
-          that.setData({ trackinfo: data.data.list });
+          that.setData({ trackinfo: data.data.list.reverse() });
         } else {
           that.setData({orderresult: '获取物流信息失败'});
         }
