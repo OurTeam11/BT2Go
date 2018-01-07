@@ -12,7 +12,7 @@
     <text class="title">{{productname}}</text>
     <view class="description">{{productdescription}}</view>
       <view class="line"></view>
-    <view class="price">价格：{{itemprice/100}} 元  ， ori:300元</view>
+    <view class="price">价格：{{itemprice}} 元  ， ori:300元</view>
      <view class="line2"></view>
     <view class="activity">活动，优惠卷，等等。</view>
      <view class="line2"></view>

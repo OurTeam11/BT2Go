@@ -25,7 +25,7 @@
             <view class="split_line"></view>
             <view class="order_footer">
               <text class="text_style_3">订单状态：{{item.status===0?'待付款':item.status}}  </text>
-              <text class="text_style_3">  价格合计：¥ {{item.total/100}}</text>
+              <text class="text_style_3">  价格合计：¥ {{item.total}}</text>
             </view>
             <view class="order_footer2">
               <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
@@ -55,7 +55,7 @@
           <view class="split_line"></view>
           <view class="order_footer">
             <text class="text_style_3">订单状态：{{item.status===1?'待发货':item.status}}</text>
-            <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
+            <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
             <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
@@ -85,7 +85,7 @@
           <view class="split_line"></view>
           <view class="order_footer">
             <text class="text_style_3">订单状态：{{item.status===2?'待收货':item.status}}</text>
-            <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
+            <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
             <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
@@ -116,7 +116,7 @@
           <view class="split_line"></view>
           <view class="order_footer">
             <text class="text_style_3">订单状态：{{item.status===3?'待评价':item.status}}</text>
-            <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
+            <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
             <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
@@ -147,7 +147,7 @@
           <view class="split_line"></view>
           <view class="order_footer">
             <text class="text_style_3">订单状态：{{item.status===4?'已经完成':item.status}}</text>
-            <text class="text_style_3">价格合计：¥ {{item.total/100}}</text>
+            <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
             <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>

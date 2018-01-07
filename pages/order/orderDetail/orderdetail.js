@@ -107,7 +107,7 @@ Page({
       doOrderPaymentFailed:function(result) {
         console.log("服务器返回失败。可能保存成未支付的订单", result);
         wx.redirectTo({
-          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
+          url: '../paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
         });
       }
     })

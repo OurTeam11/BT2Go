@@ -9,7 +9,7 @@
           <image class="cart-thumb" src="{{item.img}}"></image>
         </navigator>
         <text class="cart-pro-name">{{item.name}}</text>
-        <text class="cart-pro-price">￥{{item.price/100}}</text>
+        <text class="cart-pro-price">￥{{item.price}}</text>
         <view class="cart-count-box">
           <text class="cart-count-down" bindtap="minusCount" data-obj="{{obj}}" data-index="{{index}}">-</text>
           <text class="cart-count-num">{{item.count}}</text>
@@ -27,7 +27,7 @@
         <text>全选</text>
       </view>
       <view class="cart-footer-right">
-        <text>￥{{totalPrice/100}} 元</text>
+        <text>￥{{totalPrice}} 元</text>
         <view class="order-icon">
           <text bindtap="checkout">结算</text>
         </view>

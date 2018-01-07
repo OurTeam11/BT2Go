@@ -6,7 +6,7 @@
         <view class='product_text'>
           <view class='product_description'>{{productitem.description}}</view>
           <view class='product_name'>{{productitem.name}}</view>
-          <view class='product_price'>{{productitem.price/100}} 元</view>
+          <view class='product_price'>{{productitem.price}} 元</view>
         </view>
         </navigator>
     </view>

@@ -12,7 +12,7 @@ Page({
   data: {
     ifNoAddress: false,//如果没有地址，提示用户要选择地址。
 
-    orderTotalPrice:0, // 订单的总价格。用于显示。
+    orderTotalPrice:0.0, // 订单的总价格。用于显示。
 
     //地址信息, addr, consignee, contact, zipcode, status,
     addressInfo: {},
@@ -98,9 +98,10 @@ Page({
           for (var i = 0; i < tmpproducts.length; i++) {
             totalPrice += tmpproducts[i].price * tmpproducts[i].count;
           }
-          console.log("liufeng:",tmpproducts , totalPrice);
+          //算出的价格，四舍五入，保留2位。
+          console.log("liufeng:", tmpproducts, totalPrice.toFixed(2));
           that.setData({orderproducts:tmpproducts});
-          that.setData({orderTotalPrice: totalPrice});
+          that.setData({ orderTotalPrice: parseFloat(totalPrice.toFixed(2))});
         }
       },
       failedPrepareOrder: function (result) {
@@ -192,6 +193,8 @@ Page({
       console.log('订单数据获取失败，不能为空');
       return;
     }
+    console.log("total:", this.data.orderTotalPrice);
+
     //首先保存成订单--代付款状态.
     var that = this;
     //创建order对象，用于给服务器传递order信息。
@@ -199,18 +202,18 @@ Page({
     let totalPrice = that.data.orderTotalPrice;
     for (var i = 0; i < that.data.orderproducts.length; i++) {
       let toorder = {pid:that.data.orderproducts[i].id, amount:parseInt(that.data.orderproducts[i].count),
-                      price:parseInt(that.data.orderproducts[i].price)};
+                      price:that.data.orderproducts[i].price};
       order.push(toorder);
     }
 
-    console.log("order:", order, " total:", parseInt(totalPrice), "delivery:", that.data.addressInfo);
+    console.log("order:", order, " total:", totalPrice, "delivery:", that.data.addressInfo);
 
     api.request({
       // 要请求的地址
       url: config.server.createAndPay,
       data: {
         session: Session.Session.get(), order: JSON.stringify(order), delivery: JSON.stringify(that.data.addressInfo),
-        total: parseInt(totalPrice)},
+        total: totalPrice},
       // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
       header: {
         'content-type': 'application/json' // 默认值
