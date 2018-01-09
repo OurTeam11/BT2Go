@@ -37,6 +37,5 @@
   <import src="/templates/listview.wxml" />
     <template is="listview" data='{{productitem}}' />
 
-    <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>  
-    <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>  
+    <view class="loading" hidden="{{!showText}}">{{textHint}}</view>  
 </scroll-view>

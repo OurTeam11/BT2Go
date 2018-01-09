@@ -16,7 +16,7 @@
     background-color: #F2f2f2;
 }
 swiper {
-  height:210px;
+  height:170px;
 }
 swiper-item image {
     height: 100%;

@@ -12,7 +12,7 @@
           <view class="oneOrder">
             <view class="order_header">
               <text class="text_style_1">订单:{{item.id}}</text>
-              <text class="text_style_1">创建时间{{item.createTime}}</text>
+              <text class="text_style_1">创建时间:{{item.createTime}}</text>
             </view>
             <view class="split_line"></view>
             <block class="oneProductList" bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">

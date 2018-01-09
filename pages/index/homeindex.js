@@ -30,12 +30,11 @@ Page({
       'http://118.190.208.121/image/3-1513659448845.png',
       'http://118.190.208.121/image/4-1513659453228.png'],
 
-    searchLoading: false, //"上拉加载"的变量，默认false，隐藏  
-    searchLoadingComplete: false,//“没有数据”的变量，默认false，隐藏
+    showText: false, //"上拉加载"的变量，默认false，隐藏
+    textHint:'',
 
     page: 1, //请求页面。
-
-    canRequestMore: false
+    showAllItems:false,
 
   },
 
@@ -59,11 +58,19 @@ Page({
       method: 'GET',
       success(result) {
         showtoast.showSuccess('请求成功完成');
-        if (result.data.list.length >= 20) {
-          that.setData({canRequestMore:true});
+        if (result.data.list.length === 0) {
+          that.setData({ showText: true });
+          that.setData({ showAllItems: true });
+          that.setData({ textHint: "已经加载全部商品" });
+          return;
+        }
+        if (result.data.list.length === 20) {
+            that.setData({ showText:true});
+            that.setData({ textHint: "下拉加载更多商品" });
         } else {
-          that.setData({canRequestMore:false});
-          that.setData({searchLoadingComplete : true});
+          that.setData({ showText: true });
+          that.setData({ showAllItems:true});
+          that.setData({ textHint: "已经加载全部商品" });
         }
         for (var i = 0; i < result.data.list.length; i++) {
           //拼接humbnail的完整路径名字。
@@ -217,8 +224,9 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     this.setData({page:1});
-    this.setData({searchLoading : false});
-    this.setData({searchLoadingComplete : false});
+    this.setData({ showText: false });
+    this.setData({ textHint: "" });
+    this.setData({ showAllItems:false});
     this.doRequestRecommend();
   },
 
@@ -226,19 +234,16 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.canRequestMore) {
-      console.log("onReachBottom");
-      this.setData({searchLoading : true});
-      this.setData({searchLoadingComplete : false});
-      //触发搜索，分页请求。
-      this.data.page++;
-      //请求服务器更多的数据
-      this.doRequestRecommend();
-    } else {
-      this.setData({searchLoading : false});
-      this.setData({searchLoadingComplete : true});
+    if (this.data.showAllItems) {
+      console.log("已经加载了所有商品。");
+      return;
     }
-
+    this.setData({ showText: true });
+    this.setData({ textHint: "正在加载更多商品..." });
+    //触发搜索，分页请求。
+    this.data.page++;
+    //请求服务器更多的数据
+    this.doRequestRecommend();
   },
  
   /**
