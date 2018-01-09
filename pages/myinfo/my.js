@@ -15,7 +15,7 @@ Page({
       {typeId: 0,name: '待付款', imageurl: '../../images/order/waitforpay.png',},
       {typeId: 1,name: '待发货', imageurl: '../../images/order/waitforsend.png',},
       {typeId: 2,name: '待收货', imageurl: '../../images/order/waitforrecieve.png'},
-      {typeId: 3,name: '待评价', imageurl: '../../images/order/waitforcomment.png'}
+      {typeId: 3,name: '已完成', imageurl: '../../images/order/waitforcomment.png'}
     ],
   },
 

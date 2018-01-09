@@ -83,9 +83,9 @@ Page({
     } else if (type === 2) {
       this.setData({ orderStatus: '待收货' });
     } else if (type === 3) {
-      this.setData({ orderStatus: '待评价' });
-    } else if (type === 4) {
       this.setData({ orderStatus: '已完成' });
+    } else if (type === 4) {
+      this.setData({ orderStatus: '全部' });
     }
   },
   //调用payment api.

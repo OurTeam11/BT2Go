@@ -4,9 +4,9 @@ var config = require('../../config');
 var showtoast = require('../../utils/commontoast');
 var Session = require('../../utils/lib/session');
 var payment = require('../../utils/lib/payment');
+var util = require('../../utils/util');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -14,10 +14,14 @@ Page({
     typeid: 0,
     curIndex:0,
     orderpage: 1,
-    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-待评价，4-已完成
+    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-已完成，4-全部
 
     orderlist:[{id:'', total: 0, status:0, trackingNu:'', createTime:'', products:[]}],
 
+    footerText:'',
+    footer_hint:false,
+
+    show_no_order:false,
   },
 
   /**
@@ -39,48 +43,29 @@ Page({
 
     this.getOrderList({
       getOrderListSuccess:function(result) {
-         //给图片添加前缀。
          let tmplist = result.list;
+         if (tmplist.length === 0) {
+           that.setData({ show_no_order: true });
+           that.setData({orderlist: []});
+           return;
+         }
+         if (tmplist.length === 20) {
+           that.setData({footerText:'下拉加载更多的订单'});
+           that.setData({footer_hint:true});
+         }
+         //给图片添加前缀。
          for (var i =0 ;i < tmplist.length; i++) {
            for (var j = 0; j < tmplist[i].products.length; j++) {
              tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
            }
+           tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
          }
         that.setData({orderlist: tmplist});
       },
       getOrderListFailed:function(result) {
-        
+        console.log("获取订单列表失败");
       }
     })
-  },
-  
-  getOrderList:function(callback) {
-    var that = this;
-    api.request({
-      // 要请求的地址
-      url: config.server.getOrderList,
-      data: { session: Session.Session.get(), page:parseInt(that.data.orderpage), type: parseInt(that.data.ordertype)},
-      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      method: 'GET',
-      success(result) {
-        console.log("getOrderList", result.data);
-        if (result.data.status === 200) {
-          callback.getOrderListSuccess(result.data);
-        } else {
-          console.log("获取订单列表失败，返回值不是200")
-          callback.getOrderListFailed(result.data.status);
-        }
-
-      },
-      fail(error) {
-        showtoast.showModel('请求失败', error);
-        console.log('request fail', error);
-        callback.getOrderListFailed("获取订单列表失败");
-      },
-    });
   },
 
   toOrderDetail:function(e) {
@@ -143,10 +128,21 @@ Page({
         if (result.data.status === 200) {
           //给图片添加前缀。
           let tmplist = result.data.list;
+          if (tmplist.length === 0) {
+            that.setData({ show_no_order:true});
+            that.setData({
+              orderlist:[]});
+              return;
+          }
+          if (tmplist.length === 20) {
+           that.setData({footerText:'下拉加载更多的订单'});
+           that.setData({footer_hint:true});
+          }
           for (var i = 0; i < tmplist.length; i++) {
             for (var j = 0; j < tmplist[i].products.length; j++) {
               tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
             }
+            tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
           }
           that.setData({ orderlist: tmplist });
         } else {
@@ -162,7 +158,6 @@ Page({
       },
     });
   },
-
 
   toTrackingStatus:function(e) {
     var trackingid = e.currentTarget.dataset.trackingid;
@@ -191,28 +186,81 @@ Page({
       this.setData({ curIndex: index });
       return;
     }
+    this.setData({orderpage: 1});
     this.setData({curIndex: index});
     this.setData({ordertype:parseInt(index)});
+    this.setData({footer_hint:false});
     //request网络去获取对应的订单状态。
     var that = this;
     this.getOrderList({
       getOrderListSuccess:function(result) {
          //给图片添加前缀。
          let tmplist = result.list;
+         if (tmplist.length === 0) {
+           that.setData({ show_no_order: true });
+           that.setData({
+             orderlist: []
+           });
+           return;
+         }
+         if (tmplist.length === 20) {
+           that.setData({footerText:'下拉加载更多的订单'});
+           that.setData({footer_hint:true});
+         }
          for (var i =0 ;i < tmplist.length; i++) {
            for (var j = 0; j < tmplist[i].products.length; j++) {
              tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
            }
+           tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
          }
         that.setData({orderlist: tmplist});
         
       },
       getOrderListFailed:function(result) {
-        
+        if (tmplist.length === 20) {
+           that.setData({footerText:''});
+           that.setData({footer_hint:false});
+         }
       }
     })
-    
   },
+
+  getOrderList: function (callback) {
+    var that = this;
+    var data = {};
+    if (that.data.ordertype === 4) {
+      data = { session: Session.Session.get(), page: parseInt(that.data.orderpage) };
+    } else {
+      data = { session: Session.Session.get(), page: parseInt(that.data.orderpage), type: parseInt(that.data.ordertype) };
+    }
+    api.request({
+      // 要请求的地址
+      url: config.server.getOrderList,
+      data: data,
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      method: 'GET',
+      success(result) {
+        console.log("getOrderList", result.data);
+        if (result.data.status === 200) {
+          callback.getOrderListSuccess(result.data);
+        } else {
+          console.log("获取订单列表失败，返回值不是200")
+          callback.getOrderListFailed(result.data.status);
+        }
+
+      },
+      fail(error) {
+        showtoast.showModel('请求失败', error);
+        console.log('request fail', error);
+        callback.getOrderListFailed("获取订单列表失败");
+      },
+
+    });
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -245,14 +293,77 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    this.data.orderpage = 1;
+    var that = this;
+    that.setData({footerText:'正在加载订单...'});
+    that.setData({footer_hint:true});
+    this.getOrderList({
+      getOrderListSuccess: function (result) {
+        let tmplist = result.list;
+        if (tmplist.length === 0) {
+          that.setData({ show_no_order: true });
+          that.setData({
+            orderlist: []
+          });
+          return;
+        }
+        if (tmplist.length === 20) {
+           that.setData({footerText:'下拉加载更多的订单'});
+           that.setData({footer_hint:true});
+         }
+        //给图片添加前缀。
+        for (var i = 0; i < tmplist.length; i++) {
+          for (var j = 0; j < tmplist[i].products.length; j++) {
+            tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
+          }
+          tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
+        }
+        that.setData({ orderlist: tmplist });
+
+      },
+      getOrderListFailed: function (result) {
+
+      }
+    })
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+    console.log("reach the bottom");
+    this.data.orderpage ++ ;
+    var that = this;
+    that.setData({footerText:'正在加载订单...'});
+    that.setData({footer_hint:true});
+    this.getOrderList({
+      getOrderListSuccess: function (result) {
+        //给图片添加前缀。
+        let tmplist = result.list;
+        if (tmplist.length === 0) {
+          that.setData({footerText:'已经加载了全部订单'});
+          that.setData({footer_hint:true});
+          return;
+        }
+        if (tmplist.length === 20) {
+           that.setData({footerText:'下拉加载更多的订单'});
+           that.setData({footer_hint:true});
+         } else {
+           that.setData({footerText:'已经加载了全部订单'});
+           that.setData({footer_hint:true});
+         }
+        for (var i = 0; i < tmplist.length; i++) {
+          for (var j = 0; j < tmplist[i].products.length; j++) {
+            tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
+          }
+          tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
+        }
+        that.setData({ orderlist: tmplist });
+
+      },
+      getOrderListFailed: function (result) {
+      }
+    })
   },
 
   /**

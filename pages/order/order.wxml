@@ -3,8 +3,8 @@
     <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="changeTap" data-index="0">待付款</view>
     <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="changeTap" data-index="1">待发货</view>
     <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="changeTap" data-index="2">待收货</view>
-    <view class="goods-tab-nav {{curIndex === 3 ?'on':''}}" bindtap="changeTap" data-index="3">待评价</view>
-    <view class="goods-tab-nav {{curIndex === 4 ?'on':''}}" bindtap="changeTap" data-index="4">已完成</view>
+    <view class="goods-tab-nav {{curIndex === 3 ?'on':''}}" bindtap="changeTap" data-index="3">已完成</view>
+    <view class="goods-tab-nav {{curIndex === 4 ?'on':''}}" bindtap="changeTap" data-index="4">全部</view>
   </view>
       <view class="goods-tab-content" wx:if="{{curIndex === 0}}">
         <block wx:for="{{orderlist}}" wx:key="{{index}}">
@@ -115,7 +115,7 @@
           </block>
           <view class="split_line"></view>
           <view class="order_footer">
-            <text class="text_style_3">订单状态：{{item.status===3?'待评价':item.status}}</text>
+            <text class="text_style_3">订单状态：{{item.status===3?'已完成':item.status}}</text>
             <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
@@ -146,7 +146,10 @@
           </block>
           <view class="split_line"></view>
           <view class="order_footer">
-            <text class="text_style_3">订单状态：{{item.status===4?'已经完成':item.status}}</text>
+            <text class="text_style_3" wx:if="{{item.status===0}}">订单状态：待付款</text>
+            <text class="text_style_3" wx:if="{{item.status===1}}">订单状态：待发货</text>
+            <text class="text_style_3" wx:if="{{item.status===2}}">订单状态：待收货</text>
+            <text class="text_style_3" wx:if="{{item.status===3}}">订单状态：已完成</text>
             <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
           <view class="order_footer2">
@@ -157,4 +160,6 @@
         <view class="bottom_line"></view>
       </block>
     </view>
+    <view class="loading" hidden="{{!footer_hint}}">{{footerText}}</view>
+    <view class="no_order" wx:if="{{show_no_order}}">您没有相关的订单</view>
 </view>

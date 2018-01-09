@@ -14,8 +14,19 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+//格式, 2017-12-08,15:14:20
 var formatTime2 = function(datestring) {
-  return datestring.replace(/(.)(?=T)(?=000Z)./, '$1');
+  if (datestring != 'undefined' && datestring != '') {
+    var dateAndTime = datestring.split("T");
+    var datestr = dateAndTime[0];
+    var timestr = dateAndTime[1].split(":");
+    var hours = parseInt(timestr[0]) + 8;
+    var seconds = timestr[2].substring(0,2);
+    var newStr = datestr + "," + hours + ":" + timestr[1] + ":" + seconds;
+    return newStr;
+  } else {
+    return "";
+  }
 }
 
 /**

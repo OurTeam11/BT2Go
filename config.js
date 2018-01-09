@@ -2,10 +2,10 @@
  * 小程序配置文件,接口URL.
  */
 
-var server_host = "https://www.xjbt2go.com/opsystem/api";
+var server_host = "https://56927768.xjbt2go.com/opsystem/api";
 
 var config = {
-  imgUrlPrefix: "https://www.xjbt2go.com/image/",
+  imgUrlPrefix: "https://56927768.xjbt2go.com/image/",
   server: {
   	//登陆login地址
     loginUrl: `${server_host}/onLogin`,
