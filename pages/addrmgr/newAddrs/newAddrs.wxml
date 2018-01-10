@@ -1,5 +1,5 @@
 <!-- 信息部分开始 -->
-<import src="../../../templates/citypicker/citypicker.wxml"/>
+<view class="top_line"></view>
 <form bindsubmit="formSubmit" report-submit="true">
 <view class = "info">
 <!-- 姓名部分 -->
@@ -38,6 +38,8 @@
 
 </view>
 </view>
+
+<view class="top_line"></view>
 
 </view>
 <!-- 信息部分结束 -->

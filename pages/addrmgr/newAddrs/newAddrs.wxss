@@ -45,3 +45,7 @@ input placeholder{
 input{
   width:100%;
 }
+.top_line{
+    height: 10px;
+    background-color: #EFEFF4;
+}

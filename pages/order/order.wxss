@@ -1,4 +1,4 @@
-:w.top_line{
+.top_line{
     margin-top: 10px;
     margin-bottom: 2px;
     height: 15px;

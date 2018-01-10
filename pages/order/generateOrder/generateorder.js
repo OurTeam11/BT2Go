@@ -66,6 +66,7 @@ Page({
           that.setData({ ifNoAddress: true });
           console.log("地址为空");
         } else {
+          that.setData({ifNoAddress:false});
           for (var i = 0; i < addrs.length; i++) {
             if (addrs[i].status === 2) {
               console.log("地址赋值", addrs[i]);
