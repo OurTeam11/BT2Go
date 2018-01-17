@@ -1,3 +1,26 @@
+.track_header_info {
+  width:100%;
+  height:100px;
+  background: gainsboro;
+  border: 4rpx solid gainsboro;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding-top:25rpx;
+  padding-bottom: 25rpx;
+  justify-content: space-between;
+}
+.track_text1 {
+  font-size: 30rpx;
+  padding-left: 20rpx;
+  padding-right:30rpx;
+}
+.track_text2 {
+  font-size: 25rpx;
+  margin-top: 10rpx;
+  padding-left: 20rpx;
+
+}
 .oneProductList{
   float:left;
   border-left:1px solid #eee;

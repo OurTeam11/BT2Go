@@ -1,13 +1,17 @@
-<view> 快递物流信息：</view>
-<view> 快递公司：{{company}}</view>
-<view> 快递物流详细信息：</view>
+<view class="track_header_info">
+<view class = "track_text1"> 快递物流单号：{{track_id}}</view>
+<view class = "track_text1"> 状态：{{track_status}}</view>
+<view class = "track_text1"> 快递公司：{{company}}</view>
+</view>
+<view class = "track_text2"> 快递物流详细信息：</view>
+
  <block class = "oneProductList" wx:for="{{trackinfo}}" wx:key="{{index}}" reversed>
     <view class="oneProduct" >
       <image wx:if= "{{index===0}}" class="nodeicon" src="../../../images/1.png" ></image> 
       <image wx:else class="nodeicon" src="../../../images/2.png" ></image> 
       <view class="itemdetail">
-        <text class="text_style_2">时间：{{item.datetime}}</text>
-        <text class="text_style_2">信息：{{item.remark}}</text>
+        <text class="text_style_2">时间：{{item.time}}</text>
+        <text class="text_style_2">信息：{{item.status}}</text>
       </view>  
     </view>
    </block>
