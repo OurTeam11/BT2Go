@@ -5,7 +5,6 @@ var config = require('../../config');
 var request = require('./request');
 
 function doOrderPayment(orderid,callback) {
-    console.log("deleteOrder:",orderid);
     //confirmPay
     request.request({
       // 要请求的地址
@@ -37,7 +36,7 @@ function doOrderPayment(orderid,callback) {
         }
       },
       fail(error) {
-        showtoast.showModel('支付失败，toPayOrder 请求失败', error);
+        console.log('支付失败，toPayOrder 请求失败', error);
         callback.doOrderPaymentFailed(error);
       },
     });

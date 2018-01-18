@@ -216,7 +216,6 @@ Page({
       },
       method: 'GET',
       success(result) {
-        showtoast.showSuccess('请求成功完成');
         console.log('getOneItem:', result.data);
         var data = result.data;
         if (data.status === 200) {

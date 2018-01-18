@@ -45,6 +45,8 @@ var config = {
     confirmPay:    `${server_host}/order/pay`,
     queryOrderStatus: `${server_host}/order/queryStatus`,
     queryOrderTracking:`${server_host}/order/tracking`,
+    cancelOrder: `${server_host}/order/cancel`,
+    confirmOrder: `${server_host}/order/confirm`,
   }
 }
 

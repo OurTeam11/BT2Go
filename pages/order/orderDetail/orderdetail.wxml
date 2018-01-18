@@ -31,6 +31,7 @@
 <button wx:if="{{showAlarmButton}}" class = "order_detail_button" bindtap="toAlarm" data-orderid="{{orderinfo.id}}">提醒发货</button>
 <button wx:if="{{showConfirmButton}}" class = "order_detail_button" bindtap="toConfirm" data-orderid="{{orderinfo.id}}">确认订单</button>
 <button wx:if="{{showCommentButton}}" class = "order_detail_button" bindtap="toAddComments" data-orderid="{{orderinfo.id}}">评价订单</button>
+<button wx:if="{{showReasonButton}}" class = "order_detail_button" bindtap="toAddReason" data-orderid="{{orderinfo.id}}">取消原因</button>
 
 </view>
 

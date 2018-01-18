@@ -14,7 +14,7 @@ Page({
     typeid: 0,
     curIndex:0,
     orderpage: 1,
-    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-已完成，4-全部
+    ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-已完成，4-已取消，5-退款中， -1 - 全部
 
     orderlist:[{id:'', total: 0, status:0, trackingNu:'', createTime:'', products:[]}],
 
@@ -40,29 +40,36 @@ Page({
       this.setData({curIndex: parseInt(options.typeid)});
       this.setData({ordertype: parseInt(options.typeid)});
     }
+  },
 
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var that = this;
+    this.setData({ orderpage: 1, show_no_order: false});
     this.getOrderList({
-      getOrderListSuccess:function(result) {
-         let tmplist = result.list;
-         if (tmplist.length === 0) {
-           that.setData({ show_no_order: true });
-           that.setData({orderlist: []});
-           return;
-         }
-         if (tmplist.length === 20) {
-           that.setData({footerText:'下拉加载更多的订单'});
-           that.setData({footer_hint:true});
-         }
-         //给图片添加前缀。
-         for (var i =0 ;i < tmplist.length; i++) {
-           for (var j = 0; j < tmplist[i].products.length; j++) {
-             tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
-           }
-           tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
-         }
-        that.setData({orderlist: tmplist});
+      getOrderListSuccess: function (result) {
+        let tmplist = result.list;
+        if (tmplist.length === 0) {
+          that.setData({ show_no_order: true });
+          that.setData({ orderlist: [] });
+          return;
+        }
+        if (tmplist.length === 20) {
+          that.setData({ footerText: '下拉加载更多的订单' });
+          that.setData({ footer_hint: true });
+        }
+        //给图片添加前缀。
+        for (var i = 0; i < tmplist.length; i++) {
+          for (var j = 0; j < tmplist[i].products.length; j++) {
+            tmplist[i].products[j].img = config.imgUrlPrefix + tmplist[i].products[j].img;
+          }
+          tmplist[i].createTime = util.formatTime2(tmplist[i].createTime);
+        }
+        that.setData({ orderlist: tmplist });
       },
-      getOrderListFailed:function(result) {
+      getOrderListFailed: function (result) {
         console.log("获取订单列表失败");
       }
     })
@@ -171,12 +178,91 @@ Page({
     });
   },
 
+  //订单取消
   toCancelOrder:function(e) {
     var orderid = e.currentTarget.dataset.orderno;
-    console.log("toCancelOrder:",orderid);
+    console.log("toCancelOrder:", orderid);
+    var that = this;
+
+    wx.showModal({
+      title: '取消订单',
+      content: '您确定要取消这个订单吗?',
+      success: function (res) {
+        if (res.confirm) {
+          wx.hideToast();
+          api.request({
+            // 要请求的地址
+            url: config.server.cancelOrder,
+            data: { session: Session.Session.get(), order: orderid },
+            // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            method: 'POST',
+            success(result) {
+              console.log("cancelOrder request success.", result.data);
+              if (result.data.status === 200) {
+                that.reflashOrderList(that.data.curIndex);
+              } else {
+                console.log("取消订单失败，返回值不是200")
+                return;
+              }
+            },
+            fail(error) {
+              showtoast.showModel('请求失败', error);
+              console.log('request fail', error);
+              return;
+            },
+          });
+        } else if (res.cancel) {
+          return;
+        }
+      }
+    });
+   
+    
   },
   toConfirmReceived:function(e) {
      //确认收货
+    var orderid = e.currentTarget.dataset.orderno;
+    console.log("toConfirmReceived:", orderid);
+    var that = this;
+
+    wx.showModal({
+      title: '确认收货',
+      content: '确认收货吗？收货后订单变为已完成',
+      success: function (res) {
+        if (res.confirm) {
+          wx.hideToast();
+          api.request({
+            // 要请求的地址
+            url: config.server.confirmOrder,
+            data: { session: Session.Session.get(), order: orderid },
+            // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            method: 'POST',
+            success(result) {
+              console.log("cancelOrder request success.", result.data);
+              if (result.data.status === 200) {
+                that.reflashOrderList(that.data.curIndex);
+              } else {
+                console.log("取消订单失败，返回值不是200")
+                return;
+              }
+            },
+            fail(error) {
+              showtoast.showModel('请求失败', error);
+              console.log('request fail', error);
+              return;
+            },
+          });
+        } else if (res.cancel) {
+          return;
+        }
+      }
+    });
   },
 
   changeTap:function(e) {
@@ -190,6 +276,7 @@ Page({
     this.setData({curIndex: index});
     this.setData({ordertype:parseInt(index)});
     this.setData({footer_hint:false});
+    this.setData({ show_no_order:false});
     //request网络去获取对应的订单状态。
     var that = this;
     this.getOrderList({
@@ -228,7 +315,7 @@ Page({
   getOrderList: function (callback) {
     var that = this;
     var data = {};
-    if (that.data.ordertype === 4) {
+    if (that.data.ordertype === -1) {
       data = { session: Session.Session.get(), page: parseInt(that.data.orderpage) };
     } else {
       data = { session: Session.Session.get(), page: parseInt(that.data.orderpage), type: parseInt(that.data.ordertype) };
@@ -265,13 +352,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
     
   },
 
@@ -336,6 +416,7 @@ Page({
     var that = this;
     that.setData({footerText:'正在加载订单...'});
     that.setData({footer_hint:true});
+    that.setData({ show_no_order: false });
     this.getOrderList({
       getOrderListSuccess: function (result) {
         //给图片添加前缀。
@@ -343,14 +424,17 @@ Page({
         if (tmplist.length === 0) {
           that.setData({footerText:'已经加载了全部订单'});
           that.setData({footer_hint:true});
+          that.setData({ show_no_order: false });
           return;
         }
         if (tmplist.length === 20) {
            that.setData({footerText:'下拉加载更多的订单'});
            that.setData({footer_hint:true});
+           that.setData({ show_no_order: false });
          } else {
            that.setData({footerText:'已经加载了全部订单'});
            that.setData({footer_hint:true});
+           that.setData({ show_no_order: false });
          }
         for (var i = 0; i < tmplist.length; i++) {
           for (var j = 0; j < tmplist[i].products.length; j++) {

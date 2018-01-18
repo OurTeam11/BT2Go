@@ -100,7 +100,11 @@
   display:flex;
   direction: row;
   justify-content: space-around;
-  border: 2px, solid, red;
+}
+.order_footer3{
+   display:flex;
+  direction: row;
+  justify-content: flex-end;
 }
 .order_info_right_color{
     color: #939393;
@@ -108,7 +112,7 @@
     padding-top: 1px;
 }
 .text_style_1{
-    color: gray;
+    color: black;
     padding-top: 3px;
     padding-bottom : 3px;
     font-size: 11px;
@@ -121,16 +125,15 @@
     color: black;
 }
 .text_style_3{
-  margin-top: 3px;
-  margin-bottom : 3px;
-  border: 2px, solid, red;
-  margin-left:3px;
-  margin-right:3px;
+  margin:3px;
+  border: 2px, solid, black;
   font-size: 12px;
+  padding: 2px;
   color: red;
+  border-radius: 5%;
   display: inline-block;
-  
 }
+
 .loading {
   text-align: center;
   font-size: 30rpx;

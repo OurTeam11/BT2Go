@@ -4,7 +4,7 @@
     <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="changeTap" data-index="1">待发货</view>
     <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="changeTap" data-index="2">待收货</view>
     <view class="goods-tab-nav {{curIndex === 3 ?'on':''}}" bindtap="changeTap" data-index="3">已完成</view>
-    <view class="goods-tab-nav {{curIndex === 4 ?'on':''}}" bindtap="changeTap" data-index="4">全部</view>
+    <view class="goods-tab-nav {{curIndex === -1 ?'on':''}}" bindtap="changeTap" data-index="-1">全部</view>
   </view>
       <view class="goods-tab-content" wx:if="{{curIndex === 0}}">
         <block wx:for="{{orderlist}}" wx:key="{{index}}">
@@ -127,7 +127,7 @@
         <view class="bottom_line"></view>
       </block>
     </view>
-    <view class="goods-tab-content" wx:if="{{curIndex === 4}}">
+    <view class="goods-tab-content" wx:if="{{curIndex === -1}}">
       <block wx:for="{{orderlist}}" wx:key="{{index}}">
         <view class="top_line"></view>
         <view class="oneOrder">
@@ -149,12 +149,13 @@
             <text class="text_style_3" wx:if="{{item.status===0}}">订单状态：待付款</text>
             <text class="text_style_3" wx:if="{{item.status===1}}">订单状态：待发货</text>
             <text class="text_style_3" wx:if="{{item.status===2}}">订单状态：待收货</text>
-            <text class="text_style_3" wx:if="{{item.status===3}}">订单状态：已完成</text>
+            <text class="text_style_3" wx:if="{{item.status===3}}">订单状态：订单完成</text>
+            <text class="text_style_3" wx:if="{{item.status===4}}">订单状态：订单取消</text>
+            <text class="text_style_3" wx:if="{{item.status===5}}">订单状态：退款中</text>
             <text class="text_style_3">价格合计：¥ {{item.total}}</text>
           </view>
-          <view class="order_footer2">
+          <view class="order_footer3">
             <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
-            <view class="text_style_3" bindtap="toTrackingStatus" data-trackingid="{{item.trackingNo}}">查看物流信息</view>
           </view>
         </view>
         <view class="bottom_line"></view>

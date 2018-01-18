@@ -22,6 +22,7 @@ Page({
     showAlarmButton:false,
     showConfirmButton:false,
     showCommentButton:false,
+    showReasonButton:false,
 
   },
 
@@ -62,6 +63,8 @@ Page({
   },
 
   updateButtons:function(type) {
+    this.setData({ showToPayButton: false, showCancelButton: false, showAlarmButton:false,
+      showTrackingButton: false, showConfirmButton: false, showCommentButton: false, showReasonButton:false});
     if (type === 0) {
       this.setData({ showToPayButton: true, showCancelButton:true});
     } else if (type === 1) {
@@ -72,7 +75,9 @@ Page({
       this.setData({ showTrackingButton: true, showCommentButton: true });
     } else if (type ===4) {
       this.setData({
-        showTrackingButton: true});
+        showReasonButton: true});
+    } else if (type === 5) {
+
     }
   },
   updateOrderStatusString:function(type) {
@@ -85,7 +90,9 @@ Page({
     } else if (type === 3) {
       this.setData({ orderStatus: '已完成' });
     } else if (type === 4) {
-      this.setData({ orderStatus: '全部' });
+      this.setData({ orderStatus: '已取消' });
+    } else if (type === 5) {
+      this.setData({ orderStatus: '退款中' });
     }
   },
   //调用payment api.
@@ -114,7 +121,45 @@ Page({
   },
  
   toCancelOrder: function (e) {
-
+    var orderid = e.currentTarget.dataset.orderid;
+    console.log("toCancelOrder:", orderid);
+    var that = this;
+    wx.showModal({
+      title: '取消订单',
+      content: '您确定要取消这个订单吗?',
+      success: function (res) {
+        if (res.confirm) {
+          wx.hideToast();
+          api.request({
+            // 要请求的地址
+            url: config.server.cancelOrder,
+            data: { session: Session.Session.get(), order: orderid },
+            // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            method: 'POST',
+            success(result) {
+              console.log("cancelOrder request success.", result.data);
+              if (result.data.status === 200) {
+                that.updateOrderStatusString(4);
+                that.updateButtons(4);
+              } else {
+                console.log("取消订单失败，返回值不是200");
+                return;
+              }
+            },
+            fail(error) {
+              showtoast.showModel('请求失败', error);
+              console.log('request fail', error);
+              return;
+            },
+          });
+        } else if (res.cancel) {
+          return;
+        }
+      }
+    });
   },
   toTrackInfo: function (e) {
     var trackingid = e.currentTarget.dataset.trackingid;
@@ -127,16 +172,55 @@ Page({
       },
     });
   },
-  toAlarm: function (e) {
-
-  },
+ 
   toConfirm: function (e) {
-
+    //确认收货
+    var orderid = e.currentTarget.dataset.orderid;
+    console.log("toConfirmReceived:", orderid);
+    var that = this;
+    wx.showModal({
+      title: '确认收货',
+      content: '确认收货吗？收货后订单变为已完成',
+      success: function (res) {
+        if (res.confirm) {
+          wx.hideToast();
+          api.request({
+            // 要请求的地址
+            url: config.server.confirmOrder,
+            data: { session: Session.Session.get(), order: orderid },
+            // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            method: 'POST',
+            success(result) {
+              console.log("cancelOrder request success.", result.data);
+              if (result.data.status === 200) {
+                that.updateOrderStatusString(3);
+                that.updateButtons(3);
+              } else {
+                console.log("取消订单失败，返回值不是200")
+                return;
+              }
+            },
+            fail(error) {
+              showtoast.showModel('请求失败', error);
+              console.log('request fail', error);
+              return;
+            },
+          });
+        } else if (res.cancel) {
+          return;
+        }
+      }
+    });
   },
   toAddComments: function (e) {
 
   },
+  toAlarm: function (e) {
 
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

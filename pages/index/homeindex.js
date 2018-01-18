@@ -57,7 +57,6 @@ Page({
       },
       method: 'GET',
       success(result) {
-        showtoast.showSuccess('请求成功完成');
         if (result.data.list.length === 0) {
           that.setData({ showText: true });
           that.setData({ showAllItems: true });
