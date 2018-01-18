@@ -285,8 +285,6 @@ Page({
         wx.redirectTo({
           url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + that.data.order_no,
           success: function (res) {
-            // success
-            console.log("显示结果界面，成功")
           },
         });
       },

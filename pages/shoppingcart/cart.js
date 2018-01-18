@@ -42,7 +42,11 @@ Page({
         success(result) {
           var data = result.data;
           if (data.status === 200) {
-            console.log('data:', data);
+            console.log('data:', data.list.length);
+            if (data.list.length === 0) {
+              that.showEmptyCart();
+              return;
+            }
             //给图片加上http前缀。
             for (var i = 0; i < data.list.length; i ++) {
               data.list[i].img = config.imgUrlPrefix + data.list[i].img;
@@ -67,6 +71,7 @@ Page({
 
   showEmptyCart:function() {
     this.setData({emptyCartText:'您的购物车为空哦'});
+    this.setData({ carts:[]});
   },
 
   /**

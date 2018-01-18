@@ -121,6 +121,7 @@ Page({
 
   reflashOrderList:function(ordertype) {
     var that = this;
+    that.setData({ orderpage: 1, footer_hint: false, show_no_order:false });
     api.request({
       // 要请求的地址
       url: config.server.getOrderList,
@@ -284,7 +285,7 @@ Page({
          //给图片添加前缀。
          let tmplist = result.list;
          if (tmplist.length === 0) {
-           that.setData({ show_no_order: true });
+           that.setData({ show_no_order: true, footer_hint:false});
            that.setData({
              orderlist: []
            });
@@ -373,6 +374,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    if (this.data.show_no_order) return;
+
     this.data.orderpage = 1;
     var that = this;
     that.setData({footerText:'正在加载订单...'});

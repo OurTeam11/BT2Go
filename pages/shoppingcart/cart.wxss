@@ -111,9 +111,11 @@
 }
 
 .cart-no-data{
-    padding:40rpx 0;
-    color: #999;
-    text-align: center;
+  width:100%;
+  height:100%;
+  padding:40rpx 0;
+  color: #999;
+  text-align: center;
 }
 
 .cart-footer-left{

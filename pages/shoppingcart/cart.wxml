@@ -35,6 +35,8 @@
     </view>
   </view>
   <view wx:else>
+   <view class="top_line"></view>
     <view class="cart-no-data">{{emptyCartText}}</view>
+     <view class="top_line"></view>
   </view>
 </view>

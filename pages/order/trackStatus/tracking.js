@@ -29,7 +29,7 @@ Page({
     console.log(config.server.queryOrderTracking,tid);
     api.request({
       url: config.server.queryOrderTracking,
-      data: { session: Session.Session.get(), tracking_no: tid},
+      data: { session: Session.Session.get(), tracking_no: tid },
       method: 'GET',
       success(result) {
         var data = result.data;
