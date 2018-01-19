@@ -121,7 +121,7 @@ Page({
 
   reflashOrderList:function(ordertype) {
     var that = this;
-    that.setData({ orderpage: 1, footer_hint: false, show_no_order:false });
+    that.restoreDefaultStatus();
     api.request({
       // 要请求的地址
       url: config.server.getOrderList,
@@ -184,10 +184,22 @@ Page({
     var orderid = e.currentTarget.dataset.orderno;
     console.log("toCancelOrder:", orderid);
     var that = this;
+    var digtitle = '';
+    var digcontent = '';
 
+    if (that.data.curIndex === 0) {
+       digtitle = '取消订单';
+       digcontent='未支付订单取消，是否直接取消？';
+    } else if (that.data.curIndex === 1) {
+      digtitle = '取消订单';
+      digcontent = '已支付，未发货订单取消，取消后留意退款通知';
+    } else {
+      digtitle = '取消订单';
+      digcontent = '已发货订单，请联系商家';
+    }
     wx.showModal({
-      title: '取消订单',
-      content: '您确定要取消这个订单吗?',
+      title: digtitle,
+      content: digcontent,
       success: function (res) {
         if (res.confirm) {
           wx.hideToast();
@@ -203,9 +215,10 @@ Page({
             success(result) {
               console.log("cancelOrder request success.", result.data);
               if (result.data.status === 200) {
+                if (that.data.curIndex === 1) showtoast.showSuccess("退款成功");
                 that.reflashOrderList(that.data.curIndex);
               } else {
-                console.log("取消订单失败，返回值不是200")
+                console.log("取消订单失败，返回值不是200", result.data.status);
                 return;
               }
             },
@@ -220,8 +233,6 @@ Page({
         }
       }
     });
-   
-    
   },
   toConfirmReceived:function(e) {
      //确认收货
@@ -234,7 +245,6 @@ Page({
       content: '确认收货吗？收货后订单变为已完成',
       success: function (res) {
         if (res.confirm) {
-          wx.hideToast();
           api.request({
             // 要请求的地址
             url: config.server.confirmOrder,
@@ -250,6 +260,7 @@ Page({
                 that.reflashOrderList(that.data.curIndex);
               } else {
                 console.log("取消订单失败，返回值不是200")
+                showtoast.showModel("取消失败", "取消订单失败，返回值:" + result.data.status)
                 return;
               }
             },
@@ -266,6 +277,13 @@ Page({
     });
   },
 
+  restoreDefaultStatus:function() {
+    this.setData({ orderpage: 1 });
+    this.setData({ footer_hint: false });
+    this.setData({ show_no_order: false });
+    this.setData({ footerText: ''});
+  },
+
   changeTap:function(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     if (index === parseInt(this.data.curIndex)) {
@@ -273,11 +291,9 @@ Page({
       this.setData({ curIndex: index });
       return;
     }
-    this.setData({orderpage: 1});
+    this.restoreDefaultStatus();
     this.setData({curIndex: index});
     this.setData({ordertype:parseInt(index)});
-    this.setData({footer_hint:false});
-    this.setData({ show_no_order:false});
     //request网络去获取对应的订单状态。
     var that = this;
     this.getOrderList({

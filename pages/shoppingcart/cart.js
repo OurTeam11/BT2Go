@@ -44,6 +44,7 @@ Page({
           if (data.status === 200) {
             console.log('data:', data.list.length);
             if (data.list.length === 0) {
+              that.setData({ hasList:false});
               that.showEmptyCart();
               return;
             }
