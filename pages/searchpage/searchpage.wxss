@@ -9,10 +9,12 @@
   padding-left: 70rpx;
 }
 
-.loading{  
+.foot_text_style{  
   padding: 10rpx;
   padding-bottom: 20rpx;  
-  text-align: center;  
+  text-align: center; 
+  font-style: oblique;
+  font-weight: normal; 
 }
 
 .no-product-response{

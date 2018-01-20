@@ -45,7 +45,6 @@
   <import src="/uitemplates/listview.wxml" />
     <template is="listview" data='{{productitem}}' />
 
-    <view class="no-product-response" hidden="{{!noproduct}}">没有找到任何商品</view>  
-    <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>  
-    <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
+    <view class="no-product-response" hidden="{{!noproduct}}">没有找到任何商品</view>
+    <view class="foot_text_style" hidden="{{!showFooterText}}">{{footer_text}}</view>
 </scroll-view>

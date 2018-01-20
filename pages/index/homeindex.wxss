@@ -1,5 +1,4 @@
 @import "/uitemplates/listview.wxss";
-
 .search-bar_top {
   align-items: center;
   float: center;
