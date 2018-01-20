@@ -1,5 +1,4 @@
-@import "/wxSearch/wxSearch.wxss";
-@import "/templates/listview.wxss";
+@import "/uitemplates/listview.wxss";
 
 .search-bar_top {
   align-items: center;
@@ -59,3 +58,13 @@ view.text {
   height:100%;
 }
 
+.searchbar-result{
+    margin-top: 0;
+    font-size: 14px;
+}
+.searchbar-result:before{
+    display: none;
+}
+.weui-cell{
+    padding: 12px 15px 12px 35px;
+}

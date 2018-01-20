@@ -1,14 +1,11 @@
 'use strict';
 //首页。
-var WxSearch = require('../../wxSearch/wxSearch.js');
 var app = getApp();
 var api = require('../../utils/api');
 var config = require('../../config');
 var showtoast = require('../../utils/commontoast');
 var Session = require('../../utils/lib/session');
 var logger = require('../../utils/logger');
-
-var showmsg = require('../../utils/commontoast');
 
 Page({
 
@@ -35,7 +32,23 @@ Page({
 
     page: 1, //请求页面。
     showAllItems:false,
+  },
 
+  showInput: function () {
+    console.log("shwoInput");
+    this.goToSearchPage();
+  },
+
+  goToSearchPage: function () {
+    var that = this
+    wx.navigateTo({
+      url: '../searchpage/searchpage',
+      success: function (res) {
+        console.log("success" + res)
+      },
+      fail: function (res) { "fail" + console.log(res) },
+      complete: function (res) { "complete" + console.log(res) },
+    })
   },
 
   //swiper切换函数
@@ -171,7 +184,7 @@ Page({
         console.log('登录失败', error);
         app.globalData.userInfo = null;
         app.globalData.hasUserInfo = false;
-        showmsg.showModel('登录失败', error);
+        showtoast.showModel('登录失败', error);
       }
     });
   },
@@ -184,18 +197,6 @@ Page({
     // 
   },
 
-  goToSearchPage:function() {
-    var that = this
-    //WxSearch.wxSearchFocus(e, that);
-    wx.navigateTo({
-      url: '../searchpage/searchpage',
-      success: function (res) {
-        console.log("success" + res)
-      },
-      fail: function (res) { "fail" + console.log(res) },
-      complete: function (res) { "complete" + console.log(res) },
-    })
-  },
   /**
    * 生命周期函数--监听页面显示
    */

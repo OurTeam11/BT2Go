@@ -1,4 +1,3 @@
-var WxSearch = require('../../wxSearch/wxSearch');
 var app = getApp();
 
 var api = require('../../utils/api');
@@ -21,19 +20,46 @@ Page({
     noproduct: false, //没有找到商品，noproduct=true
 
     page: 1, //请求页面。
-    thisKeyWord: "",
 
-    canReachButtom:false
+    canReachButtom:false,
+
+    inputShowed: false,
+    thisKeyWord: "",
+  },
+
+  showInput: function () {
+    console.log("shwoInput");
+    this.setData({
+      thisKeyWord: "",
+      inputShowed: true
+    });
+  },
+  
+  //搜索商品
+  searchItems: function () {
+    console.log("searchItems");
+    //查询网络
+    this.doRequestSearch();
+
+  },
+
+  clearInput: function () {
+    console.log("clearInput");
+    this.setData({
+      thisKeyWord: ""
+    });
+  },
+
+  inputTyping: function (e) {
+    console.log("inputTyping", e);
+    this.setData({ thisKeyWord: e.detail.value });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //初始化一些搜索数据
-    var that = this
-    WxSearch.init(that, 43, ['football', '小程序', 'NBA', 'FIFA', 'wxNotification'], true, true);
-    WxSearch.initMindKeys(['weappdev.com', '微信小程序开发', '微信开发', '微信小程序']);
+    this.showInput();
   },
 
   /**
@@ -95,62 +121,6 @@ Page({
       this.doRequestSearch();
     }
     // showtoast.showSuccess('搜索请求成功完成');
-  },
-
-  //定义function
-  wxSearchFn: function (e) {
-    var that = this
-
-    WxSearch.wxSearchAddHisKey(that);
-    this.doRequestSearch();
-
-  },
-  wxSearchInput: function (e) {
-    var that = this
-    console.log("wxSearchInput", e);
-    WxSearch.wxSearchInput(e, that);
-    that.setData({ thisKeyWord: e.detail.value });
-
-  },
-  wxSerchFocus: function (e) {
-    var that = this
-    console.log("wxSerchFocus");
-    WxSearch.wxSearchFocus(e, that);
-    this.setData({ searchLoading: false });
-    this.setData({ noproduct: false });
-    this.setData({ searchLoadingComplete: false });
-    that.setData({ productitem: [] });
-
-  },
-  wxSearchBlur: function (e) {
-    var that = this
-    console.log("wxSearchBlur");
-    WxSearch.wxSearchBlur(e, that);
-
-  },
-  wxSearchKeyTap: function (e) {
-    var that = this
-    console.log("wxSearchKeyTap", e);
-    that.setData({ thisKeyWord: e.currentTarget.dataset.key });
-    WxSearch.wxSearchKeyTap(e, that);
-    //查询网络
-    this.doRequestSearch();
-
-  },
-  wxSearchDeleteKey: function (e) {
-    var that = this
-    console.log("wxSearchDeleteKey");
-    WxSearch.wxSearchDeleteKey(e, that);
-  },
-  wxSearchDeleteAll: function (e) {
-    var that = this;
-    console.log("wxSearchDeleteAll");
-    WxSearch.wxSearchDeleteAll(that);
-  },
-  wxSearchTap: function (e) {
-    var that = this
-    console.log("wxSearchTap");
-    WxSearch.wxSearchHiddenPancel(that);
   },
 
   doRequestSearch: function () {

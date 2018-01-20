@@ -1,41 +1,42 @@
 <!-- 主页搜索框起到导航作用，链接到搜索page-->
 
 <view class="search-bar_top">
-  <import src="/wxSearch/wxSearch.wxml" />
-  <!--使用listview 模板-->
-  <view class="weui-search-bar" bindtap = "goToSearchPage" id='mainsearchbar'>
+  <view class="weui-search-bar">
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-        <input type="text" class="weui-search-bar__input" placeholder="在所有商品中搜索" value="{{wxSearchData.value}}" />
+        <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
         <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
           <icon type="clear" size="14"></icon>
         </view>
       </view>
+      <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+        <icon class="weui-icon-search" type="search" size="14"></icon>
+        <view class="weui-search-bar__text">在所有商品中搜索</view>
+      </label>
     </view>
   </view>
-  <template is="wxSearch" data="{{wxSearchData}}" />
 </view>
 
 <scroll-view class='scrollviewclass' scroll-y="true">
   <!--swiper广告栏，对应每一组page -->
-    <swiper indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
-      <block wx:for="{{images}}" wx:key="{{item}}">
-        <swiper-item>
-          <image src="{{item}}" mode='top left right' class="slide-image" />
-        </swiper-item>
-      </block>
-    </swiper>
+  <swiper indicator-dots="{{indicatorDots}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+    <block wx:for="{{images}}" wx:key="{{item}}">
+      <swiper-item>
+        <image src="{{item}}" mode='top left right' class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
 
-    <view class="text">
-      <view class="line_flag"></view>
-      <text class="recommend_text_style">精品推荐</text>
-    </view>
+  <view class="text">
+    <view class="line_flag"></view>
+    <text class="recommend_text_style">精品推荐</text>
+  </view>
 
-    <!--使用listview模板 -->
-    
-  <import src="/templates/listview.wxml" />
-    <template is="listview" data='{{productitem}}' />
+  <!--使用listview模板 -->
 
-    <view class="loading" hidden="{{!showText}}">{{textHint}}</view>  
+  <import src="/uitemplates/listview.wxml" />
+  <template is="listview" data='{{productitem}}' />
+
+  <view class="loading" hidden="{{!showText}}">{{textHint}}</view>
 </scroll-view>

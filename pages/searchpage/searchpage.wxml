@@ -1,21 +1,48 @@
-<import src="/wxSearch/wxSearch.wxml"/>
-
 <view class="search-bar_top">
-<view class="wxSearch-section" id='mainsearchbar'>
-   <view class="wxSearch-pancel">
-       <icon class="weui-icon-search_in-box" type="search" size="15"></icon>
-       <input bindinput="wxSearchInput" bindfocus="wxSerchFocus" value="{{wxSearchData.value}}" bindblur="wxSearchBlur" class="wxSearch-input" placeholder="在所有商品中搜索" />
-       <button class="wxSearch-button" bindtap="wxSearchFn" size="mini" plain="true">搜索</button>
-   </view>
+  <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+                <view class="weui-search-bar__box">
+                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                    <input type="text" class="weui-search-bar__input" placeholder="在所有商品中搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+                    <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                        <icon type="clear" size="14"></icon>
+                    </view>
+                </view>
+                <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                    <icon class="weui-icon-search" type="search" size="14"></icon>
+                    <view class="weui-search-bar__text">在所有商品中搜索</view>
+                </label>
+            </view>
+            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="searchItems">搜索</view>
+        </view>
+        <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">
+                    <view>实时搜索文本</view>
+                </view>
+            </navigator>
+            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">
+                    <view>实时搜索文本</view>
+                </view>
+            </navigator>
+            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">
+                    <view>实时搜索文本</view>
+                </view>
+            </navigator>
+            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">
+                    <view>实时搜索文本</view>
+                </view>
+            </navigator>
+        </view>
 </view>
-<template is="wxSearch" data="{{wxSearchData}}"/>
-</view>
-
 <scroll-view class='scrollviewclass' scroll-y="true" scroll-into-view='mainsearchbar'>
 <!--使用listview模板 -->
 
   <!--使用listview 模板-->
-  <import src="/templates/listview.wxml" />
+  <import src="/uitemplates/listview.wxml" />
     <template is="listview" data='{{productitem}}' />
 
     <view class="no-product-response" hidden="{{!noproduct}}">没有找到任何商品</view>  
