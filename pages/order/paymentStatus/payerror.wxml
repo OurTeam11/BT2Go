@@ -1,0 +1,25 @@
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <icon type="warn" size="93"></icon>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">微信支付失败</view>
+            <view class="weui-msg__desc">订单:{{ordernumber}}，金额: ¥ {{orderprice}}，支付失败，您可以选择重新支付，或者去订单中的未支付订单中支付。</view>
+        </view>
+        <view class="weui-msg__opr-area">
+            <view class="weui-btn-area">
+                <button class="weui-btn" type="primary" bindtap="toGoShopping">继续购物</button>
+                <button class="weui-btn" type="default" bindtap="toCheckOrder" data-index="0">查看订单</button>
+            </view>
+        </view>
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <navigator url="" class="weui-footer__link">我的小程序</navigator>
+                </view>
+                <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+            </view>
+        </view>
+    </view>
+</view>
