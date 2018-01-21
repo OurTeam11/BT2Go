@@ -9,38 +9,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    payStatus:'',
     ordernumber:'',
-    payResult:'支付失败',
-    showokpic:false,
+    orderprice:0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({payStatus: options.paystatus});
+    this.setData({orderprice: options.orderprice});
     this.setData({ordernumber: options.orderno});
-    var that = this;
-    if (this.data.payStatus == '支付成功') {
-      //查看订单状态。
-      this.getPaymentStatus(that.data.ordernumber, {
-        getPaymentSuccess:function(result) {
-          that.setData({payResult:'支付成功'});
-          that.setData({ showokpic:true});
-          console.log("查询结果成功，微信支付成功");
-        },
-        getPaymentFailed:function(error) {
-          that.setData({payResult:'支付失败'});
-          that.setData({ showokpic: false });
-        }
-      });
-
-    } else if (this.data.payStatus == '支付失败') {
-      that.setData({payResult:'支付失败'});
-    } else {
-
-    }
   },
 
   getPaymentStatus:function(orderno, callback) {

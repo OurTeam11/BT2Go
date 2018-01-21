@@ -283,7 +283,7 @@ Page({
       'success': function (res) {
         console.log("微信支付成功",res);
         wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + that.data.order_no,
+          url: '../paymentStatus/paystatus?orderprice=' + that.data.orderTotalPrice +'&orderno=' + that.data.order_no,
           success: function (res) {
           },
         });
