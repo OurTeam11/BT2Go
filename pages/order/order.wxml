@@ -30,7 +30,7 @@
             <view class="order_footer2">
               <view class="text_style_3" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</view>
               <view class="text_style_3" bindtap="toCancelOrder" data-orderno="{{item.id}}">申请取消订单</view>
-              <view class="text_style_3" bindtap="toPayOrder" data-orderno="{{item.id}}">去付款</view>
+              <view class="text_style_3" bindtap="toPayOrder" data-orderno="{{item.id}}" data-price="{{item.total}}">去付款</view>
             </view>
           </view>
           <view class="bottom_line"></view>

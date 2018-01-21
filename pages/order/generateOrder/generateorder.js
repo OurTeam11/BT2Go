@@ -61,9 +61,8 @@ Page({
       getDefaultAddressAndPrice: function (result) {
         console.log("prepareOrder,response:", result);
         var addrs = result.data.address;
-        console.log(addrs);
         if (!addrs || addrs.length === 0) {
-          that.setData({ ifNoAddress: true });
+          that.setData({ifNoAddress: true});
           console.log("地址为空");
         } else {
           that.setData({ifNoAddress:false});
@@ -142,7 +141,6 @@ Page({
           console.log("获取地址列表失败，返回值不是200")
           callback.failedPrepareOrder(data.status);
         }
-
       },
       fail(error) {
         showtoast.showModel('请求失败', error);
@@ -255,9 +253,9 @@ Page({
             });
           }
         } else {
-          console.log("服务器返回失败。可能保存成未支付的订单");
+          console.log("服务器返回失败。保存成未支付的订单");
           wx.redirectTo({
-            url: '../paymentStatus/paystatus?paystatus=支付失败',
+            url: '../paymentStatus/payerror?orderprice=' + that.data.orderTotalPrice + '&orderno=' + that.data.order_no,
             success: function (res) {
               // success
               console.log("显示结果界面，成功")
@@ -267,6 +265,13 @@ Page({
       },
       fail(error) {
         console.log("服务器返回失败。可能保存成未支付的订单。pay", error)
+        wx.redirectTo({
+          url: '../paymentStatus/payerror?orderprice=' + that.data.orderTotalPrice + '&orderno=' + that.data.order_no,
+          success: function (res) {
+            // success
+            console.log("显示结果界面，成功")
+          },
+        });
       },
     });
   },
@@ -291,7 +296,7 @@ Page({
       'fail': function (res) {
         console.log("微信支付失败",res);
         wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付失败&orderno=' + that.data.order_no,
+          url: '../paymentStatus/payerror?orderprice=' + that.data.orderTotalPrice + '&orderno=' + that.data.order_no,
           success: function (res) {
             // success
             console.log("显示结果界面，失败。")

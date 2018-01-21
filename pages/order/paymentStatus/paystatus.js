@@ -48,6 +48,27 @@ Page({
     });
   },
 
+  toCheckOrder:function(e) {
+    var ordertype = e.currentTarget.dataset.index;
+    wx.redirectTo({
+      url: '../order?typeid=' + ordertype,
+      success: function (res) {
+        // success
+        console.log("显示订单结果界面，成功");
+      },
+    });
+  },
+
+  toGoShopping:function() {
+    wx.switchTo({
+      url: '../../index/homeindex',
+      success: function (res) {
+        // success
+        console.log("显示购物主页界面，成功");
+      },
+    });
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -96,13 +96,14 @@ Page({
   //再次支付的时候会调用这个接口
   toPayOrder:function(e) {
     var orderid = e.currentTarget.dataset.orderno;
+    var price = e.currentTarget.dataset.price;
     console.log("toPayOrder:",orderid);
     var that = this;
     payment.doOrderPayment(orderid, {
       doOrderPaymentSuccess: function (result) {
         console.log("doOrderPaymentSuccess:", result);
         wx.navigateTo({
-          url: './paymentStatus/paystatus?paystatus=支付成功&orderno=' + orderid,
+          url: './paymentStatus/paystatus?orderprice=' + price + '&orderno=' + orderid,
           success: function (res) {
             //跳转到支付成功界面
             that.setData({orderlist: []});
@@ -113,7 +114,7 @@ Page({
       doOrderPaymentFailed: function (result) {
         console.log("服务器返回失败。可能保存成未支付的订单", result);
         wx.navigateTo({
-          url: './paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
+          url: './paymentStatus/payerror?orderprice=' + price + '&orderno=' + orderid,
         });
       }
     })

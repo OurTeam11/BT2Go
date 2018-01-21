@@ -9,6 +9,7 @@
     "pages/order/generateOrder/generateorder",
     "pages/order/orderDetail/orderdetail",
     "pages/order/paymentStatus/paystatus",
+    "pages/order/paymentStatus/payerror",
     "pages/addrmgr/chooseAddrs/chooseAddrs",
     "pages/addrmgr/newAddrs/newAddrs",
     "pages/order/trackStatus/tracking"

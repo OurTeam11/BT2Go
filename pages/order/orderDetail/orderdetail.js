@@ -103,18 +103,22 @@ Page({
     payment.doOrderPayment(orderid, {
       doOrderPaymentSuccess:function(result) {
         console.log("doOrderPaymentSuccess:",result);
-        wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付成功&orderno=' + orderid,
+        wx.navigateTo({
+          url: '../paymentStatus/paystatus?orderprice=' + that.data.orderinfo.total + '&orderno=' + orderid,
           success: function (res) {
-            // success
-            console.log("显示结果界面，成功")
+            //跳转到支付成功界面
+            that.updateButtons(1);
+            that.updateOrderStatusString(1);
+            var tmp = that.data.orderinfo;
+            tmp.status = 1;
+            that.setData({orderinfo:tmp});
           },
         });
       },
       doOrderPaymentFailed:function(result) {
         console.log("服务器返回失败。可能保存成未支付的订单", result);
-        wx.redirectTo({
-          url: '../paymentStatus/paystatus?paystatus=支付失败&orderno=' + orderid,
+        wx.navigateTo({
+          url: './paymentStatus/payerror?orderprice=' + price + '&orderno=' + orderid,
         });
       }
     })
