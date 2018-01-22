@@ -22,9 +22,9 @@ page{
   padding:20rpx;
 }
 .modify{
-  width:20px;
-  height:20px;
-
+  width:30px;
+  height:30px;
+  margin-top:35rpx;
 }
 .info{
   font-size:27rpx;
@@ -33,6 +33,15 @@ page{
   justify-content: space-between;
   width:85%;
 }
+
+.name{
+  font-size:27rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width:20%;
+}
+
 .item image{
   width:50rpx;
   padding-top:15rpx;

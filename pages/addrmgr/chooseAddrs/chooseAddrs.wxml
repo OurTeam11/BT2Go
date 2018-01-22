@@ -1,13 +1,15 @@
-
 <view class="top_line"></view>
   <view class="address-list" wx:if="{{list.length > 0}}">
     <block wx:for="{{list}}" wx:key="{{index}}">
       <view class="oneItem">
-      <icon wx:if="{{item.status === 2}}" type="success" color="yellow" data-id="{{item.id}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
-                  <icon wx:else type="circle" class="cart-pro-select" data-id="{{item.id}}" bindtap="toSelectAddr"/>
+		<view class="name">
+		  <text>{{item.consignee}}</text>
+		  <icon wx:if="{{item.status === 2}}" type="success" color="green" data-id="{{item.id}}"  class="cart-pro-select" bindtap="toSelectAddr"/>
+		  <icon wx:else type="circle" class="cart-pro-select" data-id="{{item.id}}" bindtap="toSelectAddr"/>
+		</view>
         <view class="info">
-          <text>{{item.consignee}}，{{item.contact}}，{{item.zipcode}}</text>
-          <text>地址：{{item.addr}}</text>
+          <text>{{item.contact}}</text>
+          <text>{{item.addr}}</text>
         </view>
         <image class="modify" bindtap="toModifyAddre" data-id="{{item.id}}" data-consignee="{{item.consignee}}" data-contact="{{item.contact}}" data-addr="{{item.addr}}" data-status="{{item.status}}" data-zipcode="{{item.zipcode}}" 
         src="../../../images/modify.png" mode="widthFix" />
