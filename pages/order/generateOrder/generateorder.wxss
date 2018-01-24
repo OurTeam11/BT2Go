@@ -9,17 +9,22 @@
     border-bottom: 10px solid silver;
     border-bottom-color: #EFEFF4;
 }
-.top_view{
-    font-size: 15px;
-    padding: 10px;
+
+.order_addr_image{
+  width:50rpx;
+  height:50rpx;
+  padding:3rpx;
+  padding-left: 30rpx;
 }
-.address_view{
-    padding: 0px 10px 10px 10px;
-    font-size: 13px;
-    line-height: 1.5em;
-    color: #939393;
-    border-bottom: 10px solid silver;
-    border-bottom-color: #EFEFF4;
+
+.order_addressinfo{
+  background-color: #fff;
+  border-bottom:1rpx solid #e0e0e0;
+  display: flex;
+  flex-direction: row;
+  padding-top:25rpx;
+  padding-bottom: 25rpx;
+  font-size:30rpx;
 }
 .goods_info{
     display: flex;

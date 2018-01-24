@@ -10,6 +10,31 @@
   height: 80rpx;
 }
 
+.service-policy{
+    width: 100%;
+    height: 73rpx;
+    background: #f4f4f4;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+.service-policy .itemgroup{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.service-policy .imagestyle {
+  width: 10rpx;
+  height:10rpx;
+}
+
+.service-policy .item{
+    font-size: 25rpx;
+    padding-left:10rpx;
+    color: #666;
+}
+
 .container {
     background-color: #F2f2f2;
 }

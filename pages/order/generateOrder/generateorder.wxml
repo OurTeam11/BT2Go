@@ -1,57 +1,55 @@
 <view>
-    <view class="top_line"></view>
-    <scroll-view scroll-y="true" scroll-x="false">
-        <view wx:if="{{ifNoAddress}}" bindtap="addressClick" class="no_address_list"> 还没有地址，请选择一个地址。</view>
-        <view wx:else bindtap="addressClick">
-            <view class="top_view">
-            <text>{{addressInfo.consignee}}  {{addressInfo.contact}}   {{addressInfo.status}}</text>
+  <view class="top_line"></view>
+  <scroll-view scroll-y="true" scroll-x="false">
+    <view wx:if="{{ifNoAddress}}" bindtap="addressClick" class="no_address_list"> 还没有地址，请选择一个地址。</view>
+    <view wx:else class="order_addressinfo" bindtap="addressClick">
+        <image class= "order_addr_image" src="../../../images/myinfocommon/location.png"/>
+        <view class = "oirder_addr_text">订单地址：{{addressInfo.consignee}} {{addressInfo.contact}} {{addressInfo.addr}} {{addressInfo.zipcode}}</view>
+    </view>
+    <block wx:for="{{orderproducts}}" wx:key="{{index}}">
+      <view class="goods_info">
+        <view>
+          <image class="image_icon" src="{{item.img}}" mode="aspectFit"></image>
         </view>
-        <view class="address_view"><text>{{addressInfo.zipcode}} {{addressInfo.addr}}</text></view>
+        <view class="goods_infos">
+          <text class="text_style_1">{{item.name}}</text>
+          <text class="text_style_2">"生成订单的商品"</text>
+          <text class="text_style_3">¥ {{item.price}}</text>
         </view>
-          <block wx:for="{{orderproducts}}" wx:key="{{index}}">
-	        <view class="goods_info">
-	            <view>
-	                <image class="image_icon" src="{{item.img}}" mode="aspectFit"></image>
-	            </view>
-	            <view class="goods_infos">
-	                <text class="text_style_1">{{item.name}}</text>
-	                <text class="text_style_2">"生成订单的商品"</text>
-	                <text class="text_style_3">¥ {{item.price}}</text>
-	            </view>
-	        </view>
-	        <view class="order_info">
-	            <text>购买数量</text>
-	            <text class="order_info_right_color">{{item.count}}</text>
-	        </view>
-	      </block>
-        <view class="order_info">
-            <text>送货时间</text>
-            <text class="order_info_right_color">节假日均可送货</text>
-        </view>
-        <view class="order_info">
-            <text>发票信息</text>
-            <text class="order_info_right_color">个人－明细　普通发票</text>
-        </view>
-        <view class="coupon">
-            <text>优惠券</text>
-            <text class="order_info_right_color">无可用</text>
-        </view>
-        <view class="bottom_text_1">
-            <text>商品金额</text>
-            <text class="right_text">¥ {{orderTotalPrice}}</text>
-        </view>
-        <view class="bottom_text_2">
-            <text>运费</text>
-            <text class="right_text">＋ ¥ </text>
-        </view>
-        <view class="bottom_text_3">
-            <text>优惠券</text>
-            <text class="right_text">－ ¥ </text>
-        </view>
-        <view class="true_pay">
-            <text class="true_pay_right">¥{{orderTotalPrice}}</text>
-            <text>实付金额:　</text>
-        </view>
-        <button class="bottom_btn" bindtap="doPayment" type="primary">微信支付</button>
-    </scroll-view>
+      </view>
+      <view class="order_info">
+        <text>购买数量</text>
+        <text class="order_info_right_color">{{item.count}}</text>
+      </view>
+    </block>
+    <view class="order_info">
+      <text>送货时间</text>
+      <text class="order_info_right_color">节假日均可送货</text>
+    </view>
+    <view class="order_info">
+      <text>发票信息</text>
+      <text class="order_info_right_color">个人－明细　普通发票</text>
+    </view>
+    <view class="coupon">
+      <text>优惠券</text>
+      <text class="order_info_right_color">无可用</text>
+    </view>
+    <view class="bottom_text_1">
+      <text>商品金额</text>
+      <text class="right_text">¥ {{orderTotalPrice}}</text>
+    </view>
+    <view class="bottom_text_2">
+      <text>运费</text>
+      <text class="right_text">＋ ¥ </text>
+    </view>
+    <view class="bottom_text_3">
+      <text>优惠券</text>
+      <text class="right_text">－ ¥ </text>
+    </view>
+    <view class="true_pay">
+      <text class="true_pay_right">¥{{orderTotalPrice}}</text>
+      <text>实付金额:　</text>
+    </view>
+    <button class="bottom_btn" bindtap="doPayment" type="primary">微信支付</button>
+  </scroll-view>
 </view>
