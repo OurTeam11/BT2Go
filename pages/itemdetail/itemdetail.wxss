@@ -86,13 +86,15 @@
   flex-direction: row;
   align-items: center;
   float: left;
-  background-color: #fff;
+  background: #fff;
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 1;
+  z-index: 9999;
+  border: 2px, solid, black;
   width: 100%;
   height: 100rpx;
+  padding-top: 1px;
 }
 
 .button-green {
@@ -207,22 +209,7 @@ text {
    width: 40rpx;
 }
 
-.goods-tab-nav {
-  display: inline-block;
-  width: 33.33%;
-  height: 90rpx;
-  line-height: 90rpx;
-  border-bottom: 1rpx solid #ededed;
-  box-sizing: border-box;
-  text-align: center;
-  color: #c7c7cb;
-}
-
-.goods-tab-nav.on {
-  color: #bcaa8a;
-  border-bottom: 5rpx solid #bcaa8a;
-}
-
-.goods-content {
-  padding: 10rpx;
+.weui-tab__content{
+    padding-top: 60px;
+    text-align: center;
 }

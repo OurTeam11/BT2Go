@@ -6,13 +6,18 @@ var Session = require('../../utils/lib/session');
 var payment = require('../../utils/lib/payment');
 var util = require('../../utils/util');
 
+var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    typeid: 0,
-    curIndex:0,
+    tabs: ["待付款", "待发货", "待收货", "已完成", "全部"],
+    activeIndex: 0,
+    sliderOffset: 0,
+    sliderLeft: 0,
+
     orderpage: 1,
     ordertype: 0, // 0-待付款，1-待发货， 2-待收货，3-已完成，4-已取消，5-退款中， -1 - 全部
 
@@ -31,15 +36,27 @@ Page({
     var that = this;
     console.log("options",options);
     if (options.typeid == 'undefined') {
-      this.setData({curIndex: 0});
+      this.setData({activeIndex: 0});
       this.setData({ordertype: 0});
       console.log("liufeng, undefined typeid", options.typeid);
     } else {
-      this.setData({typeid:options.typeid});
       console.log("liufeng, not undefined typeid", options.typeid);
-      this.setData({curIndex: parseInt(options.typeid)});
-      this.setData({ordertype: parseInt(options.typeid)});
+      this.setData({activeIndex: parseInt(options.typeid)});
+      if (this.data.activeIndex == 4) {
+        this.setData({ordertype: -1});
+      } else {
+          this.setData({ordertype: parseInt(options.typeid) });
+      }
     }
+    wx.getSystemInfo({
+      success: function (res) {
+        sliderWidth = res.windowWidth / 5;
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
+    });
   },
 
   /**
@@ -188,10 +205,10 @@ Page({
     var digtitle = '';
     var digcontent = '';
 
-    if (that.data.curIndex === 0) {
+    if (that.data.activeIndex == 0) {
        digtitle = '取消订单';
        digcontent='未支付订单取消，是否直接取消？';
-    } else if (that.data.curIndex === 1) {
+    } else if (that.data.activeIndex == 1) {
       digtitle = '取消订单';
       digcontent = '已支付，未发货订单取消，取消后留意退款通知';
     } else {
@@ -215,9 +232,9 @@ Page({
             method: 'POST',
             success(result) {
               console.log("cancelOrder request success.", result.data);
-              if (result.data.status === 200) {
-                if (that.data.curIndex === 1) showtoast.showSuccess("退款成功");
-                that.reflashOrderList(that.data.curIndex);
+              if (result.data.status == 200) {
+                if (that.data.activeIndex == 1) showtoast.showSuccess("退款成功");
+                that.reflashOrderList(that.data.activeIndex);
               } else {
                 console.log("取消订单失败，返回值不是200", result.data.status);
                 return;
@@ -257,8 +274,8 @@ Page({
             method: 'POST',
             success(result) {
               console.log("cancelOrder request success.", result.data);
-              if (result.data.status === 200) {
-                that.reflashOrderList(that.data.curIndex);
+              if (result.data.status == 200) {
+                that.reflashOrderList(that.data.activeIndex);
               } else {
                 console.log("取消订单失败，返回值不是200")
                 showtoast.showModel("取消失败", "取消订单失败，返回值:" + result.data.status)
@@ -286,15 +303,22 @@ Page({
   },
 
   changeTap:function(e) {
-    const index = parseInt(e.currentTarget.dataset.index);
-    if (index === parseInt(this.data.curIndex)) {
+    const index = parseInt(e.currentTarget.id);
+    if (index == parseInt(this.data.activeIndex)) {
       console.log("click the same tab");
-      this.setData({ curIndex: index });
+      this.setData({ activeIndex: index });
       return;
     }
     this.restoreDefaultStatus();
-    this.setData({curIndex: index});
-    this.setData({ordertype:parseInt(index)});
+    this.setData({
+      sliderOffset: e.currentTarget.offsetLeft,
+      activeIndex: e.currentTarget.id
+    });
+    if (this.data.activeIndex == 4) {
+      this.setData({ordertype : -1});
+    } else {
+        this.setData({ordertype:parseInt(index)});
+    }
     //request网络去获取对应的订单状态。
     var that = this;
     this.getOrderList({

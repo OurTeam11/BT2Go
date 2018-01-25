@@ -5,6 +5,7 @@ var config = require('../../config');
 var showtoast = require('../../utils/commontoast');
 var Session = require('../../utils/lib/session');
 
+var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 
 Page({
 
@@ -12,6 +13,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    tabs: ["商品详情", "产品参数", "售后保障"],
+    activeIndex: 0,
+    sliderOffset: 0,
+    sliderLeft: 0,
+
     //商品详情的swiper list
     indicatorDots: true,
     vertical: false,
@@ -182,22 +188,29 @@ Page({
     }
   },
 
-  changeTab:function(e) {
-    const index = parseInt(e.currentTarget.dataset.index);
+  tabClick:function(e) {
+    console.log(e.currentTarget);
     this.setData({
-      curIndex: index
-    })
+      sliderOffset: e.currentTarget.offsetLeft,
+      activeIndex: e.currentTarget.id
+    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({productid:options.code});
-    this.setData({
-      curIndex: 0
+    var that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
     });
-    console.log("productid:",this.data.productid);
+    that.setData({productid:options.code});
+    console.log("productid:", that.data.productid);
 
 
   },

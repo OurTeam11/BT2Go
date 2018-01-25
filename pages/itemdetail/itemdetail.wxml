@@ -1,9 +1,9 @@
 <!-- banner -->
-<swiper  indicator-active-color="{{bgc}}" style='height:{{Height}}' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-  <block  wx:for="{{imgUrls}}" wx:key="unique">
-      <swiper-item>
-        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage" class="slide-image" mode="widthFix" bindload='imgH'></image>
-      </swiper-item>
+<swiper indicator-active-color="{{bgc}}" style='height:{{Height}}' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block wx:for="{{imgUrls}}" wx:key="unique">
+    <swiper-item>
+      <image src="{{item}}" data-src="{{item}}" bindtap="previewImage" class="slide-image" mode="widthFix" bindload='imgH'></image>
+    </swiper-item>
   </block>
 </swiper>
 
@@ -11,40 +11,45 @@
   <view class="detail">
     <text class="title">{{productname}}</text>
     <view class="description">{{productdescription}}</view>
-      <view class="line"></view>
-    <view class="price">价格：{{itemprice}} 元  ， ori:300元</view>
-     <view class="line2"></view>
+    <view class="line"></view>
+    <view class="price">价格：{{itemprice}} 元 ， ori:300元</view>
+    <view class="line2"></view>
     <view class="activity">活动，优惠卷，等等。</view>
-     <view class="line2"></view>
+    <view class="line2"></view>
     <view class="instruction">购物满100免邮费，100元以下20邮费</view>
   </view>
   <view class="line"></view>
 
   <view class="row_itemcount">
-    <text >购买数量：</text>
+    <text>购买数量：</text>
     <view class="carts-num">
-        <text class="minus {{minusStatus}}" data-type="-" bindtap="bindMinus">-</text>
-        <input type="number" bindinput="bindIptCartNum" value="{{num}}" />
-        <text class="plus normal" data-type="+" bindtap="bindPlus">+</text>
-      </view>
+      <text class="minus {{minusStatus}}" data-type="-" bindtap="bindMinus">-</text>
+      <input type="number" bindinput="bindIptCartNum" value="{{num}}" />
+      <text class="plus normal" data-type="+" bindtap="bindPlus">+</text>
+    </view>
   </view>
 
   <view class="line"></view>
-  <view class="goods-tab-box">
-        <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="changeTab" data-index="0">商品详情</view>
-        <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="changeTab" data-index="1">产品参数</view>
-        <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="changeTab" data-index="2">售后保障</view>
-        <view class="goods-content">
-            <view wx:if="{{curIndex === 0}}">
-              <block wx:for-items="{{detailImg}}" wx:key="name">
-                 <image class="image_detail" src="{{item}}" mode="widthFix"/>
-               </block>
-            </view>
-            <view wx:if="{{curIndex === 1}}"><text class="text-remark">评价系统，后期做。待开发</text></view>
-            <view wx:if="{{curIndex === 2}}">售后保障，后期做，待开发。</view>
+  <view class="weui-tab">
+    <view class="weui-navbar">
+      <block wx:for="{{tabs}}" wx:key="*this">
+        <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view class="weui-navbar__title">{{item}}</view>
         </view>
+      </block>
+      <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
     </view>
-      <view class="temp"></view>
+    <view class="weui-tab__panel">
+      <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+        <block wx:for-items="{{detailImg}}" wx:key="name">
+          <image class="image_detail" src="{{item}}" mode="widthFix" />
+        </block>
+      </view>
+      <view class="weui-tab__content" hidden="{{activeIndex != 1}}">选项二的内容</view>
+      <view class="weui-tab__content" hidden="{{activeIndex != 2}}">选项三的内容</view>
+    </view>
+  </view>
+  <view class="temp"></view>
 </scroll-view>
 <!-- 底部悬浮栏 -->
 <view class="detail-nav">

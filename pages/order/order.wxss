@@ -7,7 +7,9 @@
 .oneOrder {
   display: flex;
   flex-direction: column;
-  padding:12rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+
 }
 
 .order_container{
@@ -19,38 +21,18 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-
-.goods-tab-content {
-  margin-top: 90rpx;
+.weui-navbar {
+  position: fixed;
   width:100%;
-  padding-left:3rpx;
-  padding-right:3rpx;
+  z-index: 9999;
+  background: #fff;
 }
-
-
-.goods-tab-box {
-    width:100%;
-    position: fixed;
-    background-color: #fff;
+.weui-navbar__slider {
+  width:20%;
 }
-.goods-tab-nav{
-    display: inline-block;
-    width: 20%;
-    font-size: 16px;
-    height: 95rpx;
-    line-height: 90rpx;
-    border-bottom: 4rpx solid grey;
-    box-sizing: border-box;
+.weui-tab__content{
     text-align: center;
-    color: #c7c7cb;
 }
-
-.goods-tab-nav.on{
-    color: red;
-    border-bottom: 6rpx solid red;
-}
-
-
 
 .bottom_line{
    margin-bottom: 10px;
@@ -59,6 +41,14 @@
     background-color: #EFEFF4;
 }
 
+.order_detail_button {
+  border: 2rpx, red, solid;
+  width:150rpx;
+  height:60rpx;
+  font-size: 24rpx;
+  text-align:center;
+  margin: 20rpx;
+}
 .order_icon{
     display: flex;
     padding-left: 10rpx;
@@ -94,13 +84,15 @@
 .order_footer{
   display:flex;
   direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 .order_footer2 {
   display:flex;
   direction: row;
-  justify-content: space-around;
+  justify-content: flex-end;
 }
+
 .order_footer3{
    display:flex;
   direction: row;
@@ -127,8 +119,8 @@
 .text_style_3{
   margin:3px;
   border: 2px, solid, black;
-  font-size: 12px;
-  padding: 2px;
+  font-size: 24rpx;
+  margin-left: 25rpx;
   color: red;
   border-radius: 5%;
   display: inline-block;
