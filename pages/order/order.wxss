@@ -43,7 +43,7 @@
 
 .order_detail_button {
   border: 2rpx, red, solid;
-  width:150rpx;
+  width:160rpx;
   height:60rpx;
   font-size: 24rpx;
   text-align:center;

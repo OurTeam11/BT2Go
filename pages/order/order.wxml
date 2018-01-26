@@ -13,25 +13,27 @@
       <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
         <block wx:for="{{orderlist}}" wx:key="{{index}}">
           <view class="top_line"></view>
-          <view class="oneOrder" bindtap="toOrderDetail" data-orderno="{{item.id}}">
-            <view class="order_header">
-              <text class="text_style_1">订单:{{item.id}}</text>
-              <text class="text_style_1">创建时间:{{item.createTime}}</text>
+          <view class="oneOrder">
+            <view bindtap="toOrderDetail" data-orderno="{{item.id}}">
+              <view class="order_header">
+                <text class="text_style_1">订单:{{item.id}}</text>
+                <text class="text_style_1">创建时间:{{item.createTime}}</text>
+              </view>
+              <view class="split_line"></view>
+              <block class="oneProductList" wx:for="{{item.products}}" wx:key="{{index}}">
+                <view class="oneProduct">
+                  <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
+                  <text class="text_style_2">{{item.name}}</text>
+                  <text class="text_style_2">购买数量X: {{item.amount}}</text>
+                </view>
+              </block>
             </view>
             <view class="split_line"></view>
-            <block class="oneProductList" bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">
-              <view class="oneProduct">
-                <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
-                <text class="text_style_2">{{item.name}}</text>
-                <text class="text_style_2">购买数量X: {{item.amount}}</text>
-              </view>
-            </block>
-            <view class="split_line"></view>
             <view class="order_footer">
-              <text class="text_style_3">价格: ¥{{item.total}}</text>
+              <text class="text_style_3">价格: ¥{{item.total}} 元</text>
               <view class="order_footer2">
-                <button class = "order_detail_button" bindtap="toCancelOrder" data-orderno="{{item.id}}">取消订单</button>
-                <button class = "order_detail_button" bindtap="toPayOrder" data-orderno="{{item.id}}" data-price="{{item.total}}">付款</button>
+                <button class="order_detail_button" bindtap="toCancelOrder" data-orderno="{{item.id}}">取消订单</button>
+                <button class="order_detail_button" bindtap="toPayOrder" data-orderno="{{item.id}}" data-price="{{item.total}}">付款</button>
               </view>
             </view>
           </view>
@@ -41,27 +43,27 @@
       <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
         <block wx:for="{{orderlist}}" wx:key="{{index}}">
           <view class="top_line"></view>
-          <view class="oneOrder" bindtap="toOrderDetail" data-orderno="{{item.id}}">
-            <view class="order_header">
-              <text class="text_style_1">订单:{{item.id}}</text>
-              <text class="text_style_1">创建时间{{item.createTime}}</text>
-            </view>
-            <view class="split_line"></view>
-            <block class="oneProductList" bindtap="toOrderDetail" data-orderno="{{item.id}}" wx:for="{{item.products}}" wx:key="{{index}}">
-              <view class="oneProduct">
-                <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
-                <text class="text_style_2">{{item.name}}</text>
-                <text class="text_style_2">购买数量X: {{item.amount}}</text>
+          <view class="oneOrder">
+            <view bindtap="toOrderDetail" data-orderno="{{item.id}}">
+              <view class="order_header">
+                <text class="text_style_1">订单:{{item.id}}</text>
+                <text class="text_style_1">创建时间{{item.createTime}}</text>
               </view>
-            </block>
+              <view class="split_line"></view>
+              <block class="oneProductList" wx:for="{{item.products}}" wx:key="{{index}}">
+                <view class="oneProduct">
+                  <image class="order_icon" src="{{item.img}}" mode="aspectFit"></image>
+                  <text class="text_style_2">{{item.name}}</text>
+                  <text class="text_style_2">购买数量X: {{item.amount}}</text>
+                </view>
+              </block>
+            </view>
             <view class="split_line"></view>
             <view class="order_footer">
-              <text class="text_style_3">订单状态：{{item.status===1?'待发货':item.status}}</text>
-              <text class="text_style_3">价格合计：¥ {{item.total}}</text>
-            </view>
-            <view class="order_footer2">
-              <button class = "order_detail_button" bindtap="toOrderDetail" data-orderno="{{item.id}}">查看详情</button>
-              <button class = "order_detail_button" bindtap="toCancelOrder" data-orderno="{{item.id}}">取消订单</button>
+              <text class="text_style_3">价格: ¥{{item.total}} 元</text>
+              <view class="order_footer2">
+                <button class="order_detail_button" bindtap="toCancelOrder" data-orderno="{{item.id}}">取消订单</button>
+              </view>
             </view>
           </view>
           <view class="bottom_line"></view>
